@@ -160,6 +160,8 @@ int	main(int argc, char **argv)
 		ft_putstr("usage : ./fdf file1\n");
 		return (0);
 	}
+	if (close_open(argv[1], &fd))
+		return (1);
 	ft_putendl("Printing input file...");
 	tbd_displayraw(argv[1], &fd);
 	ft_putchar('\n');
