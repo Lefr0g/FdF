@@ -1,4 +1,14 @@
-
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: amulin <amulin@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2015/02/17 11:06:17 by amulin            #+#    #+#              #
+#    Updated: 2015/02/17 15:15:12 by amulin           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME = fdf
 
@@ -19,15 +29,17 @@ LIB = libft/libft.a
 all: $(NAME)
 	
 $(NAME): $(OBJECTS)
-	gcc $(FLAGS) $(OBJECTS) -o $(NAME) -L libft/ -lft
+	gcc $(FLAGS) $(OBJECTS) -o $(NAME) -L libft/ -lft -L /usr/X11/lib/ \
+		-lmlx -lXext -lX11
 
-$(OBJECTS): $(LIB)
+$(OBJECTS): $(LIB) $(SOURCES)
 	gcc $(FLAGS) -c $(SOURCES) -I includes/ -I libft/includes/
 
 $(LIB):
 	make -C libft/
 
 clean:
+	make -C libft/ clean
 	rm -f $(NAME)
 
 fclean: clean
