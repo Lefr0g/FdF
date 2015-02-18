@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:07:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/02/18 15:19:38 by amulin           ###   ########.fr       */
+/*   Updated: 2015/02/18 16:23:33 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,6 @@ int	tbd_displayraw(char *filename, int *fd)
 	return (0);
 }
 
-/*
-int	my_store(char *filename, char ***str, int *fd)
-{
-	int		i;
-	int		max;
-	char	*tmp;
-
-	tmp = ft_strnew(0);
-	if (close_open(filename, fd))
-		return (1);
-	max = 0;
-	while (get_next_line(*fd, &tmp) == 1)
-		max++;
-	*str = (char**)malloc(sizeof(char*) * max);
-	if (close_open(filename, fd))
-		return (1);
-	i = 0;
-	while (i < max)
-	{
-		str[0][i] = ft_strnew(0);
-		get_next_line(*fd, &str[0][i]);
-		ft_putendl(str[0][i]);
-		i++;
-	}
-	return (0);
-}
-*/
 int	my_converttoint(char *str, int	*line)
 {
 	int	i[4];
@@ -100,7 +73,6 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 	int		i;
 	int		j;
 	int		max;
-	int		lenline;
 	char	*tmp;
 
 	tmp = ft_strnew(0);
@@ -109,58 +81,70 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 	max = 0;
 	while (get_next_line(*fd, &tmp) == 1)
 		max++;
-	*map = (int**)malloc(sizeof(int*) * max);
+	*map = (int**)malloc(sizeof(int*) * (max + 1));
 	if (close_open(filename, fd))
 		return (1);
-	i = 0;
-	while (i < max)
+	map[0][0] = (int*)malloc(sizeof(int) * (max + 1));
+	map[0][0][0] = max;
+	i = 1;
+	while (i <= max)
 	{
 		get_next_line(*fd, &tmp);
 		map[0][i] = (int*)malloc(sizeof(int) * ft_strlen(tmp));
-		lenline = my_converttoint(tmp, map[0][i]);
+		map[0][0][i] = my_converttoint(tmp, map[0][i]);
 		j = 0;
-		while (j < lenline)
+		while (j < map[0][0][i])
 		{
 			ft_putnbr(map[0][i][j]);
 			ft_putchar(' ');
 			j++;
 		}
 		ft_putchar('\n');
+//		ft_putnbr(map[0][0][i]);
+//		ft_putendl(" points above");
 		i++;
 	}
+//	ft_putstr("There are ");
+//	ft_putnbr(map[0][0][0]);
+//	ft_putendl(" lines in this map");
 	return (0);
 }
 
-int	draw_rectangle(void *id, void *win)
+int	draw_coordinates(void *id, void *win, int **map)
 {
-	int	x;
-	int	y;
+	int			x;
+	int 		y;
+	const int	spacing = 20;
+	const int	offset = 200;
 
-	x = 0;
-	y = 0;
-	while (x < 200)
+	y = 1;
+	while (y <= map[0][0])
 	{
-		while (y < 100)
+		x = 0;
+		while (x < map[0][y])
 		{
-			mlx_pixel_put(id, win, 400 + x, 300 + y, 0xFFFFFF);
-			y += 2;
+			if (map[y][x] == 0)
+			{
+				mlx_pixel_put(id, win, (x * spacing) + offset, (y * spacing) + offset, 0x0000FF);
+				mlx_pixel_put(id, win, (x * spacing) + offset, (y * spacing) + offset + 1, 0x0000FF);
+				mlx_pixel_put(id, win, (x * spacing) + offset + 1, (y * spacing) + offset + 1, 0x0000FF);
+				mlx_pixel_put(id, win, (x * spacing) + offset + 1, (y * spacing) + offset, 0x0000FF);
+			}
+			else
+			{
+				mlx_pixel_put(id, win, (x * spacing) + offset, (y * spacing) + offset, 0xFFFFFF);
+				mlx_pixel_put(id, win, (x * spacing) + offset, (y * spacing) + offset + 1, 0xFFFFFF);
+				mlx_pixel_put(id, win, (x * spacing) + offset + 1, (y * spacing) + offset + 1, 0xFFFFFF);
+				mlx_pixel_put(id, win, (x * spacing) + offset + 1, (y * spacing) + offset, 0xFFFFFF);
+			}
+			x++;
+			usleep(20000);
 		}
-		y = 0;
-		x += 2;
+		y++;
 	}
 	return (0);
 }
-/*
-int	draw_coordinates(void *id, void *win, int *map)
-{
-	int	x;
-	int y;
 
-	x = 0;
-	while ()
-	mlx_pixel_put(id, win, )
-}
-*/
 
 /*
  * Structure de la map :
@@ -175,15 +159,12 @@ int	draw_coordinates(void *id, void *win, int *map)
 int	main(int argc, char **argv)
 {
 	int		fd;
-	char	***str;
 	int		***map;
 	void	*id;
 	void	*win;
 
 	(void)map;
-	(void)str;
 	fd = 0;
-	str = (char***)malloc(sizeof(char**));
 	map = (int***)malloc(sizeof(int**));
 	if (argc == 1)
 	{
@@ -198,16 +179,15 @@ int	main(int argc, char **argv)
 	ft_putendl("Converting map...");
 	if (my_storeasint(argv[1], map, &fd))
 		return (1);
-	ft_putendl("Starting visuals...");
+	ft_putendl("\nStarting visuals...");
 	id = mlx_init();
 	if (id)
 	{
 		win = mlx_new_window(id, 800, 600, "Hello!");
 		if (win)
 		{
-			draw_rectangle(id, win);
-//			draw_coordinates(id, win, *map);
-			sleep(5);
+			draw_coordinates(id, win, *map);
+			sleep(10);
 		}
 	}
 	fd = mlx_destroy_window(id, win);
