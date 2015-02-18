@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:07:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/02/17 18:25:52 by amulin           ###   ########.fr       */
+/*   Updated: 2015/02/18 15:19:38 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,30 @@ int	my_store(char *filename, char ***str, int *fd)
 */
 int	my_converttoint(char *str, int	*line)
 {
-	int	i;
-	int j;
+	int	i[4];
 	
-	i = 0;
-	j = 0;
-	while (str[i])
+	i[0] = 0;
+	i[1] = 0;
+	while (str[i[0]])
 	{
-		if (ft_isalnum(str[i]))
+		if (ft_isdigit(str[i[0]]))
 		{
-			line[j] = ft_atoi(&str[i]);
-			j++;
-			i++;
+			line[i[1]] = ft_atoi(&str[i[0]]);
+			i[2] = 1;
+			i[3] = line[i[1]];
+			while (i[3] >= 10)
+			{
+				i[3] = i[3] / 10;
+				i[2]++;
+			}
+			i[1]++;
+			i[0] = i[0] + i[2];
+			while (str[i[0]] == '0')
+				i[0]++;
 		}
-		i++;
+		i[0]++;
 	}
-	return (j);
+	return (i[1]);
 }
 
 int	my_storeasint(char *filename, int ***map, int *fd)
@@ -114,6 +122,7 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 		while (j < lenline)
 		{
 			ft_putnbr(map[0][i][j]);
+			ft_putchar(' ');
 			j++;
 		}
 		ft_putchar('\n');
@@ -122,7 +131,7 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 	return (0);
 }
 
-int	my_draw_rectangle(void *id, void *win)
+int	draw_rectangle(void *id, void *win)
 {
 	int	x;
 	int	y;
@@ -141,7 +150,28 @@ int	my_draw_rectangle(void *id, void *win)
 	}
 	return (0);
 }
+/*
+int	draw_coordinates(void *id, void *win, int *map)
+{
+	int	x;
+	int y;
 
+	x = 0;
+	while ()
+	mlx_pixel_put(id, win, )
+}
+*/
+
+/*
+ * Structure de la map :
+ *
+ * | nombre de lignes | nombre d'ints entete | nb de points ligne 1 | nb pts ligne 2 | ... |
+ * | p1 | p2 | p3 |
+ * | p4 | p5 | p6 | p7 | p8 |
+ * | p9 | ... |
+ * | ... | pn |
+ *
+*/
 int	main(int argc, char **argv)
 {
 	int		fd;
@@ -175,7 +205,8 @@ int	main(int argc, char **argv)
 		win = mlx_new_window(id, 800, 600, "Hello!");
 		if (win)
 		{
-			my_draw_rectangle(id, win);
+			draw_rectangle(id, win);
+//			draw_coordinates(id, win, *map);
 			sleep(5);
 		}
 	}
