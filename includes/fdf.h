@@ -21,6 +21,7 @@ typedef	struct	s_params
 {
 	void	*id;
 	void	*win;
+	int		***mapcpy;
 }				t_params;
 
 #endif
