@@ -20,6 +20,8 @@ SRCDIR = sources/
 
 SOURCES = $(addprefix $(SRCDIR), $(SRCS))
 
+HEADERS = includes/fdf.h
+
 OBJECTS = $(subst .c,.o,$(SRCS))
 
 LIB = libft/libft.a
@@ -32,7 +34,7 @@ $(NAME): $(OBJECTS)
 	gcc $(FLAGS) $(OBJECTS) -o $(NAME) -L libft/ -lft -L /usr/X11/lib/ \
 		-lmlx -lXext -lX11
 
-$(OBJECTS): $(LIB) $(SOURCES)
+$(OBJECTS): $(LIB) $(SOURCES) $(HEADERS)
 	gcc $(FLAGS) -c $(SOURCES) -I includes/ -I libft/includes/
 
 $(LIB):
@@ -40,10 +42,10 @@ $(LIB):
 
 clean:
 	make -C libft/ clean
-	rm -f $(NAME)
+	rm -f $(OBJECTS)
 
 fclean: clean
 	make -C libft/ fclean
-	rm -f $(OBJECTS)
+	rm -f $(NAME)
 
 re: fclean all

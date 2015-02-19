@@ -138,7 +138,7 @@ int	draw_coordinates(void *id, void *win, int **map)
 				mlx_pixel_put(id, win, (x * spacing) + offset + 1, (y * spacing) + offset, 0xFFFFFF);
 			}
 			x++;
-			usleep(20000);
+			usleep(8000);
 		}
 		y++;
 	}
@@ -156,13 +156,23 @@ int	draw_coordinates(void *id, void *win, int **map)
  * | ... | pn |
  *
 */
+
+int	key_hook(int keycode, t_params *p)
+{
+	ft_putnbr(keycode);
+	ft_putchar('\n');
+	if (keycode == 65307)
+		mlx_destroy_window(p->id, p->win);
+	return (0);
+}
 int	main(int argc, char **argv)
 {
-	int		fd;
-	int		***map;
-	void	*id;
-	void	*win;
+	int			fd;
+	int			***map;
+	int 		(*ptr_keyhook)(int, t_params*);
+	t_params	p;
 
+	ptr_keyhook = &(key_hook);
 	(void)map;
 	fd = 0;
 	map = (int***)malloc(sizeof(int**));
@@ -180,18 +190,17 @@ int	main(int argc, char **argv)
 	if (my_storeasint(argv[1], map, &fd))
 		return (1);
 	ft_putendl("\nStarting visuals...");
-	id = mlx_init();
-	if (id)
+	p.id = mlx_init();
+	if (p.id)
 	{
-		win = mlx_new_window(id, 800, 600, "Hello!");
-		if (win)
+		p.win = mlx_new_window(p.id, 800, 600, "FdF");
+		if (p.win)
 		{
-			draw_coordinates(id, win, *map);
-			sleep(10);
+			draw_coordinates(p.id, p.win, *map);
+			mlx_key_hook(p.win, ptr_keyhook, &p);
+			mlx_loop(p.id);
 		}
 	}
-	fd = mlx_destroy_window(id, win);
-	ft_putnbr(fd);
 	ft_putchar('\n');
 	ft_putendl("All fine.");
 	return (0);

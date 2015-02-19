@@ -17,4 +17,10 @@
 # include "libft.h"
 # include <mlx.h>
 
+typedef	struct	s_params
+{
+	void	*id;
+	void	*win;
+}				t_params;
+
 #endif
