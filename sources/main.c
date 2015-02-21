@@ -110,6 +110,71 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 	return (0);
 }
 
+int	draw_iso(void *id, void *win, int **map)
+{
+	int			x;
+	int 		y;
+	int			X;
+	int			Y;
+	const int	spacing = 20;
+	const int	left_offset = 300;
+	const int	top_offset = 200;
+	const float	cte1 = 1;
+	const float	cte2 = 1;
+
+	y = 1;
+	while (y <= map[0][0])
+	{
+		x = 0;
+		while (x < map[0][y])
+		{
+			X = (cte1 * x - cte2 * y) * spacing + left_offset;
+			Y = -map[y][x] + (cte1 / 2 * x + cte2 / 2 * y) * spacing + top_offset;
+			if (map[y][x] == 0)
+			{
+				mlx_pixel_put(id, win, X, Y, 0xFF0000);
+			}
+			else
+			{
+				mlx_pixel_put(id, win, X, Y, 0x00FF00);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+/*
+int	draw_parall(void *id, void *win, int **map)
+{
+	int			x;
+	int 		y;
+	const int	spacing = 20;
+	const int	offset = 200;
+	const int	cst = 1;
+
+	y = 1;
+	while (y <= map[0][0])
+	{
+		x = 0;
+		while (x < map[0][y])
+		{
+			if (map[y][x] == 0)
+			{
+				mlx_pixel_put(id, win, (x * spacing) + offset + cst * map[y][x], (y * spacing) + offset + cst / 2 * map[y][x], 0xFF0000);
+			}
+			else
+			{
+				mlx_pixel_put(id, win, (x * spacing) + offset + cst * map[y][x], (y * spacing) + offset + cst / 2 * map[y][x], 0x00FF00);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+*/
+/*
 int	draw_coordinates(void *id, void *win, int **map)
 {
 	int			x;
@@ -144,7 +209,7 @@ int	draw_coordinates(void *id, void *win, int **map)
 	}
 	return (0);
 }
-
+*/
 
 /*
  * Structure de la map :
@@ -159,7 +224,9 @@ int	draw_coordinates(void *id, void *win, int **map)
 
 int	expose_hook(t_params *p)
 {
-	draw_coordinates(p->id, p->win, *(p->mapcpy));
+//	draw_coordinates(p->id, p->win, *(p->mapcpy));
+//	draw_parall(p->id, p->win, *(p->mapcpy));
+	draw_iso(p->id, p->win, *(p->mapcpy));
 	return (0);
 }
 
