@@ -110,33 +110,50 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 	return (0);
 }
 
-int	draw_iso(void *id, void *win, int **map)
+int	draw_lines(int x, int y, t_params *p)
+{
+	if (x > 0)
+		draw_left_line();
+//	if (x < p->map[0][0][y + 1])
+//		draw_right_line();
+	if (y > 1)
+		draw_top_line();
+//	if (y < p->map[0][0][0])
+//		draw_bottom_line();
+	return (0);
+}
+int	draw_X(int x, int y, t_params *p)
+{
+	return ((p->cte1 * x - p->cte2 * y) * p->spacing + p->left_offset);
+}
+
+int	draw_Y(int x, int y, t_params *p)
+{
+	return (-p->map[0][y][x] + (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
+			p->spacing + p->top_offset)
+}
+int	draw_iso(t_params *p)
 {
 	int			x;
 	int 		y;
 	int			X;
 	int			Y;
-	const int	spacing = 20;
-	const int	left_offset = 300;
-	const int	top_offset = 200;
-	const float	cte1 = 1;
-	const float	cte2 = 1;
 
 	y = 1;
-	while (y <= map[0][0])
+	while (y <= p->map[0][0][0])
 	{
 		x = 0;
-		while (x < map[0][y])
+		while (x < p->map[0][0][y])
 		{
-			X = (cte1 * x - cte2 * y) * spacing + left_offset;
-			Y = -map[y][x] + (cte1 / 2 * x + cte2 / 2 * y) * spacing + top_offset;
+			p->buf_X = draw_X(x, y);
+			p->buf_Y = draw_Y(x, y);
 			if (map[y][x] == 0)
 			{
-				mlx_pixel_put(id, win, X, Y, 0xFF0000);
+				mlx_pixel_put(p->id, p->win, X, Y, 0xFF0000);
 			}
 			else
 			{
-				mlx_pixel_put(id, win, X, Y, 0x00FF00);
+				mlx_pixel_put(p->id, p->win, X, Y, 0x00FF00);
 			}
 			x++;
 		}
@@ -226,7 +243,7 @@ int	expose_hook(t_params *p)
 {
 //	draw_coordinates(p->id, p->win, *(p->mapcpy));
 //	draw_parall(p->id, p->win, *(p->mapcpy));
-	draw_iso(p->id, p->win, *(p->mapcpy));
+	draw_iso(p);
 	return (0);
 }
 

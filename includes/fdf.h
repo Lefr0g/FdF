@@ -19,9 +19,16 @@
 
 typedef	struct	s_params
 {
-	void	*id;
-	void	*win;
-	int		***mapcpy;
+	void		*id;
+	void		*win;
+	int			***mapcpy;
+	const int	spacing = 20;
+	const int	left_offset = 300;
+	const int	top_offset = 200;
+	const float	cte1 = 1;
+	const float	cte2 = 1;
+	int			buf_X;
+	int			buf_Y;
 }				t_params;
 
 #endif
