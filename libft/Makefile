@@ -26,7 +26,8 @@ SRCS = ft_putchar.c ft_putstr.c ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c \
 	   ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
 	   ft_toupper.c ft_tolower.c \
 	   ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstiter.c \
-	   ft_lstmap.c ft_lstadd.c get_next_line.c
+	   ft_lstmap.c ft_lstadd.c get_next_line.c \
+	   ft_abs.c
 
 OBJECTS = $(subst .c,.o,$(SRCS))
 

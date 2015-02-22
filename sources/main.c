@@ -28,6 +28,7 @@ int	close_open(char *filename, int *fd)
 	}
 	return (0);
 }
+
 int	tbd_displayraw(char *filename, int *fd)
 {
 	char	*tmp;
@@ -109,19 +110,20 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 //	ft_putendl(" lines in this map");
 	return (0);
 }
-
+/*
 int	draw_lines(int x, int y, t_params *p)
 {
 	if (x > 0)
 		draw_left_line();
-//	if (x < p->map[0][0][y + 1])
+//	if (x < p->mapcpy[0][0][y + 1])
 //		draw_right_line();
-	if (y > 1)
+	if (y > 1 && x <= mapcpy[0][0][y])
 		draw_top_line();
-//	if (y < p->map[0][0][0])
+//	if (y < p->mapcpy[0][0][0])
 //		draw_bottom_line();
 	return (0);
 }
+*/
 int	draw_X(int x, int y, t_params *p)
 {
 	return ((p->cte1 * x - p->cte2 * y) * p->spacing + p->left_offset);
@@ -129,31 +131,30 @@ int	draw_X(int x, int y, t_params *p)
 
 int	draw_Y(int x, int y, t_params *p)
 {
-	return (-p->map[0][y][x] + (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
-			p->spacing + p->top_offset)
+	return (-p->mapcpy[0][y][x] + (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
+			p->spacing + p->top_offset);
 }
+
 int	draw_iso(t_params *p)
 {
 	int			x;
 	int 		y;
-	int			X;
-	int			Y;
 
 	y = 1;
-	while (y <= p->map[0][0][0])
+	while (y <= p->mapcpy[0][0][0])
 	{
 		x = 0;
-		while (x < p->map[0][0][y])
+		while (x < p->mapcpy[0][0][y])
 		{
-			p->buf_X = draw_X(x, y);
-			p->buf_Y = draw_Y(x, y);
-			if (map[y][x] == 0)
+			p->buf_X = draw_X(x, y, p);
+			p->buf_Y = draw_Y(x, y, p);
+			if (p->mapcpy[0][y][x] == 0)
 			{
-				mlx_pixel_put(p->id, p->win, X, Y, 0xFF0000);
+				mlx_pixel_put(p->id, p->win, p->buf_X, p->buf_Y, 0xFF0000);
 			}
 			else
 			{
-				mlx_pixel_put(p->id, p->win, X, Y, 0x00FF00);
+				mlx_pixel_put(p->id, p->win, p->buf_X, p->buf_Y, 0x00FF00);
 			}
 			x++;
 		}
@@ -260,12 +261,24 @@ int	key_hook(int keycode, t_params *p)
 	}
 	return (0);
 }
+
+int	params_init(t_params *p)
+{
+	p->spacing = 20;
+	p->left_offset = 300;
+	p->top_offset = 200;
+	p->cte1 = 1;
+	p->cte2 = 1;
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	int			fd;
 	int			***map;
 	t_params	p;
 
+	params_init(&p);
 	(void)map;
 	fd = 0;
 	map = (int***)malloc(sizeof(int**));
