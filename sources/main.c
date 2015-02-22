@@ -110,29 +110,74 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 //	ft_putendl(" lines in this map");
 	return (0);
 }
-/*
-int	draw_lines(int x, int y, t_params *p)
+
+int	draw_line(t_params *p)
 {
-	if (x > 0)
-		draw_left_line();
-//	if (x < p->mapcpy[0][0][y + 1])
-//		draw_right_line();
-	if (y > 1 && x <= mapcpy[0][0][y])
-		draw_top_line();
-//	if (y < p->mapcpy[0][0][0])
-//		draw_bottom_line();
+	int	i;
+	int	buf;
+
+	if (ft_abs(p->X2 - p->X1) >= ft_abs(p->Y2 - p->Y1))
+	{
+		i = p->X1;
+		while (i <= p->X2)
+		{
+			buf = ft_abs(i - p->X1) * ft_abs(p->Y2 - p->Y1) / \
+					ft_abs(p->X2 - p->X1)  \
+					+ p->Y1;
+			mlx_pixel_put(p->id, p->win, i, buf, 0x00FFFF);
+			if (p->tbd_flag < 20)
+			{
+				printf("X1 = %d, X2 = %d, X = %d, Y1 = %d, Y2 = %d, Y = %d\n", \
+						p->X1, p->X2, i, p->Y1, p->Y2, buf);
+			}
+			i++;
+		}
+	}
+	else
+	{
+		i = p->Y1;
+		while (i < p->Y2)
+		{
+			mlx_pixel_put(p->id, p->win, ft_abs(i - p->Y1) / \
+					ft_abs(p->Y2 - p->Y1) * ft_abs(p->X2 - p->X1) \
+					+ p->X1, i, 0xFFFFFF);
+			i++;
+		}
+	}
+	p->tbd_flag++;
 	return (0);
 }
-*/
-int	draw_X(int x, int y, t_params *p)
+
+int	place_X(int x, int y, t_params *p)
 {
 	return ((p->cte1 * x - p->cte2 * y) * p->spacing + p->left_offset);
 }
 
-int	draw_Y(int x, int y, t_params *p)
+int	place_Y(int x, int y, int z, t_params *p)
 {
-	return (-p->mapcpy[0][y][x] + (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
+	return (-z + (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
 			p->spacing + p->top_offset);
+}
+
+int	draw_web(int x, int y, t_params *p)
+{
+	if (x > 0)
+	{
+		p->X2 = place_X(x - 1, y, p);
+		p->Y2 = place_Y(x - 1, y, p->mapcpy[0][y][x - 1], p);
+		draw_line(p);
+	}
+//	if (x < p->mapcpy[0][0][y + 1])
+//		draw_right_line();
+	if (y > 1 && x <= p->mapcpy[0][0][y])
+	{
+		p->X2 = place_X(x, y - 1, p);
+		p->Y2 = place_Y(x, y - 1, p->mapcpy[0][y - 1][x], p);
+		draw_line(p);
+	}
+//	if (y < p->mapcpy[0][0][0])
+//		draw_bottom_line();
+	return (0);
 }
 
 int	draw_iso(t_params *p)
@@ -146,15 +191,16 @@ int	draw_iso(t_params *p)
 		x = 0;
 		while (x < p->mapcpy[0][0][y])
 		{
-			p->buf_X = draw_X(x, y, p);
-			p->buf_Y = draw_Y(x, y, p);
+			p->X1 = place_X(x, y, p);
+			p->Y1 = place_Y(x, y, p->mapcpy[0][y][x], p);
+			draw_web(x, y, p);
 			if (p->mapcpy[0][y][x] == 0)
 			{
-				mlx_pixel_put(p->id, p->win, p->buf_X, p->buf_Y, 0xFF0000);
+				mlx_pixel_put(p->id, p->win, p->X1, p->Y1, 0xFF0000);
 			}
 			else
 			{
-				mlx_pixel_put(p->id, p->win, p->buf_X, p->buf_Y, 0x00FF00);
+				mlx_pixel_put(p->id, p->win, p->X1, p->Y1, 0x00FF00);
 			}
 			x++;
 		}
@@ -269,6 +315,7 @@ int	params_init(t_params *p)
 	p->top_offset = 200;
 	p->cte1 = 1;
 	p->cte2 = 1;
+	p->tbd_flag = 0;
 	return (0);
 }
 

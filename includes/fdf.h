@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include "libft.h"
 # include <mlx.h>
+# include <stdio.h>
 
 typedef	struct	s_params
 {
@@ -27,8 +28,11 @@ typedef	struct	s_params
 	int		top_offset;
 	float	cte1;
 	float	cte2;
-	int		buf_X;
-	int		buf_Y;
+	int		X1;
+	int		Y1;
+	int		X2;
+	int		Y2;
+	int		tbd_flag;
 }				t_params;
 
 #endif
