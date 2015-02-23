@@ -114,34 +114,53 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 int	draw_line(t_params *p)
 {
 	int	i;
-	int	buf;
 
 	if (ft_abs(p->X2 - p->X1) >= ft_abs(p->Y2 - p->Y1))
 	{
-		i = p->X1;
-		while (i <= p->X2)
+		if (p->X2 - p->X1 >= 0)
 		{
-			buf = ft_abs(i - p->X1) * ft_abs(p->Y2 - p->Y1) / \
-					ft_abs(p->X2 - p->X1)  \
-					+ p->Y1;
-			mlx_pixel_put(p->id, p->win, i, buf, 0x00FFFF);
-			if (p->tbd_flag < 20)
+			i = p->X1;
+			while (i < p->X2)
 			{
-				printf("X1 = %d, X2 = %d, X = %d, Y1 = %d, Y2 = %d, Y = %d\n", \
-						p->X1, p->X2, i, p->Y1, p->Y2, buf);
+				mlx_pixel_put(p->id, p->win, i, (i - p->X1) * \
+						(p->Y2 - p->Y1) / (p->X2 - p->X1)  \
+						+ p->Y1, 0x00FFFF);
+				i++;
 			}
-			i++;
+		}
+		else
+		{
+			i = p->X2;
+			while (i < p->X1)
+			{
+				mlx_pixel_put(p->id, p->win, i, (i - p->X2) * \
+						(p->Y1 - p->Y2) / (p->X1 - p->X2)  \
+						+ p->Y2, 0xFF00FF);
+				i++;
+			}
 		}
 	}
 	else
 	{
-		i = p->Y1;
-		while (i < p->Y2)
+		if (p->Y2 - p->Y1 >= 0)
 		{
-			mlx_pixel_put(p->id, p->win, ft_abs(i - p->Y1) / \
-					ft_abs(p->Y2 - p->Y1) * ft_abs(p->X2 - p->X1) \
-					+ p->X1, i, 0xFFFFFF);
-			i++;
+			i = p->Y1;
+			while (i < p->Y2)
+			{
+				mlx_pixel_put(p->id, p->win, (i - p->Y1) * (p->X2 - p->X1) / \
+						(p->Y2 - p->Y1) + p->X1, i, 0xFFFF00);
+				i++;
+			}
+		}
+		else
+		{
+			i = p->Y2;
+			while (i < p->Y1)
+			{
+				mlx_pixel_put(p->id, p->win, (i - p->Y2) * (p->X1 - p->X2) / \
+						(p->Y1 - p->Y2) + p->X2, i, 0xFFFFFF);
+				i++;
+			}
 		}
 	}
 	p->tbd_flag++;
@@ -169,7 +188,7 @@ int	draw_web(int x, int y, t_params *p)
 	}
 //	if (x < p->mapcpy[0][0][y + 1])
 //		draw_right_line();
-	if (y > 1 && x <= p->mapcpy[0][0][y])
+	if (y > 1 && x < p->mapcpy[0][0][y - 1])
 	{
 		p->X2 = place_X(x, y - 1, p);
 		p->Y2 = place_Y(x, y - 1, p->mapcpy[0][y - 1][x], p);
