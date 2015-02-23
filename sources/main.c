@@ -49,12 +49,12 @@ int	my_converttoint(char *str, int	*line)
 	i[1] = 0;
 	while (str[i[0]])
 	{
-		if (ft_isdigit(str[i[0]]))
+		if (ft_isdigit(str[i[0]]) || str[i[0]] == '-')
 		{
 			line[i[1]] = ft_atoi(&str[i[0]]);
 			i[2] = 1;
 			i[3] = line[i[1]];
-			while (i[3] >= 10)
+			while (ft_abs(i[3]) >= 10)
 			{
 				i[3] = i[3] / 10;
 				i[2]++;
