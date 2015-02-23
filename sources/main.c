@@ -324,6 +324,20 @@ int	key_hook(int keycode, t_params *p)
 		ft_putendl("All fine.");
 		exit(0);
 	}
+	if (keycode == 65362)
+		p->top_offset = p->top_offset - p->arrow_step;
+	if (keycode == 65364)
+		p->top_offset = p->top_offset + p->arrow_step;
+	if (keycode == 65363)
+		p->left_offset = p->left_offset + p->arrow_step;
+	if (keycode == 65361)
+		p->left_offset = p->left_offset - p->arrow_step;
+	if (keycode == 93)
+		p->spacing = p->spacing * p->zoom_step;
+	if (keycode == 91)
+		p->spacing = p->spacing / p->zoom_step;
+	mlx_clear_window(p->id, p->win);
+	expose_hook(p);
 	return (0);
 }
 
@@ -335,6 +349,8 @@ int	params_init(t_params *p)
 	p->cte1 = 1;
 	p->cte2 = 1;
 	p->tbd_flag = 0;
+	p->arrow_step = 10;
+	p->zoom_step = 2;
 	return (0);
 }
 

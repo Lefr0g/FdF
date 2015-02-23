@@ -33,6 +33,8 @@ typedef	struct	s_params
 	int		X2;
 	int		Y2;
 	int		tbd_flag;
+	int		arrow_step;
+	int		zoom_step;
 }				t_params;
 
 #endif
