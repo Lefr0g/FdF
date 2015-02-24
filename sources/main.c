@@ -174,7 +174,7 @@ int	place_X(int x, int y, t_params *p)
 
 int	place_Y(int x, int y, int z, t_params *p)
 {
-	return (-z + (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
+	return (-(z * p->spacing / 12)+ (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
 			p->spacing + p->top_offset);
 }
 
