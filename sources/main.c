@@ -41,7 +41,7 @@ int	tbd_displayraw(char *filename, int *fd)
 	return (0);
 }
 
-int	my_converttoint(char *str, int	*line)
+int	my_converttoint(char *str, int *line)
 {
 	int	i[4];
 	
@@ -69,7 +69,7 @@ int	my_converttoint(char *str, int	*line)
 	return (i[1]);
 }
 
-int	my_storeasint(char *filename, int ***map, int *fd)
+int	my_storeasint(char *filename, t_params *p, int *fd)
 {
 	int		i;
 	int		j;
@@ -82,22 +82,26 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 	max = 0;
 	while (get_next_line(*fd, &tmp) == 1)
 		max++;
-	*map = (int**)malloc(sizeof(int*) * (max + 1));
+	p->map[0] = (int**)malloc(sizeof(int*) * (max + 1));
 	if (close_open(filename, fd))
 		return (1);
-	map[0][0] = (int*)malloc(sizeof(int) * (max + 1));
-	map[0][0][0] = max;
+	p->map[0][0] = (int*)malloc(sizeof(int) * (max + 1));
+	p->map[0][0][0] = max;
 	i = 1;
 	while (i <= max)
 	{
 		get_next_line(*fd, &tmp);
-		map[0][i] = (int*)malloc(sizeof(int) * ft_strlen(tmp));
-		map[0][0][i] = my_converttoint(tmp, map[0][i]);
+		p->map[0][i] = (int*)malloc(sizeof(int) * ft_strlen(tmp));
+		p->map[0][0][i] = my_converttoint(tmp, p->map[0][i]);
 		j = 0;
-		while (j < map[0][0][i])
+		while (j < p->map[0][0][i])
 		{
-			ft_putnbr(map[0][i][j]);
+			ft_putnbr(p->map[0][i][j]);
 			ft_putchar(' ');
+			if (p->map[0][i][j] < p->alt_min)
+				p->alt_min = p->map[0][i][j];
+			if (p->map[0][i][j] > p->alt_max)
+				p->alt_max = p->map[0][i][j];
 			j++;
 		}
 		ft_putchar('\n');
@@ -108,6 +112,7 @@ int	my_storeasint(char *filename, int ***map, int *fd)
 //	ft_putstr("There are ");
 //	ft_putnbr(map[0][0][0]);
 //	ft_putendl(" lines in this map");
+	printf("Alt min = %d, alt max = %d\n", p->alt_min, p->alt_max);
 	return (0);
 }
 
@@ -124,7 +129,7 @@ int	draw_line(t_params *p)
 			{
 				mlx_pixel_put(p->id, p->win, i, (i - p->X1) * \
 						(p->Y2 - p->Y1) / (p->X2 - p->X1)  \
-						+ p->Y1, 0x00FFFF);
+						+ p->Y1, (255 * 1000000));
 				i++;
 			}
 		}
@@ -135,7 +140,7 @@ int	draw_line(t_params *p)
 			{
 				mlx_pixel_put(p->id, p->win, i, (i - p->X2) * \
 						(p->Y1 - p->Y2) / (p->X1 - p->X2)  \
-						+ p->Y2, 0xFF00FF);
+						+ p->Y2, 0xFFFFFF);
 				i++;
 			}
 		}
@@ -148,7 +153,7 @@ int	draw_line(t_params *p)
 			while (i < p->Y2)
 			{
 				mlx_pixel_put(p->id, p->win, (i - p->Y1) * (p->X2 - p->X1) / \
-						(p->Y2 - p->Y1) + p->X1, i, 0xFFFF00);
+						(p->Y2 - p->Y1) + p->X1, i, 0xFFFFFF);
 				i++;
 			}
 		}
@@ -183,15 +188,15 @@ int	draw_web(int x, int y, t_params *p)
 	if (x > 0)
 	{
 		p->X2 = place_X(x - 1, y, p);
-		p->Y2 = place_Y(x - 1, y, p->mapcpy[0][y][x - 1], p);
+		p->Y2 = place_Y(x - 1, y, p->map[0][y][x - 1], p);
 		draw_line(p);
 	}
 //	if (x < p->mapcpy[0][0][y + 1])
 //		draw_right_line();
-	if (y > 1 && x < p->mapcpy[0][0][y - 1])
+	if (y > 1 && x < p->map[0][0][y - 1])
 	{
 		p->X2 = place_X(x, y - 1, p);
-		p->Y2 = place_Y(x, y - 1, p->mapcpy[0][y - 1][x], p);
+		p->Y2 = place_Y(x, y - 1, p->map[0][y - 1][x], p);
 		draw_line(p);
 	}
 //	if (y < p->mapcpy[0][0][0])
@@ -205,15 +210,15 @@ int	draw_iso(t_params *p)
 	int 		y;
 
 	y = 1;
-	while (y <= p->mapcpy[0][0][0])
+	while (y <= p->map[0][0][0])
 	{
 		x = 0;
-		while (x < p->mapcpy[0][0][y])
+		while (x < p->map[0][0][y])
 		{
 			p->X1 = place_X(x, y, p);
-			p->Y1 = place_Y(x, y, p->mapcpy[0][y][x], p);
+			p->Y1 = place_Y(x, y, p->map[0][y][x], p);
 			draw_web(x, y, p);
-			if (p->mapcpy[0][y][x] == 0)
+			if (p->map[0][y][x] == 0)
 			{
 				mlx_pixel_put(p->id, p->win, p->X1, p->Y1, 0xFF0000);
 			}
@@ -349,7 +354,7 @@ int	params_init(t_params *p)
 	p->cte1 = 1;
 	p->cte2 = 1;
 	p->tbd_flag = 0;
-	p->arrow_step = 10;
+	p->arrow_step = 20;
 	p->zoom_step = 2;
 	return (0);
 }
@@ -357,13 +362,13 @@ int	params_init(t_params *p)
 int	main(int argc, char **argv)
 {
 	int			fd;
-	int			***map;
+//	int			***map;
 	t_params	p;
 
 	params_init(&p);
-	(void)map;
+//	(void)map;
 	fd = 0;
-	map = (int***)malloc(sizeof(int**));
+	p.map = (int***)malloc(sizeof(int**));
 	if (argc == 1)
 	{
 		ft_putstr("usage : ./fdf file1\n");
@@ -375,11 +380,11 @@ int	main(int argc, char **argv)
 	tbd_displayraw(argv[1], &fd);
 	ft_putchar('\n');
 	ft_putendl("Converting map...");
-	if (my_storeasint(argv[1], map, &fd))
+	if (my_storeasint(argv[1], &p, &fd))
 		return (1);
 	ft_putendl("\nStarting visuals...");
 	p.id = mlx_init();
-	p.mapcpy = map;
+//	p.mapcpy = map;
 	if (p.id)
 	{
 		p.win = mlx_new_window(p.id, 800, 600, "FdF");

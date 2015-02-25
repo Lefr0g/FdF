@@ -22,7 +22,7 @@ typedef	struct	s_params
 {
 	void	*id;
 	void	*win;
-	int		***mapcpy;
+	int		***map;
 	int		spacing;
 	int		left_offset;
 	int		top_offset;
@@ -33,6 +33,8 @@ typedef	struct	s_params
 	int		X2;
 	int		Y2;
 	int		tbd_flag;
+	int		alt_min;
+	int		alt_max;
 	int		arrow_step;
 	int		zoom_step;
 }				t_params;
