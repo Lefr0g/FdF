@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:07:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/02/18 16:23:33 by amulin           ###   ########.fr       */
+/*   Updated: 2015/02/26 18:58:43 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,16 @@ int	my_storeasint(char *filename, t_params *p, int *fd)
 	printf("Alt min = %d, alt max = %d\n", p->alt_min, p->alt_max);
 	return (0);
 }
+/*
+int	pick_color(float z)
+{
+	int	color;
+	int	z;
 
+	z = ratio * (alt_max - alt_min);
+	return (color);
+}
+*/
 int	draw_line(t_params *p)
 {
 	int	i;
@@ -188,7 +197,8 @@ int	draw_web(int x, int y, t_params *p)
 	if (x > 0)
 	{
 		p->X2 = place_X(x - 1, y, p);
-		p->Y2 = place_Y(x - 1, y, p->map[0][y][x - 1], p);
+		p->z2 = p->map[0][y][x - 1];
+		p->Y2 = place_Y(x - 1, y, p->z2, p);
 		draw_line(p);
 	}
 //	if (x < p->mapcpy[0][0][y + 1])
@@ -196,7 +206,8 @@ int	draw_web(int x, int y, t_params *p)
 	if (y > 1 && x < p->map[0][0][y - 1])
 	{
 		p->X2 = place_X(x, y - 1, p);
-		p->Y2 = place_Y(x, y - 1, p->map[0][y - 1][x], p);
+		p->z2 = p->map[0][y - 1][x];
+		p->Y2 = place_Y(x, y - 1, p->z2, p);
 		draw_line(p);
 	}
 //	if (y < p->mapcpy[0][0][0])
@@ -216,7 +227,8 @@ int	draw_iso(t_params *p)
 		while (x < p->map[0][0][y])
 		{
 			p->X1 = place_X(x, y, p);
-			p->Y1 = place_Y(x, y, p->map[0][y][x], p);
+			p->z1 = p->map[0][y][x];
+			p->Y1 = place_Y(x, y, p->z1, p);
 			draw_web(x, y, p);
 			if (p->map[0][y][x] == 0)
 			{
@@ -348,6 +360,8 @@ int	key_hook(int keycode, t_params *p)
 
 int	params_init(t_params *p)
 {
+	p->win_width = 800;
+	p->win_height = 600;
 	p->spacing = 20;
 	p->left_offset = 300;
 	p->top_offset = 200;
@@ -387,7 +401,7 @@ int	main(int argc, char **argv)
 //	p.mapcpy = map;
 	if (p.id)
 	{
-		p.win = mlx_new_window(p.id, 800, 600, "FdF");
+		p.win = mlx_new_window(p.id, p.win_width, p.win_height, "FdF");
 		if (p.win)
 		{
 			mlx_key_hook(p.win, &(key_hook), &p);

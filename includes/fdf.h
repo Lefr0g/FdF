@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/02/17 14:34:21 by amulin           ###   ########.fr       */
+/*   Updated: 2015/02/26 18:32:23 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef	struct	s_params
 	void	*id;
 	void	*win;
 	int		***map;
+	int		win_width;
+	int		win_height;
 	int		spacing;
 	int		left_offset;
 	int		top_offset;
@@ -30,8 +32,10 @@ typedef	struct	s_params
 	float	cte2;
 	int		X1;
 	int		Y1;
+	int		z1;
 	int		X2;
 	int		Y2;
+	int		z2;
 	int		tbd_flag;
 	int		alt_min;
 	int		alt_max;
