@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:07:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/02/26 18:58:43 by amulin           ###   ########.fr       */
+/*   Updated: 2015/02/27 14:36:08 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,27 @@ int	my_storeasint(char *filename, t_params *p, int *fd)
 	printf("Alt min = %d, alt max = %d\n", p->alt_min, p->alt_max);
 	return (0);
 }
-/*
-int	pick_color(float z)
-{
-	int	color;
-	int	z;
 
-	z = ratio * (alt_max - alt_min);
-	return (color);
+int	pick_color(t_params *p, int z)
+{
+	if (z <= 0)
+		return (0x2223BB);
+	else if (z < (p->alt_max - p->alt_min) * 0.1)
+		return (0x23BB22);
+	else if (z < (p->alt_max - p->alt_min) * 0.3)
+		return (0x177A16);
+	else if (z < (p->alt_max - p->alt_min) * 0.6)
+		return (0x90551A);
+	else
+		return (0xFFFFFF);
+}
+
+/*
+int	calc_thales(int i, t_params *p, int param1, int param2)
+{
+	if (param1 == `)
+
+	return ((i - a1) * (b2 - b1) / (a2 - a1) + b1);
 }
 */
 int	draw_line(t_params *p)
@@ -134,22 +147,22 @@ int	draw_line(t_params *p)
 		if (p->X2 - p->X1 >= 0)
 		{
 			i = p->X1;
-			while (i < p->X2)
+			while (i <= p->X2 && p->X1 != p->X2)
 			{
 				mlx_pixel_put(p->id, p->win, i, (i - p->X1) * \
 						(p->Y2 - p->Y1) / (p->X2 - p->X1)  \
-						+ p->Y1, (255 * 1000000));
+						+ p->Y1, pick_color(p, (i - p->X1) * (p->z2 - p->z1) / (p->X2 - p->X1) + p->z1));
 				i++;
 			}
 		}
 		else
 		{
 			i = p->X2;
-			while (i < p->X1)
+			while (i <= p->X1 && p->X1 != p->X2)
 			{
 				mlx_pixel_put(p->id, p->win, i, (i - p->X2) * \
 						(p->Y1 - p->Y2) / (p->X1 - p->X2)  \
-						+ p->Y2, 0xFFFFFF);
+						+ p->Y2, pick_color(p, (i - p->X2) * (p->z1 - p->z2) / (p->X1 - p->X2) + p->z2));
 				i++;
 			}
 		}
@@ -159,20 +172,22 @@ int	draw_line(t_params *p)
 		if (p->Y2 - p->Y1 >= 0)
 		{
 			i = p->Y1;
-			while (i < p->Y2)
+			while (i <= p->Y2 && p->Y1 != p->Y2)
 			{
 				mlx_pixel_put(p->id, p->win, (i - p->Y1) * (p->X2 - p->X1) / \
-						(p->Y2 - p->Y1) + p->X1, i, 0xFFFFFF);
+						(p->Y2 - p->Y1) + p->X1, i, pick_color(p, (i - p->Y1) * (p->z2 - p->z1) / (p->Y2 - p->Y1) \
+							+ p->z1));
 				i++;
 			}
 		}
 		else
 		{
 			i = p->Y2;
-			while (i < p->Y1)
+			while (i <= p->Y1 && p->Y1 != p->Y2)
 			{
 				mlx_pixel_put(p->id, p->win, (i - p->Y2) * (p->X1 - p->X2) / \
-						(p->Y1 - p->Y2) + p->X2, i, 0xFFFFFF);
+						(p->Y1 - p->Y2) + p->X2, i, pick_color(p, (i - p->Y2) * (p->z1 - p->z2) / (p->Y1 - p->Y2) \
+							+ p->z2));
 				i++;
 			}
 		}
@@ -230,7 +245,7 @@ int	draw_iso(t_params *p)
 			p->z1 = p->map[0][y][x];
 			p->Y1 = place_Y(x, y, p->z1, p);
 			draw_web(x, y, p);
-			if (p->map[0][y][x] == 0)
+/*			if (p->map[0][y][x] == 0)
 			{
 				mlx_pixel_put(p->id, p->win, p->X1, p->Y1, 0xFF0000);
 			}
@@ -238,6 +253,7 @@ int	draw_iso(t_params *p)
 			{
 				mlx_pixel_put(p->id, p->win, p->X1, p->Y1, 0x00FF00);
 			}
+*/
 			x++;
 		}
 		y++;
@@ -351,7 +367,7 @@ int	key_hook(int keycode, t_params *p)
 		p->left_offset = p->left_offset - p->arrow_step;
 	if (keycode == 93)
 		p->spacing = p->spacing * p->zoom_step;
-	if (keycode == 91)
+	if (keycode == 91 && p->spacing / p->zoom_step >= 1)
 		p->spacing = p->spacing / p->zoom_step;
 	mlx_clear_window(p->id, p->win);
 	expose_hook(p);
@@ -360,15 +376,17 @@ int	key_hook(int keycode, t_params *p)
 
 int	params_init(t_params *p)
 {
-	p->win_width = 800;
-	p->win_height = 600;
+//	p->win_width = 800;
+	p->win_width = 1920;
+//	p->win_height = 600;
+	p->win_height = 1080;
 	p->spacing = 20;
 	p->left_offset = 300;
 	p->top_offset = 200;
 	p->cte1 = 1;
 	p->cte2 = 1;
 	p->tbd_flag = 0;
-	p->arrow_step = 20;
+	p->arrow_step = p->win_width / 10;
 	p->zoom_step = 2;
 	return (0);
 }
