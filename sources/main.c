@@ -120,11 +120,11 @@ int	pick_color(t_params *p, int z)
 {
 	if (z <= 0)
 		return (0x2223BB);
-	else if (z < (p->alt_max - p->alt_min) * 0.1)
+	else if (z <= (p->alt_max - p->alt_min) * 0.1)
 		return (0x23BB22);
-	else if (z < (p->alt_max - p->alt_min) * 0.3)
+	else if (z <= (p->alt_max - p->alt_min) * 0.2)
 		return (0x177A16);
-	else if (z < (p->alt_max - p->alt_min) * 0.6)
+	else if (z <= (p->alt_max - p->alt_min) * 0.4)
 		return (0x90551A);
 	else
 		return (0xFFFFFF);
@@ -158,7 +158,7 @@ int	draw_line(t_params *p)
 		else
 		{
 			i = p->X2;
-			while (i <= p->X1 && p->X1 != p->X2)
+			while (i < p->X1 && p->X1 != p->X2)
 			{
 				mlx_pixel_put(p->id, p->win, i, (i - p->X2) * \
 						(p->Y1 - p->Y2) / (p->X1 - p->X2)  \
@@ -172,7 +172,7 @@ int	draw_line(t_params *p)
 		if (p->Y2 - p->Y1 >= 0)
 		{
 			i = p->Y1;
-			while (i <= p->Y2 && p->Y1 != p->Y2)
+			while (i < p->Y2 && p->Y1 != p->Y2)
 			{
 				mlx_pixel_put(p->id, p->win, (i - p->Y1) * (p->X2 - p->X1) / \
 						(p->Y2 - p->Y1) + p->X1, i, pick_color(p, (i - p->Y1) * (p->z2 - p->z1) / (p->Y2 - p->Y1) \
@@ -183,7 +183,7 @@ int	draw_line(t_params *p)
 		else
 		{
 			i = p->Y2;
-			while (i <= p->Y1 && p->Y1 != p->Y2)
+			while (i < p->Y1 && p->Y1 != p->Y2)
 			{
 				mlx_pixel_put(p->id, p->win, (i - p->Y2) * (p->X1 - p->X2) / \
 						(p->Y1 - p->Y2) + p->X2, i, pick_color(p, (i - p->Y2) * (p->z1 - p->z2) / (p->Y1 - p->Y2) \
@@ -362,13 +362,19 @@ int	key_hook(int keycode, t_params *p)
 	if (keycode == 65364)
 		p->top_offset = p->top_offset + p->arrow_step;
 	if (keycode == 65363)
-		p->left_offset = p->left_offset + p->arrow_step;
-	if (keycode == 65361)
 		p->left_offset = p->left_offset - p->arrow_step;
+	if (keycode == 65361)
+		p->left_offset = p->left_offset + p->arrow_step;
 	if (keycode == 93)
+	{
+		p->top_offset = p->win_height / 2 - p->top_offset_init * (p->spacing / p->spacing_init);
+		p->left_offset = p->win_width / 2 - p->left_offset_init * (p->spacing / p->spacing_init);
 		p->spacing = p->spacing * p->zoom_step;
+	}
 	if (keycode == 91 && p->spacing / p->zoom_step >= 1)
+	{
 		p->spacing = p->spacing / p->zoom_step;
+	}
 	mlx_clear_window(p->id, p->win);
 	expose_hook(p);
 	return (0);
@@ -376,13 +382,16 @@ int	key_hook(int keycode, t_params *p)
 
 int	params_init(t_params *p)
 {
-//	p->win_width = 800;
-	p->win_width = 1920;
-//	p->win_height = 600;
-	p->win_height = 1080;
+	p->win_width = 800;
+//	p->win_width = 1920;
+	p->win_height = 600;
+//	p->win_height = 1080;
 	p->spacing = 20;
+	p->spacing_init = p->spacing;
 	p->left_offset = 300;
+	p->left_offset_init = p->left_offset;
 	p->top_offset = 200;
+	p->top_offset_init = p->top_offset;
 	p->cte1 = 1;
 	p->cte2 = 1;
 	p->tbd_flag = 0;

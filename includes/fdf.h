@@ -26,8 +26,11 @@ typedef	struct	s_params
 	int		win_width;
 	int		win_height;
 	int		spacing;
+	int		spacing_init;
 	int		left_offset;
+	int		left_offset_init;
 	int		top_offset;
+	int		top_offset_init;
 	float	cte1;
 	float	cte2;
 	int		X1;
