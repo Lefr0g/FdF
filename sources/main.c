@@ -130,14 +130,6 @@ int	pick_color(t_params *p, int z)
 		return (0xFFFFFF);
 }
 
-/*
-int	calc_thales(int i, t_params *p, int param1, int param2)
-{
-	if (param1 == `)
-
-	return ((i - a1) * (b2 - b1) / (a2 - a1) + b1);
-}
-*/
 int	draw_line(t_params *p)
 {
 	int	i;
