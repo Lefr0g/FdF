@@ -28,9 +28,9 @@ typedef	struct	s_params
 	int		spacing;
 	int		spacing_init;
 	int		left_offset;
-	int		left_offset_init;
+	int		left_offset_prev;
 	int		top_offset;
-	int		top_offset_init;
+	int		top_offset_prev;
 	float	cte1;
 	float	cte2;
 	int		X1;

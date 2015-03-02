@@ -195,7 +195,7 @@ int	place_X(int x, int y, t_params *p)
 
 int	place_Y(int x, int y, int z, t_params *p)
 {
-	return (-(z * p->spacing / 12)+ (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
+	return (-(z * p->spacing / 12) + (p->cte1 / 2 * x + p->cte2 / 2 * y) * \
 			p->spacing + p->top_offset);
 }
 
@@ -359,13 +359,20 @@ int	key_hook(int keycode, t_params *p)
 		p->left_offset = p->left_offset + p->arrow_step;
 	if (keycode == 93)
 	{
-		p->top_offset = p->win_height / 2 - p->top_offset_init * (p->spacing / p->spacing_init);
-		p->left_offset = p->win_width / 2 - p->left_offset_init * (p->spacing / p->spacing_init);
 		p->spacing = p->spacing * p->zoom_step;
+//		p->top_offset = p->top_offset - p->spacing;
+//		p->left_offset = p->left_offset - p->spacing;
+//		p->top_offset_prev = p->top_offset;
+//		p->left_offset_prev = p->left_offset;
 	}
 	if (keycode == 91 && p->spacing / p->zoom_step >= 1)
 	{
 		p->spacing = p->spacing / p->zoom_step;
+//		p->top_offset = p->top_offset + p->spacing;
+//		p->left_offset = p->left_offset + p->spacing;
+//		p->top_offset_prev = p->top_offset;
+//		p->left_offset_prev = p->left_offset;
+
 	}
 	mlx_clear_window(p->id, p->win);
 	expose_hook(p);
@@ -380,10 +387,10 @@ int	params_init(t_params *p)
 //	p->win_height = 1080;
 	p->spacing = 20;
 	p->spacing_init = p->spacing;
-	p->left_offset = 300;
-	p->left_offset_init = p->left_offset;
-	p->top_offset = 200;
-	p->top_offset_init = p->top_offset;
+	p->left_offset = 400;
+	p->left_offset_prev = p->left_offset;
+	p->top_offset = 300;
+	p->top_offset_prev = p->top_offset;
 	p->cte1 = 1;
 	p->cte2 = 1;
 	p->tbd_flag = 0;
