@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/08 16:36:49 by amulin            #+#    #+#             */
-/*   Updated: 2014/12/10 12:01:29 by amulin           ###   ########.fr       */
+/*   Updated: 2015/03/04 16:32:30 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 			fresh = fresh->next;
 			buf = buf->next;
 		}
+		return (freshinit);
 	}
-	return (freshinit);
+	return (NULL);
 }
