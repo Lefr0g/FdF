@@ -342,22 +342,22 @@ int	key_hook(int keycode, t_params *p)
 {
 	ft_putnbr(keycode);
 	ft_putchar('\n');
-	if (keycode == 65307)
+	if (keycode == 53)
 	{
 		mlx_destroy_window(p->id, p->win);
 		ft_putchar('\n');
 		ft_putendl("All fine.");
 		exit(0);
 	}
-	if (keycode == 65362)
+	if (keycode == 126)
 		p->top_offset = p->top_offset - p->arrow_step;
-	if (keycode == 65364)
+	if (keycode == 125)
 		p->top_offset = p->top_offset + p->arrow_step;
-	if (keycode == 65363)
+	if (keycode == 124)
 		p->left_offset = p->left_offset - p->arrow_step;
-	if (keycode == 65361)
+	if (keycode == 123)
 		p->left_offset = p->left_offset + p->arrow_step;
-	if (keycode == 93)
+	if (keycode == 33)
 	{
 		p->spacing = p->spacing * p->zoom_step;
 //		p->top_offset = p->top_offset - p->spacing;
@@ -365,7 +365,7 @@ int	key_hook(int keycode, t_params *p)
 //		p->top_offset_prev = p->top_offset;
 //		p->left_offset_prev = p->left_offset;
 	}
-	if (keycode == 91 && p->spacing / p->zoom_step >= 1)
+	if (keycode == 30 && p->spacing / p->zoom_step >= 1)
 	{
 		p->spacing = p->spacing / p->zoom_step;
 //		p->top_offset = p->top_offset + p->spacing;

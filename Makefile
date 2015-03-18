@@ -12,7 +12,7 @@
 
 NAME = fdf
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -framework OpenGL -framework AppKit
 
 SRCS = main.c
 
@@ -20,7 +20,9 @@ SRCDIR = sources/
 
 SOURCES = $(addprefix $(SRCDIR), $(SRCS))
 
-HEADERS = includes/fdf.h
+HEADERS = includes/ minilibx_macos/ libft/includes/
+
+INCLUDES = $(addprefix -I, $(HEADERS))
 
 OBJECTS = $(subst .c,.o,$(SRCS))
 
@@ -31,14 +33,15 @@ LIB = libft/libft.a
 all: $(NAME)
 	
 $(NAME): $(OBJECTS)
-	gcc $(FLAGS) $(OBJECTS) -o $(NAME) -L libft/ -lft -L /usr/X11/lib/ \
-		-lmlx -lXext -lX11
+	gcc $(FLAGS) $(OBJECTS) -o $(NAME) -Llibft/ -lft -Lminilibx_macos/ \
+		-lmlx
 
 $(OBJECTS): $(LIB) $(SOURCES) $(HEADERS)
-	gcc $(FLAGS) -c $(SOURCES) -I includes/ -I libft/includes/
+	gcc $(FLAGS) -c $(SOURCES) $(INCLUDES)
 
 $(LIB):
 	make -C libft/
+	make -C minilibx_macos/
 
 clean:
 	make -C libft/ clean
@@ -46,6 +49,7 @@ clean:
 
 fclean: clean
 	make -C libft/ fclean
+	make -C minilibx_macos/ clean
 	rm -f $(NAME)
 
 re: fclean all
