@@ -6,13 +6,17 @@
 #    By: amulin <amulin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/02/17 11:06:17 by amulin            #+#    #+#              #
-#    Updated: 2015/02/17 15:15:12 by amulin           ###   ########.fr        #
+#    Updated: 2015/03/27 15:17:10 by amulin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
-FLAGS = -Wall -Werror -Wextra -framework OpenGL -framework AppKit
+STDFLAGS = -Wall -Werror -Wextra
+
+VISUFLAGS = -framework OpenGL -framework AppKit
+
+LIBFLAGS = -Llibft/ -lft -Lminilibx_macos/ -lmlx
 
 SRCS = main.c
 
@@ -33,11 +37,10 @@ LIB = libft/libft.a
 all: $(NAME)
 	
 $(NAME): $(OBJECTS)
-	gcc $(FLAGS) $(OBJECTS) -o $(NAME) -Llibft/ -lft -Lminilibx_macos/ \
-		-lmlx
+	gcc $(STDFLAGS) $(OBJECTS) -o $(NAME) $(LIBFLAGS) $(VISUFLAGS)
 
 $(OBJECTS): $(LIB) $(SOURCES) $(HEADERS)
-	gcc $(FLAGS) -c $(SOURCES) $(INCLUDES)
+	gcc $(STDFLAGS) -c $(SOURCES) $(INCLUDES)
 
 $(LIB):
 	make -C libft/
