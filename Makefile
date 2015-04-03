@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf
+NAME = fdf_v2
 
 STDFLAGS = -Wall -Werror -Wextra
 
@@ -18,7 +18,7 @@ VISUFLAGS = -framework OpenGL -framework AppKit
 
 LIBFLAGS = -Llibft/ -lft -Lminilibx_macos/ -lmlx
 
-SRCS = main.c
+SRCS = main_v2.c
 
 SRCDIR = sources/
 
