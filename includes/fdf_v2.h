@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/07 17:19:37 by amulin           ###   ########.fr       */
+/*   Updated: 2015/04/07 17:32:48 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct	s_args
 {
 	char		*filename;
 	char		*proj;
+	int			linecount;
 }				t_args;
 
 void			print_man(void);

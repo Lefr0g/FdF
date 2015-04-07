@@ -6,7 +6,7 @@
 #    By: amulin <amulin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/02/17 11:06:17 by amulin            #+#    #+#              #
-#    Updated: 2015/03/27 15:17:10 by amulin           ###   ########.fr        #
+#    Updated: 2015/04/07 17:25:25 by amulin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ VISUFLAGS = -framework OpenGL -framework AppKit
 
 LIBFLAGS = -Llibft/ -lft -Lminilibx_macos/ -lmlx
 
-SRCS = main_v2.c
+SRCS = main_v2.c preliminary.c
 
 SRCDIR = sources/
 
