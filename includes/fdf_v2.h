@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/07 16:08:32 by amulin           ###   ########.fr       */
+/*   Updated: 2015/04/07 17:19:37 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,15 @@
 
 # include <fcntl.h>
 # include "libft.h"
+
+typedef struct	s_args
+{
+	char		*filename;
+	char		*proj;
+}				t_args;
+
+void			print_man(void);
+int				my_open(char *filename);
+int				check_args(t_args *a, int argc, char **argv);
 
 #endif
