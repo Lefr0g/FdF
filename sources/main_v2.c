@@ -23,6 +23,7 @@ int		print_input(char *filename)
 	char	**line;
 	int		i;
 
+	ft_putendl("Printing input map...");
 	i = 0;
 	fd = my_open(filename);
 	line = (char**)malloc(sizeof(char*));
@@ -36,25 +37,25 @@ int		print_input(char *filename)
 		i++;
 	}
 	ft_putendl(*line);
+	if (close(fd))
+		return (-1);
 	return (i);
 }
 
 int		main(int argc, char **argv)
 {
 	t_args	a;
+	t_data	d;
 
 	if (check_args(&a, argc, argv) < 0)
 	{
-		print_man();
-		ft_putchar('\n');
+		print_proto();
 		return (0);
 	}
-	if (argc > 1 && argc < 4)
-	{
-		ft_putendl("Printing input map...");
-		a.linecount = print_input(argv[1]);
-		ft_putnbr(a.linecount);
-		ft_putchar('\n');
-	}
+	print_man();
+	d.linecount = print_input(argv[1]);
+	parse(a.filename, &d);
+	print_meta(&d);
+	ft_putchar('\n');
 	return (0);
 }

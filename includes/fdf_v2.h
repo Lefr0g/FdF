@@ -20,11 +20,32 @@ typedef struct	s_args
 {
 	char		*filename;
 	char		*proj;
-	int			linecount;
 }				t_args;
 
+typedef struct	s_data
+{
+	int			linecount;
+	int			*meta;
+	int			**rawmap;
+}				t_data;
+
+typedef struct	s_tmp
+{
+	int			i;
+	int			j;
+	int			k;
+	int			fd;
+	char		*buf;
+}				t_tmp;
+
+void			print_proto(void);
 void			print_man(void);
+void			print_meta(t_data *d);
+void			print_rawmap(t_data *d);
+
 int				my_open(char *filename);
 int				check_args(t_args *a, int argc, char **argv);
+int				parse(char *filename, t_data *d);
+void			my_getnbr(t_data *d, t_tmp *t);
 
 #endif
