@@ -55,6 +55,7 @@ int		main(int argc, char **argv)
 	print_man();
 	d.linecount = print_input(argv[1]);
 	parse(a.filename, &d);
+	print_rawmap(&d);
 	print_meta(&d);
 	ft_putchar('\n');
 	return (0);

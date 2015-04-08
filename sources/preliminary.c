@@ -90,6 +90,7 @@ void	print_rawmap(t_data *d)
 {
 	t_tmp	t;
 
+	ft_putendl("Printing converted map...");
 	t.i = 0;
 	while (t.i < d->linecount)
 	{
@@ -97,8 +98,10 @@ void	print_rawmap(t_data *d)
 		while (t.j < d->meta[t.i])
 		{
 			ft_putnbr(d->rawmap[t.i][t.j]);
+			ft_putchar(' ');
 			t.j++;
 		}
+		ft_putchar('\n');
 		t.i++;
 	}
 }
