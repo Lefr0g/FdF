@@ -69,5 +69,6 @@ int				parse(char *filename, t_data *d);
 void			my_getnbr(t_data *d, t_tmp *t);
 
 int				draw_map(t_data *d);
+int				expose_hook(t_data *d);
 
 #endif
