@@ -15,6 +15,8 @@
 
 # include <fcntl.h>
 # include "libft.h"
+# define BUF_SIZE 100
+# define LIMIT_PRINT 5000
 
 typedef struct	s_args
 {
@@ -24,7 +26,9 @@ typedef struct	s_args
 
 typedef struct	s_data
 {
+	int			filesize;
 	int			linecount;
+	int			longestline;
 	int			*meta;
 	int			**rawmap;
 }				t_data;
@@ -44,7 +48,10 @@ void			print_meta(t_data *d);
 void			print_rawmap(t_data *d);
 
 int				my_open(char *filename);
+char			*my_realloc(char **str, int newsize);
+
 int				check_args(t_args *a, int argc, char **argv);
+int				check_filesize(char *filename);
 int				parse(char *filename, t_data *d);
 void			my_getnbr(t_data *d, t_tmp *t);
 

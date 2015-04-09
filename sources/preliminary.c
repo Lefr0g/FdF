@@ -25,6 +25,31 @@ void	print_man(void)
 	ft_putendl("       Use { to zoom in, and } to zoom out\n");
 }
 
+int		check_filesize(char *filename)
+{
+	int		fd;
+	int		ret;
+	char	*buf;
+	int		filesize;
+
+	filesize = 0;
+	buf = ft_strnew(BUF_SIZE);
+	if ((fd = my_open(filename)) < 0)
+		return (-1);
+	while ((ret = read(fd, buf, BUF_SIZE)) > 0)
+		filesize = filesize + ret;
+	if (close(fd))
+		return (-1);
+	if (filesize >= LIMIT_PRINT)
+	{
+		ft_putstr("All fine, but the file is too big (");
+		ft_putnbr(filesize);
+		ft_putendl(" bytes) to be printed in terminal");
+		ft_putendl("");
+	}
+	return (filesize);
+}
+
 int		check_args(t_args *a, int argc, char **argv)
 {
 	int	fd;
@@ -62,8 +87,12 @@ int		parse(char *filename, t_data *d)
 	d->meta = (int*)malloc(sizeof(int) * d->linecount);
 	if ((t.fd = my_open(filename)) < 0)
 		return (-1);
+	ft_putstr("\nParsing file...");
 	while (get_next_line(t.fd, &(t.buf)) == 1)
 		my_getnbr(d, &t);
+	ft_putchar('\n');
+	if (d->filesize < LIMIT_PRINT)
+		print_rawmap(d);
 	return (0);
 }
 
@@ -90,7 +119,7 @@ void	print_rawmap(t_data *d)
 {
 	t_tmp	t;
 
-	ft_putendl("Printing converted map...");
+	ft_putendl("\nPrinting converted map...");
 	t.i = 0;
 	while (t.i < d->linecount)
 	{
@@ -111,12 +140,23 @@ void	print_meta(t_data *d)
 	int	i;
 
 	i = 0;
-	ft_putendl("\nThe data lines are composed as such:");
+	d->longestline = 0;
 	while (i < d->linecount)
 	{
-		ft_putnbr(d->meta[i]);
-		ft_putchar(' ');
+		if (d->meta[i] > d->longestline)
+			d->longestline = d->meta[i];
 		i++;
 	}
-	ft_putchar('\n');
+	ft_putstr("\nThe map is ");
+	ft_putnbr(d->longestline);
+	ft_putstr(" by ");
+	ft_putnbr(d->linecount);
+	ft_putendl(" at its widest");
+}
+
+char	*my_realloc(char **str, int newsize)
+{
+	free(*str);
+	*str = ft_strnew(newsize);
+	return (*str);
 }
