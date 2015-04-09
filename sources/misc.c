@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_v2.c                                          :+:      :+:    :+:   */
+/*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/02/17 11:07:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/09 17:59:36 by amulin           ###   ########.fr       */
+/*   Created: 2015/04/09 16:39:50 by amulin            #+#    #+#             */
+/*   Updated: 2015/04/09 16:40:28 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf_v2.h"
 
-int		main(int argc, char **argv)
+char	*my_realloc(char **str, int newsize)
 {
-	t_args	a;
-	t_data	d;
-
-	if (check_args(&a, argc, argv) < 0)
-	{
-		print_proto();
-		return (0);
-	}
-	print_man();
-	if (check_valid_data(argv[1], &d) < 0)
-		return (-1);
-	parse(a.filename, &d);
-	print_meta(&d);
-	ft_putchar('\n');
-	if (draw_map(&d) < 0)
-		return (-1);
-	return (0);
+	free(*str);
+	*str = ft_strnew(newsize);
+	return (*str);
 }
