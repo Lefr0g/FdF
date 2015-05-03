@@ -33,14 +33,14 @@ void	print_filesize_onload(int filesize)
 		ft_putstr("The file is small enough (");
 		ft_putnbr(filesize);
 		ft_putendl(" bytes) to be printed on terminal\n");
-		ft_putendl("Loading & printing file...");
+		ft_putendl("Counting & printing lines...");
 	}
 	else
 	{
 		ft_putstr("All fine, but the file is too big (");
 		ft_putnbr(filesize);
 		ft_putendl(" bytes) to be printed on terminal\n");
-		ft_putstr("Loading file...");
+		ft_putstr("Counting lines...");
 	}
 }
 
@@ -48,7 +48,7 @@ void	print_rawmap(t_data *d)
 {
 	t_tmp	t;
 
-	ft_putendl("\nPrinting converted map...");
+	ft_putendl("\n\nPrinting converted map...");
 	t.i = 0;
 	while (t.i < d->linecount)
 	{
@@ -62,6 +62,7 @@ void	print_rawmap(t_data *d)
 		ft_putchar('\n');
 		t.i++;
 	}
+	ft_putchar('\n');
 }
 
 void	print_meta(t_data *d)
@@ -80,5 +81,5 @@ void	print_meta(t_data *d)
 	ft_putnbr(d->longestline);
 	ft_putstr(" by ");
 	ft_putnbr(d->linecount);
-	ft_putendl(" at its widest");
+	ft_putendl(" at its widest\n");
 }

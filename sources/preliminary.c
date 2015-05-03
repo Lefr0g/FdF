@@ -15,7 +15,7 @@
 int		check_valid_data(char *filename, t_data *d)
 {
 	d->filesize = check_filesize(filename);
-	d->linecount = get_input(filename, d->filesize);
+	d->linecount = count_lines(filename, d->filesize);
 	if (d->filesize < 0 || d->linecount < 0)
 	{
 		ft_putendl("Error: data processing fail");

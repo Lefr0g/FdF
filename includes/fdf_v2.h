@@ -22,6 +22,7 @@
 # define WIN_X 800
 # define WIN_Y 600
 # define WIN_TITLE "FdF"
+# define LOADBAR_MODE "bar"
 
 typedef struct	s_args
 {
@@ -45,12 +46,16 @@ typedef struct	s_tmp
 	int			i;
 	int			j;
 	int			k;
+	int			fd;
+	int			pos;
+	int			prev;
 	int			x;
 	int			y;
 	int			z;
-	int			fd;
 	char		*buf;
 }				t_tmp;
+
+void			init_t_tmp(t_tmp *t);
 
 void			print_proto(void);
 void			print_man(void);
@@ -58,13 +63,16 @@ void			print_meta(t_data *d);
 void			print_rawmap(t_data *d);
 void			print_filesize_onload(int filesize);
 
+int				my_check_args(int min, int max, int argc, char **argv);
+int				my_print_loadbar(int pos, int end, int prev, char *mode);
 int				my_open(char *filename);
 char			*my_realloc(char **str, int newsize);
+int				my_get_min(int i, int j);
 
 int				check_args(t_args *a, int argc, char **argv);
 int				check_valid_data(char *filename, t_data *d);
 int				check_filesize(char *filename);
-int				get_input(char *filename, int filesize);
+int				count_lines(char *filename, int filesize);
 int				parse(char *filename, t_data *d);
 void			my_getnbr(t_data *d, t_tmp *t);
 

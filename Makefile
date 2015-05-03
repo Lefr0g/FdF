@@ -18,7 +18,8 @@ VISUFLAGS = -framework OpenGL -framework AppKit
 
 LIBFLAGS = -Llibft/ -lft -Lminilibx_macos/ -lmlx
 
-SRCS = main_v2.c preliminary.c data_processing.c verbose.c misc.c fdf_draw.c
+SRCS = main_v2.c preliminary.c data_processing.c verbose.c misc.c fdf_draw.c \
+	   verbose_2.c
 
 SRCDIR = sources/
 

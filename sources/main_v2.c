@@ -26,8 +26,6 @@ int		main(int argc, char **argv)
 	if (check_valid_data(argv[1], &d) < 0)
 		return (-1);
 	parse(a.filename, &d);
-	print_meta(&d);
-	ft_putchar('\n');
 	if (draw_map(&d) < 0)
 		return (-1);
 	return (0);
