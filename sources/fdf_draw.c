@@ -16,7 +16,7 @@ int	key_hook(int keycode, t_data *d)
 {
 	if (keycode == 53)
 	{
-		ft_putendl("Program terminated by user");
+		ft_putendl("\nProgram terminated by user");
 		mlx_destroy_window(d->mlx_id, d->win_id);
 		exit(0);
 	}
@@ -30,16 +30,26 @@ int	expose_hook(t_data *d)
 {
 	t_tmp	t;
 
-	t.y = 0;
-	while (t.y < d->linecount)
+	d->top_offset = WIN_Y / 2;
+	d->left_offset = WIN_X / 2;
+	t.j = 0;
+	while ((t.y = (t.j - (d->linecount / 2)) * d->spacing + d->top_offset) < 0)
+		t.j++;
+	d->spacing = 10;
+	while (t.j < d->linecount && t.y <= WIN_Y)
 	{
-		t.x = 0;
-		while (t.x < d->meta[t.y])
+		t.i = 0;
+		while ((t.x = (t.i - (d->longestline / 2)) * d->spacing + d->left_offset) < 0)
+			t.i++;
+		while (t.i < d->meta[t.j] && t.x <= WIN_X)
 		{
-			mlx_pixel_put(d->mlx_id, d->win_id, t.x, t.y, 0xFFFFFF);
-			t.x++;
+			if (t.x >= 0 && t.y >= 0)
+				mlx_pixel_put(d->mlx_id, d->win_id, t.x, t.y, 0xFFFFFF);
+			t.i++;
+			t.x = (t.i - (d->longestline / 2)) * d->spacing + d->left_offset;
 		}
-		t.y++;
+		t.j++;
+		t.y = (t.j - (d->linecount / 2)) * d->spacing + d->top_offset;
 	}
 	return (0);
 }

@@ -39,6 +39,9 @@ typedef struct	s_data
 	int			**rawmap;
 	void		*mlx_id;
 	void		*win_id;
+	int			spacing;
+	int			top_offset;
+	int			left_offset;
 }				t_data;
 
 typedef struct	s_tmp
