@@ -1,40 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   misc.c                                             :+:      :+:    :+:   */
+/*   fdf_draw.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/04/09 16:39:50 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/09 16:40:28 by amulin           ###   ########.fr       */
+/*   Created: 2015/04/09 17:40:06 by amulin            #+#    #+#             */
+/*   Updated: 2015/04/09 19:01:44 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf_v2.h"
 
-int		my_get_min(int i, int j)
+int		pick_color(t_tmp *t, t_data *d)
 {
-	if (i > j)
-		return (j);
-	return (i);
-}
-
-char	*my_realloc(char **str, int newsize)
-{
-	free(*str);
-	*str = ft_strnew(newsize);
-	return (*str);
-}
-
-int		my_check_args(int min, int max, int argc, char **argv)
-{
-	if (min > max || min < 0 || max < 0 || argc < 1 || !argv)
-		return (-1);
-	if (argc < min)
-		return (1);
-	else if (argc > max)
-		return (2);
+	if (d->rawmap[t->j][t->i] > 0)
+		return (0xFF0000);
 	else
-		return (0);
+		return (0xFFFFFF);
 }
 
+void	draw_pixel(t_tmp *t, t_data *d)
+{
+	mlx_pixel_put(d->mlx_id, d->win_id, t->x, t->y, pick_color(t, d));
+}

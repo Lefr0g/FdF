@@ -12,6 +12,8 @@
 
 NAME = fdf_v2
 
+CC = clang
+
 STDFLAGS = -Wall -Werror -Wextra
 
 VISUFLAGS = -framework OpenGL -framework AppKit
@@ -19,7 +21,7 @@ VISUFLAGS = -framework OpenGL -framework AppKit
 LIBFLAGS = -Llibft/ -lft -Lminilibx_macos/ -lmlx
 
 SRCS = main_v2.c preliminary.c data_processing.c verbose.c misc.c fdf_draw.c \
-	   verbose_2.c
+	   fdf_draw_2.c verbose_2.c fdf_calc.c init.c
 
 SRCDIR = sources/
 
@@ -38,10 +40,10 @@ LIB = libft/libft.a
 all: $(NAME)
 	
 $(NAME): $(OBJECTS)
-	gcc $(STDFLAGS) $(OBJECTS) -o $(NAME) $(LIBFLAGS) $(VISUFLAGS)
+	$(CC) $(STDFLAGS) $(OBJECTS) -o $(NAME) $(LIBFLAGS) $(VISUFLAGS)
 
 $(OBJECTS): $(LIB) $(SOURCES) $(HEADERS)
-	gcc $(STDFLAGS) -c $(SOURCES) $(INCLUDES)
+	$(CC) $(STDFLAGS) -c $(SOURCES) $(INCLUDES)
 
 $(LIB):
 	make -C libft/

@@ -10,7 +10,6 @@
  *
 */
 
-#include "libft.h"
 #include "fdf_v2.h"
 
 int	my_print_loadbar(int pos, int end, int prev, char *mode)

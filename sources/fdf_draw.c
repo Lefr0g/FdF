@@ -12,6 +12,13 @@
 
 #include "fdf_v2.h"
 
+int	refresh(t_data *d)
+{
+	mlx_clear_window(d->mlx_id, d->win_id);
+	expose_hook(d);
+	return (0);
+}
+
 int	key_hook(int keycode, t_data *d)
 {
 	if (keycode == 53)
@@ -20,6 +27,20 @@ int	key_hook(int keycode, t_data *d)
 		mlx_destroy_window(d->mlx_id, d->win_id);
 		exit(0);
 	}
+	if (keycode == 123)
+		d->left_added--;
+	if (keycode == 124)
+		d->left_added++;
+	if (keycode == 125)
+		d->top_added = d->top_added + 1;
+	if (keycode == 126)
+		d->top_added = d->top_added - 1;
+	if (keycode == 49)
+	{
+		d->top_added = 0;
+		d->left_added = 0;
+	}
+	refresh(d);
 	ft_putstr("Key press: ");
 	ft_putnbr(keycode);
 	ft_putchar('\n');
@@ -30,33 +51,30 @@ int	expose_hook(t_data *d)
 {
 	t_tmp	t;
 
-	d->top_offset = WIN_Y / 2;
-	d->left_offset = WIN_X / 2;
 	t.j = 0;
-	while ((t.y = (t.j - (d->linecount / 2)) * d->spacing + d->top_offset) < 0)
+	while (calc_y(&t, d) < 0)
 		t.j++;
-	d->spacing = 10;
 	while (t.j < d->linecount && t.y <= WIN_Y)
 	{
 		t.i = 0;
-		while ((t.x = (t.i - (d->longestline / 2)) * d->spacing + d->left_offset) < 0)
+		while (calc_x(&t, d) < 0)
 			t.i++;
 		while (t.i < d->meta[t.j] && t.x <= WIN_X)
 		{
 			if (t.x >= 0 && t.y >= 0)
-				mlx_pixel_put(d->mlx_id, d->win_id, t.x, t.y, 0xFFFFFF);
+				draw_pixel(&t, d);
 			t.i++;
-			t.x = (t.i - (d->longestline / 2)) * d->spacing + d->left_offset;
+			calc_x(&t, d);
 		}
 		t.j++;
-		t.y = (t.j - (d->linecount / 2)) * d->spacing + d->top_offset;
+		calc_y(&t, d);
 	}
 	return (0);
 }
 
 int	draw_map(t_data *d)
 {
-
+	init_draw(d);
 	if (!(d->mlx_id = mlx_init()))
 		return (-1);
 	if (!(d->win_id = mlx_new_window(d->mlx_id, WIN_X, WIN_Y, WIN_TITLE)))

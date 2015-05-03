@@ -42,6 +42,8 @@ typedef struct	s_data
 	int			spacing;
 	int			top_offset;
 	int			left_offset;
+	int			top_added;
+	int			left_added;
 }				t_data;
 
 typedef struct	s_tmp
@@ -59,6 +61,7 @@ typedef struct	s_tmp
 }				t_tmp;
 
 void			init_t_tmp(t_tmp *t);
+void			init_draw(t_data *d);
 
 void			print_proto(void);
 void			print_man(void);
@@ -79,7 +82,12 @@ int				count_lines(char *filename, int filesize);
 int				parse(char *filename, t_data *d);
 void			my_getnbr(t_data *d, t_tmp *t);
 
+int				pick_color(t_tmp *t, t_data *d);
+void			draw_pixel(t_tmp *t, t_data *d);
 int				draw_map(t_data *d);
 int				expose_hook(t_data *d);
+
+int				calc_x(t_tmp *t, t_data *d);
+int				calc_y(t_tmp *t, t_data *d);
 
 #endif
