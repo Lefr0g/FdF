@@ -28,11 +28,11 @@ int	key_hook(int keycode, t_data *d)
 		exit(0);
 	}
 	check_nav_keys(keycode, d);
-	refresh(d);
 	if (keycode == 48 && !d->menuflag)
 		d->menuflag = 1;
 	else if (keycode == 48 && d->menuflag)
 		d->menuflag = 0;
+	refresh(d);
 	ft_putstr("Key press: ");
 	ft_putnbr(keycode);
 	ft_putchar('\n');

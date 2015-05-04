@@ -12,6 +12,16 @@
 
 #include "fdf_v2.h"
 
+void	draw_string_center(t_data *d, int posY, int color, char *str)
+{
+	int	posX;
+	int	len;
+
+	len = ft_strlen(str);
+	posX	= WIN_X / 2 - (len * 10 / 2);
+	mlx_string_put(d->mlx_id, d->win_id, posX, posY, color, str);
+}
+
 void	draw_menu(t_data *d)
 {
 	char	*str;
@@ -20,18 +30,20 @@ void	draw_menu(t_data *d)
 	t_tmp	t;
 	
 	init_t_tmp(&t);
-	t.j = WIN_Y / 3;
-	while (t.j <= 2 * WIN_Y / 3)
+	d->menu_y_anchor = WIN_Y / 3;
+	d->menu_x_anchor = WIN_X / 4;
+	t.j = d->menu_y_anchor + 1;
+	while (t.j <= 2 * d->menu_y_anchor)
 	{
-		t.i = WIN_X / 4;
-		while (t.i <= 3 * WIN_X / 4)
+		t.i = d->menu_x_anchor + 1;
+		while (t.i <= 3 * d->menu_x_anchor)
 		{
-			mlx_pixel_put(d->mlx_id, d->win_id, t.i, t.j, 0xCCCCCC);
+			mlx_pixel_put(d->mlx_id, d->win_id, t.i, t.j, 0x656565);
 			t.i = t.i + 2;
 		}
 		t.j = t.j + 2;
 	}
-	mlx_string_put(d->mlx_id, d->win_id, 0, 0, 0xFFFFFF, str);
+	draw_string_center(d, d->menu_y_anchor, 0xFFFFFF, str);
 }
 
 void	check_nav_keys(int keycode, t_data *d)
