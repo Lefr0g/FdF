@@ -27,20 +27,12 @@ int	key_hook(int keycode, t_data *d)
 		mlx_destroy_window(d->mlx_id, d->win_id);
 		exit(0);
 	}
-	if (keycode == 123)
-		d->left_added--;
-	if (keycode == 124)
-		d->left_added++;
-	if (keycode == 125)
-		d->top_added = d->top_added + 1;
-	if (keycode == 126)
-		d->top_added = d->top_added - 1;
-	if (keycode == 49)
-	{
-		d->top_added = 0;
-		d->left_added = 0;
-	}
+	check_nav_keys(keycode, d);
 	refresh(d);
+	if (keycode == 48 && !d->menuflag)
+		d->menuflag = 1;
+	else if (keycode == 48 && d->menuflag)
+		d->menuflag = 0;
 	ft_putstr("Key press: ");
 	ft_putnbr(keycode);
 	ft_putchar('\n');
@@ -69,6 +61,8 @@ int	expose_hook(t_data *d)
 		t.j++;
 		calc_y(&t, d);
 	}
+	if (d->menuflag)
+		draw_menu(d);
 	return (0);
 }
 

@@ -23,6 +23,7 @@
 # define WIN_Y 600
 # define WIN_TITLE "FdF"
 # define LOADBAR_MODE "bar"
+# define SPACING_INIT 20
 
 typedef struct	s_args
 {
@@ -40,10 +41,12 @@ typedef struct	s_data
 	void		*mlx_id;
 	void		*win_id;
 	int			spacing;
+	int			spacing_init;
 	int			top_offset;
 	int			left_offset;
 	int			top_added;
 	int			left_added;
+	int			menuflag;
 }				t_data;
 
 typedef struct	s_tmp
@@ -85,7 +88,11 @@ void			my_getnbr(t_data *d, t_tmp *t);
 int				pick_color(t_tmp *t, t_data *d);
 void			draw_pixel(t_tmp *t, t_data *d);
 int				draw_map(t_data *d);
+void			draw_menu(t_data *d);
 int				expose_hook(t_data *d);
+int				key_hook(int keycode, t_data *d);
+void			check_nav_keys(int keycode, t_data *d);
+int				refresh(t_data *d);
 
 int				calc_x(t_tmp *t, t_data *d);
 int				calc_y(t_tmp *t, t_data *d);

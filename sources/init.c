@@ -28,7 +28,9 @@ void	init_draw(t_data *d)
 {
 	d->top_offset = WIN_Y / 2;
 	d->left_offset = WIN_X / 2;
-	d->spacing = 20;
+	d->spacing_init = SPACING_INIT;
+	d->spacing = d->spacing_init;
 	d->top_added = 0;
 	d->left_added = 0;
+	d->menuflag = 0;
 }
