@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 13:24:56 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/07 15:37:42 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/07 17:34:16 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,6 @@ void	init_draw(t_data *d)
 	d->top_added = 0;
 	d->left_added = 0;
 	d->menuflag = 0;
+	d->cte1 = 1;
+	d->cte2 = 1;
 }

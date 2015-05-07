@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/07 15:37:25 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/07 17:48:08 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct	s_data
 	int			left_offset;
 	int			top_added;
 	int			left_added;
+	float		cte1;
+	float		cte2;
 	int			menuflag;
 	int			menu_y_anchor;
 	int			menu_x_anchor;
@@ -62,9 +64,9 @@ typedef struct	s_tmp
 	int			fd;
 	int			pos;
 	int			prev;
-	int			x;
-	int			y;
-	int			z;
+	float		x;
+	float		y;
+	float		z;
 	int			flag;
 	char		*buf;
 }				t_tmp;
@@ -97,6 +99,7 @@ int				pick_color(t_tmp *t, t_data *d);
 void			draw_pixel(t_tmp *t, t_data *d);
 int				draw_loop(t_data *d);
 int				draw_map_raw(t_data *d);
+int				draw_map_iso(t_data *d);
 void			draw_menu(t_data *d);
 void			draw_string_center(t_data *d, int pos_y, int color, char *str);
 int				expose_hook(t_data *d);
@@ -106,5 +109,8 @@ int				refresh(t_data *d);
 
 int				calc_x(t_tmp *t, t_data *d);
 int				calc_y(t_tmp *t, t_data *d);
+int				calc_x_iso(t_tmp *t, t_data *d);
+int				calc_y_iso(t_tmp *t, t_data *d);
+int				calc_x_y_iso(t_tmp *t, t_data *d);
 
 #endif
