@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 17:40:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/09 19:01:44 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/07 13:18:39 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,11 @@ int	key_hook(int keycode, t_data *d)
 
 int	expose_hook(t_data *d)
 {
-	t_tmp	t;
-
-	t.j = 0;
-	while (calc_y(&t, d) < 0)
-		t.j++;
-	while (t.j < d->linecount && t.y <= WIN_Y)
-	{
-		t.i = 0;
-		while (calc_x(&t, d) < 0)
-			t.i++;
-		while (t.i < d->meta[t.j] && t.x <= WIN_X)
-		{
-			if (t.x >= 0 && t.y >= 0)
-				draw_pixel(&t, d);
-			t.i++;
-			calc_x(&t, d);
-		}
-		t.j++;
-		calc_y(&t, d);
-	}
-	if (d->menuflag)
-		draw_menu(d);
+	draw_map_raw(d);
 	return (0);
 }
 
-int	draw_map(t_data *d)
+int	draw_loop(t_data *d)
 {
 	init_draw(d);
 	if (!(d->mlx_id = mlx_init()))

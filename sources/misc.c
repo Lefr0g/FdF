@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 16:39:50 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/09 16:40:28 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/07 13:49:08 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,10 @@ int		my_check_args(int min, int max, int argc, char **argv)
 		return (0);
 }
 
+int		my_min_one(int num, int denom)
+{
+	if (num / denom < 1)
+		return (1);
+	else
+		return (num / denom);
+}

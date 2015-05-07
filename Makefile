@@ -6,7 +6,7 @@
 #    By: amulin <amulin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/02/17 11:06:17 by amulin            #+#    #+#              #
-#    Updated: 2015/04/09 17:47:56 by amulin           ###   ########.fr        #
+#    Updated: 2015/05/07 13:17:40 by amulin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ VISUFLAGS = -framework OpenGL -framework AppKit
 LIBFLAGS = -Llibft/ -lft -Lminilibx_macos/ -lmlx
 
 SRCS = main_v2.c preliminary.c data_processing.c verbose.c misc.c fdf_draw.c \
-	   fdf_draw_2.c verbose_2.c fdf_calc.c init.c
+	   fdf_draw_2.c fdf_draw_map.c verbose_2.c fdf_calc.c init.c
 
 SRCDIR = sources/
 

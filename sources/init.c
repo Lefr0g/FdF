@@ -1,14 +1,14 @@
-/* *****************************************************************************
- *
- *
- *
- *
- *
- *
- *
- *
- *
-*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/05/07 13:24:56 by amulin            #+#    #+#             */
+/*   Updated: 2015/05/07 15:37:42 by amulin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "fdf_v2.h"
 
@@ -22,13 +22,14 @@ void	init_t_tmp(t_tmp *t)
 	t->x = 0;
 	t->y = 0;
 	t->z = 0;
+	t->flag = 0;
 }
 
 void	init_draw(t_data *d)
 {
 	d->top_offset = WIN_Y / 2;
 	d->left_offset = WIN_X / 2;
-	d->spacing_init = SPACING_INIT;
+	d->spacing_init = my_min_one(WIN_X, d->longestline);
 	d->spacing = d->spacing_init;
 	d->top_added = 0;
 	d->left_added = 0;

@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 16:35:53 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/09 17:24:45 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/07 16:10:48 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,9 @@ void	print_meta(t_data *d)
 	ft_putstr(" by ");
 	ft_putnbr(d->linecount);
 	ft_putendl(" at its widest\n");
+	ft_putstr("Altitude varies from ");
+	ft_putnbr(d->min_value);
+	ft_putstr(" to ");
+	ft_putnbr(d->max_value);
+	ft_putendl("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/09 18:07:08 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/07 15:37:25 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ typedef struct	s_data
 	int			longestline;
 	int			*meta;
 	int			**rawmap;
+	int			min_value;
+	int			max_value;
 	void		*mlx_id;
 	void		*win_id;
 	int			spacing;
@@ -63,6 +65,7 @@ typedef struct	s_tmp
 	int			x;
 	int			y;
 	int			z;
+	int			flag;
 	char		*buf;
 }				t_tmp;
 
@@ -80,19 +83,22 @@ int				my_print_loadbar(int pos, int end, int prev, char *mode);
 int				my_open(char *filename);
 char			*my_realloc(char **str, int newsize);
 int				my_get_min(int i, int j);
+int				my_min_one(int num, int denom);
+int				my_get_min_max(int nbr, t_data *d, int *flag);
 
 int				check_args(t_args *a, int argc, char **argv);
 int				check_valid_data(char *filename, t_data *d);
 int				check_filesize(char *filename);
 int				count_lines(char *filename, int filesize);
 int				parse(char *filename, t_data *d);
-void			my_getnbr(t_data *d, t_tmp *t);
+int				my_getnbr(t_data *d, t_tmp *t);
 
 int				pick_color(t_tmp *t, t_data *d);
 void			draw_pixel(t_tmp *t, t_data *d);
-int				draw_map(t_data *d);
+int				draw_loop(t_data *d);
+int				draw_map_raw(t_data *d);
 void			draw_menu(t_data *d);
-void			draw_string_center(t_data *d, int posY, int color, char *str);
+void			draw_string_center(t_data *d, int pos_y, int color, char *str);
 int				expose_hook(t_data *d);
 int				key_hook(int keycode, t_data *d);
 void			check_nav_keys(int keycode, t_data *d);

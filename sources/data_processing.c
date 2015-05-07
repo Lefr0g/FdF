@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 16:28:56 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/09 17:01:46 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/07 16:03:54 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		parse(char *filename, t_data *d)
 	return (0);
 }
 
-void	my_getnbr(t_data *d, t_tmp *t)
+int		my_getnbr(t_data *d, t_tmp *t)
 {
 	d->rawmap[t->i] = (int*)malloc(sizeof(int) * ft_strlen(t->buf));
 	t->j = 0;
@@ -81,7 +81,7 @@ void	my_getnbr(t_data *d, t_tmp *t)
 	{
 		while (!ft_isdigit(t->buf[t->j]) && (t->buf[t->j] != '-'))
 			t->j++;
-		d->rawmap[t->i][t->k] = ft_atoi(&(t->buf[t->j]));
+		d->rawmap[t->i][t->k] = my_get_min_max(ft_atoi(&(t->buf[t->j])), d, &(t->flag));
 		while (ft_isdigit(t->buf[t->j]) || t->buf[t->j] == '-')
 			t->j++;
 		t->j++;
@@ -89,4 +89,20 @@ void	my_getnbr(t_data *d, t_tmp *t)
 	}
 	d->meta[t->i] = t->k;
 	t->i++;
+	return (0);
+}
+
+int		my_get_min_max(int nbr, t_data *d, int *flag)
+{
+	if (*flag == 0)
+	{
+		d->min_value = nbr;
+		d->max_value = nbr;
+		*flag = 1;
+	}
+	if (nbr < d->min_value)
+		d->min_value = nbr;
+	if (nbr > d->max_value)
+		d->max_value = nbr;
+	return (nbr);
 }
