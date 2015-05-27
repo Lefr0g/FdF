@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 17:40:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/07 17:47:24 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/27 16:06:35 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,40 @@
 
 int	refresh(t_data *d)
 {
-	mlx_clear_window(d->mlx_id, d->win_id);
-	expose_hook(d);
+	(void)d;
+//	mlx_clear_window(d->mlx_id, d->win_id);
+//	expose_hook(d);
 	return (0);
 }
 
 int	key_hook(int keycode, t_data *d)
 {
-	if (keycode == 53)
+	if (keycode == ESC)
 	{
 		ft_putendl("\nProgram terminated by user");
 		mlx_destroy_window(d->mlx_id, d->win_id);
 		exit(0);
 	}
 	check_nav_keys(keycode, d);
-	if (keycode == 48 && !d->menuflag)
-		d->menuflag = 1;
-	else if (keycode == 48 && d->menuflag)
-		d->menuflag = 0;
-	refresh(d);
-	ft_putstr("Key press: ");
-	ft_putnbr(keycode);
-	ft_putchar('\n');
+//	if (keycode == TAB && !d->menuflag)
+//		d->menuflag = 1;
+//	else if (keycode == TAB && d->menuflag)
+//		d->menuflag = 0;
+	mlx_clear_window(d->mlx_id, d->win_id);
+	expose_hook(d);
+//	ft_putstr("Key press: ");
+//	ft_putnbr(keycode);
+//	ft_putchar('\n');
 	return (0);
 }
 
 int	expose_hook(t_data *d)
 {
-	draw_map_raw(d);
+//	my_clear_window(d);
+//	draw_map_raw(d);
+	draw_map_iso(d);
+	if (d->menuflag)
+		draw_menu(d);
 	return (0);
 }
 

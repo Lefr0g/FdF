@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 10:54:32 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/07 12:15:22 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/27 16:06:50 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,23 @@ void	draw_menu(t_data *d)
 
 void	check_nav_keys(int keycode, t_data *d)
 {
-	if (keycode == 123)
+	if (keycode == LEFT_ARROW)
 		d->left_added = d->left_added + my_min_one(my_min_one(d->longestline,
 					10), my_min_one(d->spacing, d->spacing_init));
-	if (keycode == 124)
+	else if (keycode == RIGHT_ARROW)
 		d->left_added = d->left_added - my_min_one(my_min_one(d->longestline,
 					10), my_min_one(d->spacing, d->spacing_init));
-	if (keycode == 125)
+	else if (keycode == DOWN_ARROW)
 		d->top_added = d->top_added - my_min_one(my_min_one(d->longestline,
 					10), my_min_one(d->spacing, d->spacing_init));
-	if (keycode == 126)
+	else if (keycode == TOP_ARROW)
 		d->top_added = d->top_added + my_min_one(my_min_one(d->longestline,
 					10), my_min_one(d->spacing, d->spacing_init));
-	if (keycode == 30)
+	else if (keycode == CLOSE_BRACKET)
 		d->spacing = d->spacing * 2;
-	if (keycode == 33)
+	else if (keycode == OPEN_BRACKET)
 		d->spacing = my_min_one(d->spacing, 2);
-	if (keycode == 49)
+	else if (keycode == SPACEBAR)
 	{
 		d->spacing = d->spacing_init;
 		d->top_added = 0;

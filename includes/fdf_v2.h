@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/07 17:48:08 by amulin           ###   ########.fr       */
+/*   Updated: 2015/05/27 16:06:55 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@
 # define WIN_TITLE "FdF"
 # define LOADBAR_MODE "text"
 # define SPACING_INIT 20
+# define ESC 53
+# define TAB 48
+# define TOP_ARROW 126
+# define DOWN_ARROW 125
+# define RIGHT_ARROW 124
+# define LEFT_ARROW 123
+# define OPEN_BRACKET 33
+# define CLOSE_BRACKET 30
+# define SPACEBAR 49
 
 typedef struct	s_args
 {
@@ -61,6 +70,7 @@ typedef struct	s_tmp
 	int			j;
 	int			k;
 	int			l;
+	int			i_start;
 	int			fd;
 	int			pos;
 	int			prev;
@@ -106,9 +116,10 @@ int				expose_hook(t_data *d);
 int				key_hook(int keycode, t_data *d);
 void			check_nav_keys(int keycode, t_data *d);
 int				refresh(t_data *d);
+int				my_clear_window(t_data *d);
 
-int				calc_x(t_tmp *t, t_data *d);
-int				calc_y(t_tmp *t, t_data *d);
+int				calc_x_flat(t_tmp *t, t_data *d);
+int				calc_y_flat(t_tmp *t, t_data *d);
 int				calc_x_iso(t_tmp *t, t_data *d);
 int				calc_y_iso(t_tmp *t, t_data *d);
 int				calc_x_y_iso(t_tmp *t, t_data *d);
