@@ -34,6 +34,7 @@ int	key_hook(int keycode, t_data *d)
 //	else if (keycode == TAB && d->menuflag)
 //		d->menuflag = 0;
 	mlx_clear_window(d->mlx_id, d->win_id);
+	ft_putendl("Running keyhook");
 	expose_hook(d);
 //	ft_putstr("Key press: ");
 //	ft_putnbr(keycode);
@@ -56,11 +57,11 @@ int	draw_loop(t_data *d)
 	init_draw(d);
 	if (!(d->mlx_id = mlx_init()))
 		return (-1);
+//	mlx_do_key_autorepeatoff(d->mlx_id);
 	if (!(d->win_id = mlx_new_window(d->mlx_id, WIN_X, WIN_Y, WIN_TITLE)))
 		return (-1);
-	mlx_expose_hook(d->win_id, &(expose_hook), d);
 	mlx_key_hook(d->win_id, &(key_hook), d);
+	mlx_expose_hook(d->win_id, &(expose_hook), d);
 	mlx_loop(d->mlx_id);
-	sleep(5);
 	return (0);
 }

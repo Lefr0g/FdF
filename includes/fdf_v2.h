@@ -114,7 +114,7 @@ void			draw_menu(t_data *d);
 void			draw_string_center(t_data *d, int pos_y, int color, char *str);
 int				expose_hook(t_data *d);
 int				key_hook(int keycode, t_data *d);
-void			check_nav_keys(int keycode, t_data *d);
+int				check_nav_keys(int keycode, t_data *d);
 int				refresh(t_data *d);
 int				my_clear_window(t_data *d);
 

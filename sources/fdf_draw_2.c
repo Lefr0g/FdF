@@ -43,7 +43,7 @@ void	draw_menu(t_data *d)
 	draw_string_center(d, d->menu_y_anchor, 0xFFFFFF, "---- MENU ----");
 }
 
-void	check_nav_keys(int keycode, t_data *d)
+int		check_nav_keys(int keycode, t_data *d)
 {
 	if (keycode == LEFT_ARROW)
 		d->left_added = d->left_added + my_min_one(my_min_one(d->longestline,
@@ -67,6 +67,9 @@ void	check_nav_keys(int keycode, t_data *d)
 		d->top_added = 0;
 		d->left_added = 0;
 	}
+	else
+		return (1);
+	return (0);
 }
 
 int		pick_color(t_tmp *t, t_data *d)
