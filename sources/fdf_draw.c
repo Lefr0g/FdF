@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 17:40:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/27 16:06:35 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/05 16:46:37 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	key_hook(int keycode, t_data *d)
 //		d->menuflag = 0;
 	mlx_clear_window(d->mlx_id, d->win_id);
 	expose_hook(d);
-//	ft_putstr("Key press: ");
-//	ft_putnbr(keycode);
-//	ft_putchar('\n');
+	ft_putstr("Key press: ");
+	ft_putnbr(keycode);
+	ft_putchar('\n');
 	return (0);
 }
 
