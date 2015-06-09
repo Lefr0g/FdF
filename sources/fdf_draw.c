@@ -34,7 +34,7 @@ int	key_hook(int keycode, t_data *d)
 //	else if (keycode == TAB && d->menuflag)
 //		d->menuflag = 0;
 	mlx_clear_window(d->mlx_id, d->win_id);
-	ft_putendl("Running keyhook");
+//	ft_putendl("Running keyhook");
 	expose_hook(d);
 	ft_putstr("Key press: ");
 	ft_putnbr(keycode);
@@ -47,6 +47,7 @@ int	expose_hook(t_data *d)
 //	my_clear_window(d);
 //	draw_map_raw(d);
 	draw_map_iso(d);
+	ft_putstr("Expose check\n");
 	if (d->menuflag)
 		draw_menu(d);
 	return (0);

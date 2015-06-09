@@ -40,11 +40,17 @@ int	fill_str_method(t_params *p)
 {
 	int	len;
 	int	pos;
+	int	buf;
 
 	p->img_str = mlx_get_data_addr(p->img_id, p->depth, p->size_line, p->endian);
 	pos = 0;
 	while (pos < p->width * p->height)
 	{
+		buf = mlx_get_color_value(p->mlx_id, 0xFFFFFF);
+		buf = buf >> 8;
+		p->img_str[pos] = buf;
+		pos = pos + 1;
+
 //		p->img_str[pos] = mlx_get_color_value(p->mlx_id, 0xFFFFFF);
 //		ft_putnbr(p->img_str[pos]);
 //		ft_putchar('\n');
@@ -117,7 +123,7 @@ int	main(int argc, char **argv)
 	p.pixel_size = sizeof(char) * 3;
 	p.depth = (int*)malloc(p.pixel_size);
 	*(p.depth) = p.pixel_size;
-	p.size_line = (int*)malloc(p.pixel_size * p.width);
+	p.size_line = (int*)malloc(sizeof(int));
 	*(p.size_line) = p.pixel_size * p.width;
 	p.endian = (int*)malloc(sizeof(int));
 	*(p.endian) = 0;
