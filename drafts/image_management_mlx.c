@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/08 10:54:08 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/08 15:44:54 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/10 14:09:42 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int			fill_str_method(t_image *p)
 	return (0);
 }
 
-int			fill_classic_xy(t_image *p)
+int			fill_classic_xy(t_image *p, int color)
 {
 	p->img_str = mlx_get_data_addr(p->img_id, p->depth, p->size_line, p->endian);
 	p->x = 0;
@@ -102,7 +102,7 @@ int			fill_classic_xy(t_image *p)
 		p->x = 0;
 		while (p->x < p->width)
 		{
-			image_pixel_put(p, p->x, p->y, 0xFFFFFF);
+			image_pixel_put(p, p->x, p->y, color);
 			p->x++;
 		}
 		p->y++;
@@ -112,11 +112,29 @@ int			fill_classic_xy(t_image *p)
 
 int			image_tests(t_image *p)
 {
+	static int	flag = 0;
+
 	if (p->img_id)
 		mlx_destroy_image(p->mlx_id, p->img_id);
 	if ((p->img_id = mlx_new_image(p->mlx_id, p->width, p->height)))
+	{
 //		fill_str_method(p);
-		fill_classic_xy(p);
+		if (!flag)
+			fill_classic_xy(p, 0xFFFFFF);
+		else if (flag == 1)
+			fill_classic_xy(p, 0x00FFFF);
+		else if (flag == 2)
+			fill_classic_xy(p, 0xFF00FF);
+		else if (flag == 3)
+		{
+			fill_classic_xy(p, 0x000000);
+			flag = -1;
+		}
+		flag++;
+		ft_putstr("Flag = ");
+		ft_putnbr(flag);
+		ft_putchar('\n');
+	}
 	return (0);
 }
 

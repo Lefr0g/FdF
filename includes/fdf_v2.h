@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/27 16:06:55 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/10 16:31:27 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 # define BUF_SIZE 100
 # define LIMIT_PRINT 5000
-# define WIN_X 800
-# define WIN_Y 600
+# define WIN_X 1920
+# define WIN_Y 1080
 # define WIN_TITLE "FdF"
 # define LOADBAR_MODE "text"
 # define SPACING_INIT 20
@@ -34,14 +34,26 @@
 # define CLOSE_BRACKET 30
 # define SPACEBAR 49
 
-typedef struct	s_args
+typedef unsigned int	t_uint32;
+
+typedef struct	s_image
 {
-	char		*filename;
-	char		*proj;
-}				t_args;
+	void		*id;
+	char		*str;
+	int			width;
+	int			height;
+	int			bytes_per_pixel;
+	int			*depth;
+	int			*size_line;
+	int			*endian;
+	int			x;
+	int			y;
+}				t_image;
 
 typedef struct	s_data
 {
+	char		*filename;
+	char		*proj;
 	int			filesize;
 	int			linecount;
 	int			longestline;
@@ -62,6 +74,7 @@ typedef struct	s_data
 	int			menuflag;
 	int			menu_y_anchor;
 	int			menu_x_anchor;
+	t_image		*img;
 }				t_data;
 
 typedef struct	s_tmp
@@ -98,7 +111,7 @@ int				my_get_min(int i, int j);
 int				my_min_one(int num, int denom);
 int				my_get_min_max(int nbr, t_data *d, int *flag);
 
-int				check_args(t_args *a, int argc, char **argv);
+int				check_args(t_data *d, int argc, char **argv);
 int				check_valid_data(char *filename, t_data *d);
 int				check_filesize(char *filename);
 int				count_lines(char *filename, int filesize);
@@ -123,5 +136,11 @@ int				calc_y_flat(t_tmp *t, t_data *d);
 int				calc_x_iso(t_tmp *t, t_data *d);
 int				calc_y_iso(t_tmp *t, t_data *d);
 int				calc_x_y_iso(t_tmp *t, t_data *d);
+
+t_uint32		my_endian_swap(unsigned int input);
+t_uint32		rgb_to_mlx(t_data *d, int color);
+t_image			image_init(int width, int height);
+int				image_pixel_put(t_data *d, int x, int y, int color);
+int				expose_img(t_data *d, int x, int y);
 
 #endif

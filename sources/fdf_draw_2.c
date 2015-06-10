@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 10:54:32 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/27 16:06:50 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/10 16:28:00 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ int		pick_color(t_tmp *t, t_data *d)
 
 void	draw_pixel(t_tmp *t, t_data *d)
 {
-	mlx_pixel_put(d->mlx_id, d->win_id, t->x, t->y, pick_color(t, d));
+	image_pixel_put(d, t->x, t->y, pick_color(t, d));
 }

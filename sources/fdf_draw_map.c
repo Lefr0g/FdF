@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 13:10:40 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/27 16:06:53 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/10 16:29:21 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	draw_map_iso(t_data *d)
 	t_tmp	t;
 
 	init_t_tmp(&t);
+	d->img->str = mlx_get_data_addr(d->img->id, d->img->depth, 
+		d->img->size_line, d->img->endian);
 	while (t.j < d->linecount)
 	{
 		t.i = 0;
@@ -49,12 +51,13 @@ int	draw_map_iso(t_data *d)
 		{
 			calc_x_iso(&t, d);
 			calc_y_iso(&t, d);
-			if (t.x >= 0 && t.x <= WIN_X && t.y >= 0 && t.y <= WIN_Y)
+			if (t.x >= 0 && t.x < WIN_X && t.y >= 0 && t.y < WIN_Y)
 				draw_pixel(&t, d);
 			t.i++;
 		}
 		t.j++;
 	}
+	expose_img(d, 0, 0);
 	return (0);
 }
 

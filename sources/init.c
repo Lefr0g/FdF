@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 13:24:56 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/27 16:06:44 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/10 15:58:44 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,6 @@ void	init_draw(t_data *d)
 	d->menuflag = 0;
 	d->cte1 = 1;
 	d->cte2 = 1;
+	d->img = (t_image*)malloc(sizeof(t_image));
+	*(d->img) = image_init(WIN_X, WIN_Y);
 }

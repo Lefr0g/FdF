@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/07 17:23:22 by amulin            #+#    #+#             */
-/*   Updated: 2015/04/09 17:19:03 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/10 14:55:41 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ int		check_filesize(char *filename)
 	return (filesize);
 }
 
-int		check_args(t_args *a, int argc, char **argv)
+int		check_args(t_data *d, int argc, char **argv)
 {
 	int	fd;
 
 	if (argc < 2 || argc > 3)
 		return (-1);
 	if ((fd = my_open(argv[1])) >= 0 && !close(fd))
-		a->filename = argv[1];
+		d->filename = argv[1];
 	else
 	{
 		ft_putendl("Error: unknown file name\n");
@@ -59,7 +59,7 @@ int		check_args(t_args *a, int argc, char **argv)
 	{
 		if (!ft_strcmp(argv[2], "iso") || !ft_strcmp(argv[2], "conic")
 					|| !ft_strcmp(argv[2], "parallel"))
-			a->proj = argv[2];
+			d->proj = argv[2];
 		else
 		{
 			ft_putendl("Error: projection type unknown");

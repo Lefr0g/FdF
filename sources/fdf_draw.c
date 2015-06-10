@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 17:40:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/05 16:46:37 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/10 16:28:07 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ int	key_hook(int keycode, t_data *d)
 		exit(0);
 	}
 	check_nav_keys(keycode, d);
-//	if (keycode == TAB && !d->menuflag)
-//		d->menuflag = 1;
-//	else if (keycode == TAB && d->menuflag)
-//		d->menuflag = 0;
+	if (keycode == TAB && !d->menuflag)
+		d->menuflag = 1;
+	else if (keycode == TAB && d->menuflag)
+		d->menuflag = 0;
 	mlx_clear_window(d->mlx_id, d->win_id);
 //	ft_putendl("Running keyhook");
 	expose_hook(d);
-	ft_putstr("Key press: ");
-	ft_putnbr(keycode);
-	ft_putchar('\n');
+//	ft_putstr("Key press: ");
+//	ft_putnbr(keycode);
+//	ft_putchar('\n');
 	return (0);
 }
 
@@ -46,8 +46,12 @@ int	expose_hook(t_data *d)
 {
 //	my_clear_window(d);
 //	draw_map_raw(d);
-	draw_map_iso(d);
-	ft_putstr("Expose check\n");
+	if (d->img->id)
+		mlx_destroy_image(d->mlx_id, d->img->id);
+	if ((d->img->id = mlx_new_image(d->mlx_id, d->img->width,
+					d->img->height)))
+		draw_map_iso(d);
+//	ft_putstr("Expose check\n");
 	if (d->menuflag)
 		draw_menu(d);
 	return (0);
@@ -63,6 +67,7 @@ int	draw_loop(t_data *d)
 		return (-1);
 	mlx_key_hook(d->win_id, &(key_hook), d);
 	mlx_expose_hook(d->win_id, &(expose_hook), d);
+//	ft_putendl("Loop Check");
 	mlx_loop(d->mlx_id);
 	return (0);
 }
