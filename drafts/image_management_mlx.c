@@ -13,7 +13,9 @@
 #include "mlx.h"
 #include "libft.h"
 
-typedef struct	s_params
+typedef unsigned int	t_uint32;
+
+typedef struct	s_image
 {
 	void	*mlx_id;
 	void	*win_id;
@@ -21,87 +23,104 @@ typedef struct	s_params
 	char	*img_str;
 	int		width;
 	int		height;
-	int		pixel_size;
+	int		bytes_per_pixel;
 	int		*depth;
 	int		*size_line;
 	int		*endian;
-	int		i;
-	int		j;
-}				t_params;
+	int		x;
+	int		y;
+}				t_image;
 
-int	expose_img(t_params *p)
+int	expose_img(t_image *p)
 {
 	if (p->img_id)
 		mlx_put_image_to_window(p->mlx_id, p->win_id, p->img_id, 0, 0);
 	return (0);
 }
 
-int	fill_str_method(t_params *p)
+t_uint32	my_endian_swap(unsigned int input)
 {
-	int	len;
-	int	pos;
-	int	buf;
+	t_uint32	output;
 
-	p->img_str = mlx_get_data_addr(p->img_id, p->depth, p->size_line, p->endian);
-	pos = 0;
-	while (pos < p->width * p->height)
+	if (sizeof(input) != 4)
 	{
-		buf = mlx_get_color_value(p->mlx_id, 0xFFFFFF);
-		buf = buf >> 8;
-		p->img_str[pos] = buf;
-		pos = pos + 1;
-
-//		p->img_str[pos] = mlx_get_color_value(p->mlx_id, 0xFFFFFF);
-//		ft_putnbr(p->img_str[pos]);
-//		ft_putchar('\n');
-//		sleep(1);
-//		pos = pos + (p->pixel_size);	
-//		pos = pos + sizeof(p->depth);
+		ft_putendl("error: int size not supported. End of program");
+		exit(0);
 	}
-	len = ft_strlen(p->img_str);
-	ft_putnbr(len);
-	ft_putchar('\n');
-	expose_img(p);
+	output = (input << 24);
+	output |= ((input << 8) & 0x00FF0000);
+	output |= ((input >> 8) & 0x0000FF00);
+	output |= (input >> 24);
+	return (output);
+}
+
+t_uint32	rgb_to_mlx(t_image *img, int color)
+{
+	t_uint32	color_out;
+
+	if (*(img->endian) == 1)
+		color_out = my_endian_swap(color);
+	return (mlx_get_color_value(img->mlx_id, color));
+}
+
+int			image_pixel_put(t_image *img, int x, int y, int color)
+{
+	t_uint32	mlx_color;
+	t_uint32	index;
+
+	mlx_color = rgb_to_mlx(img, color);
+	index = x * img->bytes_per_pixel + y * *(img->size_line);
+	ft_memcpy(&(img->img_str[index]), &mlx_color, img->bytes_per_pixel);
 	return (0);
 }
 
-int	fill_classic_xy(t_params *p)
+int			fill_str_method(t_image *p)
 {
-	int	pos;
+	int			pos;
+	t_uint32	color;
 
-	pos = 0;
 	p->img_str = mlx_get_data_addr(p->img_id, p->depth, p->size_line, p->endian);
-	p->i = 0;
-	p->j = 0;
-	while (p->j < p->height)
+	pos = 0;
+	while (pos < *(p->size_line) * p->height)
 	{
-		p->i = 0;
-		while (p->i < p->width)
+		color = mlx_get_color_value(p->mlx_id, 0xFFFFFF);
+		if (*(p->endian) == 1)
+			color = my_endian_swap(color);
+		ft_memcpy(p->img_str + pos, &color, p->bytes_per_pixel);
+		pos = pos + p->bytes_per_pixel;
+	}
+	return (0);
+}
+
+int			fill_classic_xy(t_image *p)
+{
+	p->img_str = mlx_get_data_addr(p->img_id, p->depth, p->size_line, p->endian);
+	p->x = 0;
+	p->y = 0;
+	while (p->y < p->height)
+	{
+		p->x = 0;
+		while (p->x < p->width)
 		{
-			p->img_str[pos] = mlx_get_color_value(p->mlx_id, 0xFFFFFF);
-//			p->img_str[pos + 1] = mlx_get_color_value(p->mlx_id, 0xFFFFFF);
-//			p->img_str[pos + 2] = mlx_get_color_value(p->mlx_id, 0xFFFFFF);
-//			p->img_str[pos + 3] = mlx_get_color_value(p->mlx_id, 0);
-			pos = pos + (p->pixel_size);
-			p->i++;
+			image_pixel_put(p, p->x, p->y, 0xFFFFFF);
+			p->x++;
 		}
-		p->j++;
-//		pos = pos + *(p->size_line);
+		p->y++;
 	}
-	expose_img(p);
 	return (0);
 }
 
-int	image_tests(t_params *p)
+int			image_tests(t_image *p)
 {
 	if (p->img_id)
 		mlx_destroy_image(p->mlx_id, p->img_id);
-	if ((p->img_id = mlx_new_image(p->mlx_id, p->width / 2, p->height / 2)))
-		fill_str_method(p);
+	if ((p->img_id = mlx_new_image(p->mlx_id, p->width, p->height)))
+//		fill_str_method(p);
+		fill_classic_xy(p);
 	return (0);
 }
 
-int	check_key(int keycode, t_params *p)
+int			check_key(int keycode, t_image *p)
 {
 	ft_putnbr(keycode);
 	ft_putchar('\n');
@@ -112,37 +131,36 @@ int	check_key(int keycode, t_params *p)
 	}
 	if (keycode == 49)
 		image_tests(p);
+	expose_img(p);
 	return (0);
 }
 
-int	main(int argc, char **argv)
+t_image		image_init(int width, int height)
 {
-	t_params	p;
+	t_image	img;
+	
+	img.width = width;
+	img.height = height;
+	img.img_id = NULL;
+	img.bytes_per_pixel = 4;
+	img.depth = (int*)malloc(sizeof(int));
+	*(img.depth) = img.bytes_per_pixel * 8;
+	img.size_line = (int*)malloc(sizeof(int));
+	*(img.size_line) = img.bytes_per_pixel * img.width;
+	img.endian = (int*)malloc(sizeof(int));
+	*(img.endian) = 0;
+	return (img);
+}
 
-	p.img_id = NULL;
-	p.pixel_size = sizeof(char) * 3;
-	p.depth = (int*)malloc(p.pixel_size);
-	*(p.depth) = p.pixel_size;
-	p.size_line = (int*)malloc(sizeof(int));
-	*(p.size_line) = p.pixel_size * p.width;
-	p.endian = (int*)malloc(sizeof(int));
-	*(p.endian) = 0;
+int			main(void)
+{
+	t_image	img;
 
-	if (argc == 3)
-	{
-		p.width = ft_atoi(argv[1]);
-		p.height = ft_atoi(argv[2]);
-	}
-	else
-	{
-		p.width = 800;
-		p.height = 600;
-	}
-	ft_putendl("Hello World!");
-	p.mlx_id = mlx_init();
-	p.win_id = mlx_new_window(p.mlx_id, p.width, p.height, "Check Window");
-	mlx_expose_hook(p.win_id, &(expose_img), &p);
-	mlx_key_hook(p.win_id, &(check_key), &p);
-	mlx_loop(p.mlx_id);
+	img = image_init(800, 200);
+	img.mlx_id = mlx_init();
+	img.win_id = mlx_new_window(img.mlx_id, img.width, img.height, "Check Window");
+	mlx_expose_hook(img.win_id, &(expose_img), &img);
+	mlx_key_hook(img.win_id, &(check_key), &img);
+	mlx_loop(img.mlx_id);
 	return (0);
 }
