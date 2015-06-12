@@ -60,10 +60,10 @@ int	expose_hook(t_data *d)
 
 int	draw_loop(t_data *d)
 {
+	if (!(d->mlx_id = mlx_init()))
+		return (-1);
 	init_draw(d);
 	if (menu_init(d))
-		return (-1);
-	if (!(d->mlx_id = mlx_init()))
 		return (-1);
 //	mlx_do_key_autorepeatoff(d->mlx_id);
 	if (!(d->win_id = mlx_new_window(d->mlx_id, WIN_X, WIN_Y, WIN_TITLE)))

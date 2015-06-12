@@ -82,12 +82,12 @@ int			menu_init(t_data *d)
 			d->menu_bg->depth, d->menu_bg->size_line,
 			d->menu_bg->endian);
 	ft_putendl("Debug check 3");
-	x = WIN_X / 4;
-	y = WIN_Y / 3;
-	while (y < 2 * (WIN_Y / 3))
+	x = 0;
+	y = 0;
+	while (y < WIN_Y / 3)
 	{
 		x = 0;
-		while (x < 3 * (WIN_X / 4))
+		while (x < WIN_X / 4)
 		{
 			image_pixel_put(d->menu_bg, x, y, 0x000000);
 			x++;
