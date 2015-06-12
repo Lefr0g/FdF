@@ -35,41 +35,22 @@ t_uint32	my_endian_swap(unsigned int input)
 	return (output);
 }
 
-t_uint32	rgb_to_mlx(t_data *d, int color)
+t_uint32	rgb_to_mlx(t_image *img, int color)
 {
 	t_uint32	color_out;
 
-	if (*(d->img->endian) == 1)
+	if (*(img->endian) == 1)
 		color_out = my_endian_swap(color);
-	return (mlx_get_color_value(d->mlx_id, color));
+	return (mlx_get_color_value(img->mlx, color));
 }
 
-int			image_pixel_put(t_data *d, int x, int y, int color)
+int			image_pixel_put(t_image *img, int x, int y, int color)
 {
 	t_uint32	mlx_color;
 	t_uint32	index;
 
-	mlx_color = rgb_to_mlx(d, color);
-	index = x * d->img->bytes_per_pixel + y * *(d->img->size_line);
-	ft_memcpy(&(d->img->str[index]), &mlx_color, d->img->bytes_per_pixel);
+	mlx_color = rgb_to_mlx(img, color);
+	index = x * img->bytes_per_pixel + y * *(img->size_line);
+	ft_memcpy(&(img->str[index]), &mlx_color, img->bytes_per_pixel);
 	return (0);
-}
-
-t_image		image_init(int width, int height)
-{
-	t_image	img;
-
-	img.x = 0;
-	img.y = 0;
-	img.endian = (int*)malloc(sizeof(int));
-	*(img.endian) = 0;
-	img.width = width;
-	img.height = height;
-	img.id = NULL;
-	img.bytes_per_pixel = 4;
-	img.depth = (int*)malloc(sizeof(int));
-	*(img.depth) = img.bytes_per_pixel * 8;
-	img.size_line = (int*)malloc(sizeof(int));
-	*(img.size_line) = img.bytes_per_pixel * img.width;
-	return (img);
 }

@@ -29,6 +29,12 @@ SRCS = ft_putchar.c ft_putstr.c ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c \
 	   ft_lstmap.c ft_lstadd.c get_next_line.c \
 	   ft_abs.c
 
+HEADERS = libft.h
+
+INCLUDIR = includes/
+
+INCLUDES = $(addsuffix $(INCLUDIR), $(HEADERS))
+
 OBJECTS = $(subst .c,.o,$(SRCS))
 
 .PHONY: all, clean, fclean, re
@@ -38,8 +44,8 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	ar rcs $(NAME) $(OBJECTS)
 
-$(OBJECTS):
-	gcc $(FLAGS) -c $(SRCS) -I includes
+$(OBJECTS): $(SRCS) $(INLUDES)
+	gcc $(FLAGS) -c $(SRCS) -I $(INCLUDIR)
 
 clean:
 	rm -f $(OBJECTS)

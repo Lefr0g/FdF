@@ -19,8 +19,8 @@
 
 # define BUF_SIZE 100
 # define LIMIT_PRINT 5000
-# define WIN_X 1920
-# define WIN_Y 1080
+# define WIN_X 1100
+# define WIN_Y 700
 # define WIN_TITLE "FdF"
 # define LOADBAR_MODE "text"
 # define SPACING_INIT 20
@@ -38,6 +38,7 @@ typedef unsigned int	t_uint32;
 
 typedef struct	s_image
 {
+	void		*mlx;
 	void		*id;
 	char		*str;
 	int			width;
@@ -75,6 +76,7 @@ typedef struct	s_data
 	int			menu_y_anchor;
 	int			menu_x_anchor;
 	t_image		*img;
+	t_image		*menu_bg;
 }				t_data;
 
 typedef struct	s_tmp
@@ -138,9 +140,10 @@ int				calc_y_iso(t_tmp *t, t_data *d);
 int				calc_x_y_iso(t_tmp *t, t_data *d);
 
 t_uint32		my_endian_swap(unsigned int input);
-t_uint32		rgb_to_mlx(t_data *d, int color);
-t_image			image_init(int width, int height);
-int				image_pixel_put(t_data *d, int x, int y, int color);
+t_uint32		rgb_to_mlx(t_image *img, int color);
+t_image			image_init(void *mlx_id, int width, int height);
+int				menu_init(t_data *d);
+int				image_pixel_put(t_image *img, int x, int y, int color);
 int				expose_img(t_data *d, int x, int y);
 
 #endif

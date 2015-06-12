@@ -24,6 +24,13 @@ void	draw_string_center(t_data *d, int pos_y, int color, char *str)
 
 void	draw_menu(t_data *d)
 {
+	mlx_put_image_to_window(d->mlx_id, d->win_id, d->menu_bg, WIN_X / 4,
+			WIN_Y / 3);
+	draw_string_center(d, d->menu_y_anchor, 0xFFFFFF, "---- MENU ----");
+}
+/*
+void	draw_menu(t_data *d)
+{
 	t_tmp	t;
 
 	init_t_tmp(&t);
@@ -42,7 +49,7 @@ void	draw_menu(t_data *d)
 	}
 	draw_string_center(d, d->menu_y_anchor, 0xFFFFFF, "---- MENU ----");
 }
-
+*/
 int		check_nav_keys(int keycode, t_data *d)
 {
 	if (keycode == LEFT_ARROW)
@@ -84,5 +91,5 @@ int		pick_color(t_tmp *t, t_data *d)
 
 void	draw_pixel(t_tmp *t, t_data *d)
 {
-	image_pixel_put(d, t->x, t->y, pick_color(t, d));
+	image_pixel_put(d->img, t->x, t->y, pick_color(t, d));
 }

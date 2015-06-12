@@ -37,5 +37,63 @@ void	init_draw(t_data *d)
 	d->cte1 = 1;
 	d->cte2 = 1;
 	d->img = (t_image*)malloc(sizeof(t_image));
-	*(d->img) = image_init(WIN_X, WIN_Y);
+	*(d->img) = image_init(d->mlx_id, WIN_X, WIN_Y);
+}
+
+t_image		image_init(void *mlx_id, int width, int height)
+{
+	t_image	img;
+
+	img.mlx = mlx_id;
+	img.x = 0;
+	img.y = 0;
+	img.endian = (int*)malloc(sizeof(int));
+	*(img.endian) = 0;
+	img.width = width;
+	img.height = height;
+	img.id = NULL;
+	img.bytes_per_pixel = 4;
+	img.depth = (int*)malloc(sizeof(int));
+	*(img.depth) = img.bytes_per_pixel * 8;
+	img.size_line = (int*)malloc(sizeof(int));
+	*(img.size_line) = img.bytes_per_pixel * img.width;
+	return (img);
+}
+
+int			menu_init(t_data *d)
+{
+	int	x;
+	int	y;
+
+	ft_putendl("Debug check 0");
+	d->menu_bg = (t_image*)malloc(sizeof(t_image));
+	*(d->menu_bg) = image_init(d->mlx_id, WIN_X / 2, WIN_Y / 3);
+	ft_putendl("Debug check 1");
+//	if (!(d->menu_bg->id = mlx_new_image(d->menu_bg->mlx, 
+//					d->menu_bg->width, d->menu_bg->height)))
+//		return (-1);
+	ft_putnbr(d->menu_bg->width);
+	ft_putchar('\n');
+	ft_putnbr(d->menu_bg->height);
+	ft_putchar('\n');
+	d->menu_bg->id = mlx_new_image(d->menu_bg->mlx, d->menu_bg->width, d->menu_bg->height);
+	ft_putendl("Debug check 2");
+	d->menu_bg->str = mlx_get_data_addr(d->menu_bg->id,
+			d->menu_bg->depth, d->menu_bg->size_line,
+			d->menu_bg->endian);
+	ft_putendl("Debug check 3");
+	x = WIN_X / 4;
+	y = WIN_Y / 3;
+	while (y < 2 * (WIN_Y / 3))
+	{
+		x = 0;
+		while (x < 3 * (WIN_X / 4))
+		{
+			image_pixel_put(d->menu_bg, x, y, 0x000000);
+			x++;
+		}
+		y++;
+	}
+	ft_putendl("Debug check 4");
+	return (0);
 }

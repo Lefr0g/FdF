@@ -78,31 +78,3 @@ int	my_clear_window(t_data *d)
 	}
 	return (0);
 }
-/*
-int	draw_map_iso(t_data *d)
-{
-	t_tmp	t;
-//	d->spacing = 20;
-
-	t.j = 0;
-//	while (calc_y_iso(&t, d) < 0)
-//		t.j++;
-	while (t.j < d->linecount)
-	{
-		t.i = 0;
-//		while (calc_x_iso(&t, d) < 0)
-//			t.i++;
-		while (t.i < d->meta[t.j])
-		{
-			calc_x_y_iso(&t, d);
-//			if (t.x >= 0 && t.y >= 0)
-				draw_pixel(&t, d);
-			t.i++;
-		}
-		t.j++;
-	}
-	if (d->menuflag)
-		draw_menu(d);
-	return (0);
-}
-*/
