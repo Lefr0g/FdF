@@ -65,35 +65,25 @@ int			menu_init(t_data *d)
 	int	x;
 	int	y;
 
-	ft_putendl("Debug check 0");
+	d->menu_x_anchor = WIN_X / 4;
+	d->menu_y_anchor = WIN_Y / 3;
 	d->menu_bg = (t_image*)malloc(sizeof(t_image));
 	*(d->menu_bg) = image_init(d->mlx_id, WIN_X / 2, WIN_Y / 3);
-	ft_putendl("Debug check 1");
-//	if (!(d->menu_bg->id = mlx_new_image(d->menu_bg->mlx, 
-//					d->menu_bg->width, d->menu_bg->height)))
-//		return (-1);
-	ft_putnbr(d->menu_bg->width);
-	ft_putchar('\n');
-	ft_putnbr(d->menu_bg->height);
-	ft_putchar('\n');
 	d->menu_bg->id = mlx_new_image(d->menu_bg->mlx, d->menu_bg->width, d->menu_bg->height);
-	ft_putendl("Debug check 2");
 	d->menu_bg->str = mlx_get_data_addr(d->menu_bg->id,
 			d->menu_bg->depth, d->menu_bg->size_line,
 			d->menu_bg->endian);
-	ft_putendl("Debug check 3");
 	x = 0;
 	y = 0;
 	while (y < WIN_Y / 3)
 	{
 		x = 0;
-		while (x < WIN_X / 4)
+		while (x < WIN_X / 2)
 		{
-			image_pixel_put(d->menu_bg, x, y, 0x000000);
+			image_pixel_put(d->menu_bg, x, y, 0x60000000);
 			x++;
 		}
 		y++;
 	}
-	ft_putendl("Debug check 4");
 	return (0);
 }

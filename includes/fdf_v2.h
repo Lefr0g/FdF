@@ -92,6 +92,10 @@ typedef struct	s_tmp
 	float		x;
 	float		y;
 	float		z;
+	float		x_top;
+	float		y_top;
+	float		x_left;
+	float		y_left;
 	int			flag;
 	char		*buf;
 }				t_tmp;
@@ -121,7 +125,13 @@ int				parse(char *filename, t_data *d);
 int				my_getnbr(t_data *d, t_tmp *t);
 
 int				pick_color(t_tmp *t, t_data *d);
-void			draw_pixel(t_tmp *t, t_data *d);
+
+void			draw_pixel(t_tmp *t, t_data *d, float x, float y);
+void			draw_web(t_tmp *t, t_data *d);
+void			draw_line_horz(t_tmp *t, t_data *d, float xb, float yb);
+void			draw_line_vert(t_tmp *t, t_data *d, float xb, float yb);
+void			draw_line_atob(t_tmp *t, t_data *d, float xb, float yb);
+
 int				draw_loop(t_data *d);
 int				draw_map_raw(t_data *d);
 int				draw_map_iso(t_data *d);
@@ -135,8 +145,8 @@ int				my_clear_window(t_data *d);
 
 int				calc_x_flat(t_tmp *t, t_data *d);
 int				calc_y_flat(t_tmp *t, t_data *d);
-int				calc_x_iso(t_tmp *t, t_data *d);
-int				calc_y_iso(t_tmp *t, t_data *d);
+float			calc_x_iso(t_data *d, int i, int j);
+float			calc_y_iso(t_data *d, int i, int j);
 int				calc_x_y_iso(t_tmp *t, t_data *d);
 
 t_uint32		my_endian_swap(unsigned int input);

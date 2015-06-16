@@ -16,6 +16,9 @@ int	draw_map_raw(t_data *d)
 {
 	t_tmp	t;
 
+	init_t_tmp(&t);
+	d->img->str = mlx_get_data_addr(d->img->id, d->img->depth, 
+		d->img->size_line, d->img->endian);
 	t.j = 0;
 	while (calc_y_flat(&t, d) < 0)
 		t.j++;
@@ -28,12 +31,13 @@ int	draw_map_raw(t_data *d)
 		{
 			calc_x_flat(&t, d);
 			if (t.x >= 0 && t.y >= 0)
-				draw_pixel(&t, d);
+				draw_pixel(&t, d, t.x, t.y);
 			t.i++;
 		}
 		t.j++;
 		calc_y_flat(&t, d);
 	}
+	expose_img(d, 0, 0);
 	return (0);
 }
 
@@ -49,10 +53,10 @@ int	draw_map_iso(t_data *d)
 		t.i = 0;
 		while (t.i < d->meta[t.j])
 		{
-			calc_x_iso(&t, d);
-			calc_y_iso(&t, d);
+			t.x = calc_x_iso(d, t.i, t.j);
+			t.y = calc_y_iso(d, t.i, t.j);
 			if (t.x >= 0 && t.x < WIN_X && t.y >= 0 && t.y < WIN_Y)
-				draw_pixel(&t, d);
+				draw_web(&t, d);
 			t.i++;
 		}
 		t.j++;
