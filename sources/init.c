@@ -19,9 +19,12 @@ void	init_t_tmp(t_tmp *t)
 	t->k = 0;
 	t->pos = 0;
 	t->prev = 0;
-	t->x = 0;
-	t->y = 0;
-	t->z = 0;
+	t->x1 = 0;
+	t->y1 = 0;
+	t->z1 = 0;
+	t->x2 = 0;
+	t->y2 = 0;
+	t->z2 = 0;
 	t->flag = 0;
 }
 

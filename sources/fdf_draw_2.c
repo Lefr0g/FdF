@@ -64,7 +64,7 @@ int		check_nav_keys(int keycode, t_data *d)
 	else if (keycode == TOP_ARROW)
 		d->top_added = d->top_added + my_min_one(my_min_one(d->longestline,
 					10), my_min_one(d->spacing, d->spacing_init));
-	else if (keycode == CLOSE_BRACKET)
+	else if (keycode == CLOSE_BRACKET && d->spacing < WIN_X)
 		d->spacing = d->spacing * 2;
 	else if (keycode == OPEN_BRACKET)
 		d->spacing = my_min_one(d->spacing, 2);
@@ -79,17 +79,20 @@ int		check_nav_keys(int keycode, t_data *d)
 	return (0);
 }
 
-int		pick_color(t_tmp *t, t_data *d)
+int		pick_color(t_data *d, int alt)
 {
-	if (d->rawmap[t->j][t->i] > 0)
-		return (0xFF0000);
-	else if (d->rawmap[t->j][t->i] < 0)
-		return (0x00FFAA);
-	else
+	if (alt > d->range / 3)
 		return (0xFFFFFF);
+	else if (alt > d->range / 6)
+		return (0xA47C48);
+	else if (alt > d->range / 20)
+		return (0x004D00);
+	else if (alt <= 0)
+		return (0x000099);
+	return (0x008000);
 }
 
 void	draw_pixel(t_tmp *t, t_data *d, float x, float y)
 {
-	image_pixel_put(d->img, x, y, pick_color(t, d));
+	image_pixel_put(d->img, x, y, pick_color(d, d->rawmap[t->j][t->i]));
 }

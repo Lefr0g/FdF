@@ -14,16 +14,16 @@
 
 int	calc_x_flat(t_tmp *t, t_data *d)
 {
-	t->x = (t->i - (d->longestline / 2) + d->left_added) * d->spacing +
+	t->x1 = (t->i - (d->longestline / 2) + d->left_added) * d->spacing +
 		d->left_offset;
-	return (t->x);
+	return (t->x1);
 }
 
 int	calc_y_flat(t_tmp *t, t_data *d)
 {
-	t->y = (t->j - (d->linecount / 2) + d->top_added) * d->spacing + 
+	t->y1 = (t->j - (d->linecount / 2) + d->top_added) * d->spacing + 
 		d->top_offset;
-	return (t->y);
+	return (t->y1);
 }
 
 float	calc_x_iso(t_data *d, int i, int j)
@@ -31,7 +31,7 @@ float	calc_x_iso(t_data *d, int i, int j)
 	float	x;
 
 	x = (d->cte1 * i) - (d->cte2 * j);
-	x = (x + d->left_added) * d->spacing + d->left_offset;
+	x = (x + d->left_added - (d->longestline / 4)) * d->spacing + d->left_offset;
 	return (x);
 }
 

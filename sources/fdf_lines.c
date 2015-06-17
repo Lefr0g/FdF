@@ -12,105 +12,107 @@
 
 #include "fdf_v2.h"
 
+#include <stdio.h>
+
 void	draw_web(t_tmp *t, t_data *d)
 {
-	/*
-	ft_putnbr(t->x);
-	ft_putchar('\n');
-	ft_putnbr(t->y);
-	ft_putchar('\n');
-	*/
-	draw_pixel(t, d, t->x, t->y);
-	
-	if (t->j > 0)
+	t->z1 = d->rawmap[t->j][t->i];
+	if (t->j > 0 && t->i < d->meta[t->j - 1])
 	{
-		t->x_top = calc_x_iso(d, t->i, t->j - 1);
-		t->y_top = calc_y_iso(d, t->i, t->j - 1);
-		draw_line_atob(t, d, t->x_top, t->y_top);
+		t->x2 = calc_x_iso(d, t->i, t->j - 1);
+		t->y2 = calc_y_iso(d, t->i, t->j - 1);
+		t->z2 = d->rawmap[t->j - 1][t->i];
+		draw_line_atob(t, d);
 	}
-	if (t->i > 0)
+	if (t->i > 0 && t->i < d->meta[t->j])
 	{
-		t->x_left = calc_x_iso(d, t->i - 1, t->j);
-		t->y_left = calc_y_iso(d, t->i - 1, t->j);
-//		draw_line_atob(t, d, t->x_left, t->y_left);
+		t->x2 = calc_x_iso(d, t->i - 1, t->j);
+		t->y2 = calc_y_iso(d, t->i - 1, t->j);
+		t->z2 = d->rawmap[t->j][t->i - 1];
+		draw_line_atob(t, d);
 	}
-	
+//	Below is not needed anymore.
+//
+/*	if (t->j < d->linecount - 1)
+	{
+		t->x_down = calc_x_iso(d, t->i, t->j + 1);
+		if ((t->y_down = calc_y_iso(d, t->i, t->j + 1)) > WIN_Y)
+			draw_line_atob(t, d, t->x_down, t->y_down);
+	}
+	if (t->i < d->meta[t->j])
+	{
+		t->x_right = calc_x_iso(d, t->i + 1, t->j);
+		t->y_right = calc_y_iso(d, t->i + 1, t->j);
+		if (t->x_right > WIN_X)
+			draw_line_atob(t, d, t->x_right, t->y_right);
+	}
+*/
 }
 
-void 	draw_line_atob(t_tmp *t, t_data *d, float xb, float yb)
+void 	draw_line_atob(t_tmp *t, t_data *d)
 {
-	(void)t;
-	(void)d;
-	if (ft_abs(t->x - xb) > ft_abs(t->y - yb))
-		draw_line_vert(t, d, xb, yb);
-//	else
-//		draw_line_horz(t, d, xb, yb);
+	if (ft_abs(t->x2 - t->x1) < ft_abs(t->y2 - t->y1))
+		draw_line_vert(t, d);
+	else
+		draw_line_horz(t, d);
 }
 
-void	draw_line_horz(t_tmp *t, t_data *d, float xb, float yb)
+int		get_alt(int posseg, int lenseg, int alt1, int alt2)
 {
-	float	x;
-	float	y;
+	int	alt;
 
-	if (xb >= t->x)
+	alt = ((posseg * (alt2 - alt1)) / lenseg) + alt1;
+	return (alt);
+}
+
+void	draw_line_horz(t_tmp *t, t_data *d)
+{
+	if (t->x2 >= t->x1)
 	{
-		x = t->x;
-		while (x < xb)
+		t->x = t->x1;
+		while (t->x <= t->x2)
 		{
-			y = (((x - t->x) * (yb - t->y)) / (xb - t->x)) + t->y;
-			image_pixel_put(d->img, x, y, 0xFFFFFF);
-			x++;
+			t->y = (((t->x - t->x1) * (t->y2 - t->y1)) / (t->x2 - t->x1)) + t->y1;
+			t->alt = get_alt(t->x - t->x1, t->x2 - t->x1, t->z1, t->z2);
+			image_pixel_put(d->img, t->x, t->y, pick_color(d, t->alt));
+			t->x++;
 		}
 	}
 	else
 	{
-		x = xb;
-		while (x < t->x)
+		t->x = t->x2;
+		while (t->x <= t->x1)
 		{
-			y = ((x - xb) * (t->y - yb)) / (t->x - xb) + yb;
-			image_pixel_put(d->img, x, y, 0xFFFFFF);
-			x++;
+			t->y = ((t->x - t->x2) * (t->y1 - t->y2)) / (t->x1 - t->x2) + t->y2;
+			t->alt = get_alt(t->x - t->x2, t->x1 - t->x2, t->z2, t->z1);
+			image_pixel_put(d->img, t->x, t->y, pick_color(d, t->alt));
+			t->x++;
 		}
 	}
 }
 
-void	draw_line_vert(t_tmp *t, t_data *d, float xb, float yb)
+void	draw_line_vert(t_tmp *t, t_data *d)
 {
-	float	x;
-	float	y;
-
-	if (yb <= t->y)
+	if (t->y2 < t->y1)
 	{
-		y = t->x;
-		while (y < yb)
+		t->y = t->y2;
+		while (t->y <= t->y1)
 		{
-			x = (((xb - t->x) * (y - t->y)) / (yb - t->y)) + t->x;
-			image_pixel_put(d->img, x, y, 0xFFFFFF);
-			y++;
+			t->x = (((t->x2 - t->x1) * (t->y - t->y1)) / (t->y2 - t->y1)) + t->x1;
+			t->alt = get_alt(t->y - t->y1, t->y2 - t->y1, t->z1, t->z2);
+			image_pixel_put(d->img, t->x, t->y, pick_color(d, t->alt));
+			t->y++;
 		}
 	}
 	else
 	{
-		y = yb;
-		while (y < t->y)
+		t->y = t->y1;
+		while (t->y <= t->y2)
 		{
-			x = ((t->x - xb) * (y - yb)) / (t->y - yb) + xb;
-			image_pixel_put(d->img, x, y, 0xFFFFFF);
-			x++;
+			t->x = ((t->x1 - t->x2) * (t->y - t->y2)) / (t->y1 - t->y2) + t->x2;
+			t->alt = get_alt(t->y - t->y2, t->y1 - t->y2, t->z2, t->z1);
+			image_pixel_put(d->img, t->x, t->y, pick_color(d, t->alt));
+			t->y++;
 		}
 	}
-
-/*
-	if (xb >= t->x && yb > t->y)
-	{
-		y = t->y;
-		while (y < yb)
-		{
-			x = (((xb - t->x) * (y - t->y)) / (yb - t->y)) + t->x;
-			image_pixel_put(d->img, x, y, 0xFFFFFF);
-			y++;
-		}
-	}
-	else if (xb >= 
-	*/
 }

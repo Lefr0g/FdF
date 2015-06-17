@@ -19,8 +19,8 @@
 
 # define BUF_SIZE 100
 # define LIMIT_PRINT 5000
-# define WIN_X 1100
-# define WIN_Y 700
+# define WIN_X 800
+# define WIN_Y 600
 # define WIN_TITLE "FdF"
 # define LOADBAR_MODE "text"
 # define SPACING_INIT 20
@@ -62,6 +62,7 @@ typedef struct	s_data
 	int			**rawmap;
 	int			min_value;
 	int			max_value;
+	int			range;
 	void		*mlx_id;
 	void		*win_id;
 	int			spacing;
@@ -89,13 +90,15 @@ typedef struct	s_tmp
 	int			fd;
 	int			pos;
 	int			prev;
-	float		x;
-	float		y;
-	float		z;
-	float		x_top;
-	float		y_top;
-	float		x_left;
-	float		y_left;
+	int			x;
+	int			y;
+	int			alt;
+	float		x1;
+	float		y1;
+	float		z1;
+	float		x2;
+	float		y2;
+	int			z2;
 	int			flag;
 	char		*buf;
 }				t_tmp;
@@ -124,13 +127,13 @@ int				count_lines(char *filename, int filesize);
 int				parse(char *filename, t_data *d);
 int				my_getnbr(t_data *d, t_tmp *t);
 
-int				pick_color(t_tmp *t, t_data *d);
+int				pick_color(t_data *d, int alt);
 
 void			draw_pixel(t_tmp *t, t_data *d, float x, float y);
 void			draw_web(t_tmp *t, t_data *d);
-void			draw_line_horz(t_tmp *t, t_data *d, float xb, float yb);
-void			draw_line_vert(t_tmp *t, t_data *d, float xb, float yb);
-void			draw_line_atob(t_tmp *t, t_data *d, float xb, float yb);
+void			draw_line_horz(t_tmp *t, t_data *d);
+void			draw_line_vert(t_tmp *t, t_data *d);
+void			draw_line_atob(t_tmp *t, t_data *d);
 
 int				draw_loop(t_data *d);
 int				draw_map_raw(t_data *d);

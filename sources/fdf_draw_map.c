@@ -22,16 +22,16 @@ int	draw_map_raw(t_data *d)
 	t.j = 0;
 	while (calc_y_flat(&t, d) < 0)
 		t.j++;
-	while (t.j < d->linecount && t.y <= WIN_Y)
+	while (t.j < d->linecount && t.y1 <= WIN_Y)
 	{
 		t.i = 0;
 		while (calc_x_flat(&t, d) < 0)
 			t.i++;
-		while (t.i < d->meta[t.j] && t.x <= WIN_X)
+		while (t.i < d->meta[t.j] && t.x1 <= WIN_X)
 		{
 			calc_x_flat(&t, d);
-			if (t.x >= 0 && t.y >= 0)
-				draw_pixel(&t, d, t.x, t.y);
+			if (t.x1 >= 0 && t.y1 >= 0)
+				draw_pixel(&t, d, t.x1, t.y1);
 			t.i++;
 		}
 		t.j++;
@@ -44,7 +44,9 @@ int	draw_map_raw(t_data *d)
 int	draw_map_iso(t_data *d)
 {
 	t_tmp	t;
+	int		max_height;
 
+	max_height = d->range * d->spacing;
 	init_t_tmp(&t);
 	d->img->str = mlx_get_data_addr(d->img->id, d->img->depth, 
 		d->img->size_line, d->img->endian);
@@ -53,9 +55,9 @@ int	draw_map_iso(t_data *d)
 		t.i = 0;
 		while (t.i < d->meta[t.j])
 		{
-			t.x = calc_x_iso(d, t.i, t.j);
-			t.y = calc_y_iso(d, t.i, t.j);
-			if (t.x >= 0 && t.x < WIN_X && t.y >= 0 && t.y < WIN_Y)
+			t.x1 = calc_x_iso(d, t.i, t.j);
+			t.y1 = calc_y_iso(d, t.i, t.j);
+			if (t.x1 >= 0 - 2 * WIN_X && t.x1 < 3 * WIN_X && t.y1 >= 0 - WIN_Y - max_height && t.y1 <  2 * WIN_Y + max_height)
 				draw_web(&t, d);
 			t.i++;
 		}

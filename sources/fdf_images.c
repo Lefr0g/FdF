@@ -49,8 +49,11 @@ int			image_pixel_put(t_image *img, int x, int y, int color)
 	t_uint32	mlx_color;
 	t_uint32	index;
 
-	mlx_color = rgb_to_mlx(img, color);
-	index = x * img->bytes_per_pixel + y * *(img->size_line);
-	ft_memcpy(&(img->str[index]), &mlx_color, img->bytes_per_pixel);
+	if (x > 0 && y > 0 && x < WIN_X && y < WIN_Y)
+	{
+		mlx_color = rgb_to_mlx(img, color);
+		index = x * img->bytes_per_pixel + y * *(img->size_line);
+		ft_memcpy(&(img->str[index]), &mlx_color, img->bytes_per_pixel);
+	}
 	return (0);
 }

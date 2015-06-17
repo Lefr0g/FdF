@@ -104,5 +104,6 @@ int		my_get_min_max(int nbr, t_data *d, int *flag)
 		d->min_value = nbr;
 	if (nbr > d->max_value)
 		d->max_value = nbr;
+	d->range = d->max_value - d->min_value;
 	return (nbr);
 }
