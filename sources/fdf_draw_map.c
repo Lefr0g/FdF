@@ -41,7 +41,7 @@ int	draw_map_raw(t_data *d)
 	return (0);
 }
 
-int	draw_map_iso(t_data *d)
+int	draw_map(t_data *d)
 {
 	t_tmp	t;
 	int		max_height;
@@ -55,8 +55,8 @@ int	draw_map_iso(t_data *d)
 		t.i = 0;
 		while (t.i < d->meta[t.j])
 		{
-			t.x1 = calc_x_iso(d, t.i, t.j);
-			t.y1 = calc_y_iso(d, t.i, t.j);
+			t.x1 = d->method_calc_x(d, t.i, t.j);
+			t.y1 = d->method_calc_y(d, t.i, t.j);
 			if (t.x1 >= 0 - 2 * WIN_X && t.x1 < 3 * WIN_X && t.y1 >= 0 - WIN_Y - max_height && t.y1 <  2 * WIN_Y + max_height)
 				draw_web(&t, d);
 			t.i++;

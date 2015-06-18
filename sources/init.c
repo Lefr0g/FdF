@@ -39,8 +39,12 @@ void	init_draw(t_data *d)
 	d->menuflag = 0;
 	d->cte1 = 1;
 	d->cte2 = 1;
+	d->cte3 = 1;
 	d->img = (t_image*)malloc(sizeof(t_image));
 	*(d->img) = image_init(d->mlx_id, WIN_X, WIN_Y);
+	set_proj(d);
+	d->alt_factor = (d->longestline + d->linecount);
+	d->alt_factor = d->alt_factor / (d->range * 50);
 }
 
 t_image		image_init(void *mlx_id, int width, int height)
@@ -76,6 +80,9 @@ int			menu_init(t_data *d)
 	d->menu_bg->str = mlx_get_data_addr(d->menu_bg->id,
 			d->menu_bg->depth, d->menu_bg->size_line,
 			d->menu_bg->endian);
+	d->menu_bg->x = d->menu_x_anchor;
+	d->menu_bg->y = d->menu_y_anchor;
+	d->menu_bg->text_height = d->menu_bg->y;
 	x = 0;
 	y = 0;
 	while (y < WIN_Y / 3)

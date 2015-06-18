@@ -45,13 +45,12 @@ int	key_hook(int keycode, t_data *d)
 
 int	expose_hook(t_data *d)
 {
-//	my_clear_window(d);
 //	draw_map_raw(d);
 	if (d->img->id)
 		mlx_destroy_image(d->mlx_id, d->img->id);
 	if ((d->img->id = mlx_new_image(d->mlx_id, d->img->width,
 					d->img->height)))
-		draw_map_iso(d);
+		draw_map(d);
 //	ft_putstr("Expose check\n");
 	if (d->menuflag)
 		draw_menu(d);

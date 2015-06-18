@@ -46,6 +46,7 @@ int		check_args(t_data *d, int argc, char **argv)
 {
 	int	fd;
 
+	d->proj = ft_strdup("iso");
 	if (argc < 2 || argc > 3)
 		return (-1);
 	if ((fd = my_open(argv[1])) >= 0 && !close(fd))
@@ -59,7 +60,7 @@ int		check_args(t_data *d, int argc, char **argv)
 	{
 		if (!ft_strcmp(argv[2], "iso") || !ft_strcmp(argv[2], "conic")
 					|| !ft_strcmp(argv[2], "parallel"))
-			d->proj = argv[2];
+			d->proj = ft_strdup(argv[2]);
 		else
 		{
 			ft_putendl("Error: projection type unknown");

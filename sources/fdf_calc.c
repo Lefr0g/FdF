@@ -39,7 +39,25 @@ float	calc_y_iso(t_data *d, int i, int j)
 {
 	float	y;
 
-	y = -(d->rawmap[j][i] * 0.05) + ((d->cte1 / 2) * i) + ((d->cte2 / 2) * j);
+	y = -(d->rawmap[j][i] * d->alt_factor) + ((d->cte1 / 2) * i) + ((d->cte2 / 2) * j);
+	y = (y + d->top_added - (d->linecount / 2)) * d->spacing + d->top_offset;
+	return (y);
+}
+
+float	calc_x_paral(t_data *d, int i, int j)
+{
+	float	x;
+
+	x = i + d->cte3 * -(d->rawmap[j][i] * d->alt_factor);
+	x = (x + d->left_added - (d->longestline / 4)) * d->spacing + d->left_offset;
+	return (x);
+}
+
+float	calc_y_paral(t_data *d, int i, int j)
+{
+	float	y;
+
+	y = j + (d->cte3 / 2) * -(d->rawmap[j][i] * d->alt_factor);
 	y = (y + d->top_added - (d->linecount / 2)) * d->spacing + d->top_offset;
 	return (y);
 }

@@ -49,6 +49,7 @@ typedef struct	s_image
 	int			*endian;
 	int			x;
 	int			y;
+	int			text_height;
 }				t_image;
 
 typedef struct	s_data
@@ -63,6 +64,7 @@ typedef struct	s_data
 	int			min_value;
 	int			max_value;
 	int			range;
+	float		alt_factor;
 	void		*mlx_id;
 	void		*win_id;
 	int			spacing;
@@ -73,11 +75,14 @@ typedef struct	s_data
 	int			left_added;
 	float		cte1;
 	float		cte2;
+	float		cte3;
 	int			menuflag;
 	int			menu_y_anchor;
 	int			menu_x_anchor;
 	t_image		*img;
 	t_image		*menu_bg;
+	float		(*method_calc_x)(struct s_data*, int, int);
+	float		(*method_calc_y)(struct s_data*, int, int);
 }				t_data;
 
 typedef struct	s_tmp
@@ -137,9 +142,9 @@ void			draw_line_atob(t_tmp *t, t_data *d);
 
 int				draw_loop(t_data *d);
 int				draw_map_raw(t_data *d);
-int				draw_map_iso(t_data *d);
+int				draw_map(t_data *d);
 void			draw_menu(t_data *d);
-void			draw_string_center(t_data *d, int pos_y, int color, char *str);
+void			draw_string_center(t_data *d, t_image *item, int color, char *str);
 int				expose_hook(t_data *d);
 int				key_hook(int keycode, t_data *d);
 int				check_nav_keys(int keycode, t_data *d);
@@ -150,7 +155,8 @@ int				calc_x_flat(t_tmp *t, t_data *d);
 int				calc_y_flat(t_tmp *t, t_data *d);
 float			calc_x_iso(t_data *d, int i, int j);
 float			calc_y_iso(t_data *d, int i, int j);
-int				calc_x_y_iso(t_tmp *t, t_data *d);
+float			calc_x_paral(t_data *d, int i, int j);
+float			calc_y_paral(t_data *d, int i, int j);
 
 t_uint32		my_endian_swap(unsigned int input);
 t_uint32		rgb_to_mlx(t_image *img, int color);
@@ -158,5 +164,7 @@ t_image			image_init(void *mlx_id, int width, int height);
 int				menu_init(t_data *d);
 int				image_pixel_put(t_image *img, int x, int y, int color);
 int				expose_img(t_data *d, int x, int y);
+
+int				set_proj(t_data *d);
 
 #endif

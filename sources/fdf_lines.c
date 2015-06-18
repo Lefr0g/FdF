@@ -12,22 +12,20 @@
 
 #include "fdf_v2.h"
 
-#include <stdio.h>
-
 void	draw_web(t_tmp *t, t_data *d)
 {
 	t->z1 = d->rawmap[t->j][t->i];
 	if (t->j > 0 && t->i < d->meta[t->j - 1])
 	{
-		t->x2 = calc_x_iso(d, t->i, t->j - 1);
-		t->y2 = calc_y_iso(d, t->i, t->j - 1);
+		t->x2 = d->method_calc_x(d, t->i, t->j - 1);
+		t->y2 = d->method_calc_y(d, t->i, t->j - 1);
 		t->z2 = d->rawmap[t->j - 1][t->i];
 		draw_line_atob(t, d);
 	}
 	if (t->i > 0 && t->i < d->meta[t->j])
 	{
-		t->x2 = calc_x_iso(d, t->i - 1, t->j);
-		t->y2 = calc_y_iso(d, t->i - 1, t->j);
+		t->x2 = d->method_calc_x(d, t->i - 1, t->j);
+		t->y2 = d->method_calc_y(d, t->i - 1, t->j);
 		t->z2 = d->rawmap[t->j][t->i - 1];
 		draw_line_atob(t, d);
 	}
@@ -61,6 +59,8 @@ int		get_alt(int posseg, int lenseg, int alt1, int alt2)
 {
 	int	alt;
 
+	if (!lenseg)
+		lenseg = 1;
 	alt = ((posseg * (alt2 - alt1)) / lenseg) + alt1;
 	return (alt);
 }
