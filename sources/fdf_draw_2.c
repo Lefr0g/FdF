@@ -20,7 +20,7 @@ void	draw_string_center(t_data *d, t_image *item, int color, char *str)
 	len = ft_strlen(str);
 	pos_x = item->width - (len * 10 / 2);
 	mlx_string_put(d->mlx_id, d->win_id, pos_x, item->text_height, color, str);
-	item->text_height += 30;
+	item->text_height += 20;
 }
 
 void	draw_string_left(t_data *d, t_image *item, int color, char *str)
@@ -31,14 +31,31 @@ void	draw_string_left(t_data *d, t_image *item, int color, char *str)
 
 void	draw_menu(t_data *d)
 {
+	if (d->startflag)
+	{
+		d->startflag = 0;
+		expose_hook(d);
+	}
 	d->menu_bg->text_height = d->menu_bg->y;
 	mlx_put_image_to_window(d->mlx_id, d->win_id, d->menu_bg->id, 
 			d->menu_x_anchor, d->menu_y_anchor);
 	draw_string_center(d, d->menu_bg, 0xFFFFFF, "---- MENU ----");
+	d->menu_bg->text_height += 20;
 	draw_string_left(d, d->menu_bg, 0xFFFFFF, "   [    : zoom in");
 	draw_string_left(d, d->menu_bg, 0xFFFFFF, "   ]    : zoom out");
 	draw_string_left(d, d->menu_bg, 0xFFFFFF, "< ^ v > : navigate");
-	draw_string_left(d, d->menu_bg, 0xFFFFFF, "(space) : reset view");
+	draw_string_left(d, d->menu_bg, 0xFFFFFF, "(space) : reset navigation");
+	draw_string_left(d, d->menu_bg, 0xFFFFFF, "   i    : isometric view");
+	draw_string_left(d, d->menu_bg, 0xFFFFFF, "   p    : parallel view");
+	draw_string_left(d, d->menu_bg, 0xFFFFFF, "   f    : flat view");
+}
+
+void	draw_instructions(t_data *d)
+{
+	d->menu_bg->text_height = WIN_Y / 2 - 20;
+	mlx_put_image_to_window(d->mlx_id, d->win_id, d->menu_bg->id, 
+			d->menu_x_anchor, d->menu_y_anchor);
+	draw_string_center(d, d->menu_bg, 0xFFFFFF, "Press 'tab' to show menu");
 }
 /*
 void	draw_menu(t_data *d)
@@ -62,34 +79,6 @@ void	draw_menu(t_data *d)
 	draw_string_center(d, d->menu_y_anchor, 0xFFFFFF, "---- MENU ----");
 }
 */
-int		check_nav_keys(int keycode, t_data *d)
-{
-	if (keycode == LEFT_ARROW)
-		d->left_added = d->left_added + my_min_one(my_min_one(d->longestline,
-					10), my_min_one(d->spacing, d->spacing_init));
-	else if (keycode == RIGHT_ARROW)
-		d->left_added = d->left_added - my_min_one(my_min_one(d->longestline,
-					10), my_min_one(d->spacing, d->spacing_init));
-	else if (keycode == DOWN_ARROW)
-		d->top_added = d->top_added - my_min_one(my_min_one(d->longestline,
-					10), my_min_one(d->spacing, d->spacing_init));
-	else if (keycode == TOP_ARROW)
-		d->top_added = d->top_added + my_min_one(my_min_one(d->longestline,
-					10), my_min_one(d->spacing, d->spacing_init));
-	else if (keycode == CLOSE_BRACKET && d->spacing < WIN_X)
-		d->spacing = d->spacing * 2;
-	else if (keycode == OPEN_BRACKET)
-		d->spacing = my_min_one(d->spacing, 2);
-	else if (keycode == SPACEBAR)
-	{
-		d->spacing = d->spacing_init;
-		d->top_added = 0;
-		d->left_added = 0;
-	}
-	else
-		return (1);
-	return (0);
-}
 
 int		pick_color(t_data *d, int alt)
 {

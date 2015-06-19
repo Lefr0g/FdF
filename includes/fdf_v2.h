@@ -32,6 +32,9 @@
 # define LEFT_ARROW 123
 # define OPEN_BRACKET 33
 # define CLOSE_BRACKET 30
+# define I_KEY 34
+# define P_KEY 35
+# define F_KEY 3
 # define SPACEBAR 49
 
 typedef unsigned int	t_uint32;
@@ -77,6 +80,8 @@ typedef struct	s_data
 	float		cte2;
 	float		cte3;
 	int			menuflag;
+	int			startflag;
+	int			starttimer;
 	int			menu_y_anchor;
 	int			menu_x_anchor;
 	t_image		*img;
@@ -144,15 +149,20 @@ int				draw_loop(t_data *d);
 int				draw_map_raw(t_data *d);
 int				draw_map(t_data *d);
 void			draw_menu(t_data *d);
+void			draw_instructions(t_data *d);
 void			draw_string_center(t_data *d, t_image *item, int color, char *str);
 int				expose_hook(t_data *d);
 int				key_hook(int keycode, t_data *d);
+int				loop_hook(t_data *d);
+int				check_keys(int keycode, t_data *d);
 int				check_nav_keys(int keycode, t_data *d);
+int				check_proj_keys(int keycode, t_data *d);
 int				refresh(t_data *d);
+void			reinit_pos(t_data *d);
 int				my_clear_window(t_data *d);
 
-int				calc_x_flat(t_tmp *t, t_data *d);
-int				calc_y_flat(t_tmp *t, t_data *d);
+float			calc_x_flat(t_data *d, int i, int j);
+float			calc_y_flat(t_data *d, int i, int j);
 float			calc_x_iso(t_data *d, int i, int j);
 float			calc_y_iso(t_data *d, int i, int j);
 float			calc_x_paral(t_data *d, int i, int j);

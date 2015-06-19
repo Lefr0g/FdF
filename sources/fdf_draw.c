@@ -29,7 +29,7 @@ int	key_hook(int keycode, t_data *d)
 		exit(0);
 	}
 	if (!d->menuflag)
-		check_nav_keys(keycode, d);
+		check_keys(keycode, d);
 	if (keycode == TAB && !d->menuflag)
 		d->menuflag = 1;
 	else if (keycode == TAB && d->menuflag)
@@ -48,12 +48,29 @@ int	expose_hook(t_data *d)
 //	draw_map_raw(d);
 	if (d->img->id)
 		mlx_destroy_image(d->mlx_id, d->img->id);
+	set_proj(d);
 	if ((d->img->id = mlx_new_image(d->mlx_id, d->img->width,
 					d->img->height)))
 		draw_map(d);
 //	ft_putstr("Expose check\n");
+	if (d->startflag)
+		draw_instructions(d);
 	if (d->menuflag)
 		draw_menu(d);
+	return (0);
+}
+
+int	loop_hook(t_data *d)
+{
+	if (d->startflag)
+	{
+		d->starttimer++;
+		if (d->starttimer > 100000)
+		{
+			d->startflag = 0;
+			expose_hook(d);
+		}
+	}
 	return (0);
 }
 
@@ -69,6 +86,7 @@ int	draw_loop(t_data *d)
 		return (-1);
 	mlx_key_hook(d->win_id, &(key_hook), d);
 	mlx_expose_hook(d->win_id, &(expose_hook), d);
+	mlx_loop_hook(d->mlx_id, &(loop_hook), d);
 //	ft_putendl("Loop Check");
 	mlx_loop(d->mlx_id);
 	return (0);

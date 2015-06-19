@@ -12,34 +12,7 @@
 
 #include "fdf_v2.h"
 
-int	draw_map_raw(t_data *d)
-{
-	t_tmp	t;
 
-	init_t_tmp(&t);
-	d->img->str = mlx_get_data_addr(d->img->id, d->img->depth, 
-		d->img->size_line, d->img->endian);
-	t.j = 0;
-	while (calc_y_flat(&t, d) < 0)
-		t.j++;
-	while (t.j < d->linecount && t.y1 <= WIN_Y)
-	{
-		t.i = 0;
-		while (calc_x_flat(&t, d) < 0)
-			t.i++;
-		while (t.i < d->meta[t.j] && t.x1 <= WIN_X)
-		{
-			calc_x_flat(&t, d);
-			if (t.x1 >= 0 && t.y1 >= 0)
-				draw_pixel(&t, d, t.x1, t.y1);
-			t.i++;
-		}
-		t.j++;
-		calc_y_flat(&t, d);
-	}
-	expose_img(d, 0, 0);
-	return (0);
-}
 
 int	draw_map(t_data *d)
 {

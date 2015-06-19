@@ -36,7 +36,9 @@ void	init_draw(t_data *d)
 	d->spacing = d->spacing_init;
 	d->top_added = 0;
 	d->left_added = 0;
+	d->startflag = 1;
 	d->menuflag = 0;
+	d->starttimer = 0;
 	d->cte1 = 1;
 	d->cte2 = 1;
 	d->cte3 = 1;
