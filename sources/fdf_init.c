@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   fdf_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 13:24:56 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/10 15:58:44 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/24 17:47:08 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf_v2.h"
+#include "fdf.h"
 
-void	init_t_tmp(t_tmp *t)
+void		init_t_tmp(t_tmp *t)
 {
 	t->i = 0;
 	t->j = 0;
@@ -28,7 +28,7 @@ void	init_t_tmp(t_tmp *t)
 	t->flag = 0;
 }
 
-void	init_draw(t_data *d)
+void		init_draw(t_data *d)
 {
 	d->top_offset = WIN_Y / 2;
 	d->left_offset = WIN_X / 2;
@@ -71,33 +71,27 @@ t_image		image_init(void *mlx_id, int width, int height)
 
 int			menu_init(t_data *d)
 {
-	int	x;
-	int	y;
-
 	d->menu_x_anchor = WIN_X / 4;
 	d->menu_y_anchor = WIN_Y / 3;
 	d->menu_bg = (t_image*)malloc(sizeof(t_image));
 	*(d->menu_bg) = image_init(d->mlx_id, WIN_X / 2, WIN_Y / 3 + 20);
-	d->menu_bg->id = mlx_new_image(d->menu_bg->mlx, d->menu_bg->width, d->menu_bg->height);
+	d->menu_bg->id = mlx_new_image(d->menu_bg->mlx, d->menu_bg->width,
+			d->menu_bg->height);
 	d->menu_bg->str = mlx_get_data_addr(d->menu_bg->id,
 			d->menu_bg->depth, d->menu_bg->size_line,
 			d->menu_bg->endian);
+	d->menu_bg->text_height = d->menu_bg->y;
+	d->menu_bg->x = 0;
+	d->menu_bg->y = 0;
+	while (d->menu_bg->y < (WIN_Y / 3) + 20)
+	{
+		d->menu_bg->x = 0;
+		while (d->menu_bg->x++ < WIN_X / 2)
+			image_pixel_put(d->menu_bg, d->menu_bg->x,
+					d->menu_bg->y, 0x60000000);
+		d->menu_bg->y++;
+	}
 	d->menu_bg->x = d->menu_x_anchor;
 	d->menu_bg->y = d->menu_y_anchor;
-	d->menu_bg->text_height = d->menu_bg->y;
-	x = 0;
-	y = 0;
-	while (y < (WIN_Y / 3) + 20)
-	{
-		x = 0;
-		while (x < WIN_X / 2)
-		{
-			image_pixel_put(d->menu_bg, x, y, 0x60000000);
-			x++;
-		}
-		ft_putnbr(y);
-		ft_putchar('\n');
-		y++;
-	}
 	return (0);
 }

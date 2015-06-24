@@ -6,11 +6,11 @@
 #    By: amulin <amulin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/02/17 11:06:17 by amulin            #+#    #+#              #
-#    Updated: 2015/06/10 14:27:16 by amulin           ###   ########.fr        #
+#    Updated: 2015/06/24 17:53:07 by amulin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fdf_v2
+NAME = fdf
 
 CC = clang
 
@@ -20,9 +20,10 @@ VISUFLAGS = -framework OpenGL -framework AppKit
 
 LIBFLAGS = -Llibft/ -lft -Lminilibx_macos/ -lmlx
 
-SRCS = main_v2.c preliminary.c data_processing.c verbose.c misc.c fdf_draw.c \
-	   fdf_draw_2.c fdf_draw_map.c verbose_2.c fdf_calc.c init.c fdf_images.c \
-	   fdf_lines.c fdf_set.c fdf_keys.c
+SRCS = main.c fdf_preliminary.c fdf_data_processing.c fdf_verbose_1.c \
+	   fdf_verbose_2.c fdf_init.c fdf_set.c fdf_draw_loop.c \
+	   fdf_draw_textframes.c fdf_draw_colorpix.c fdf_draw_map.c fdf_images.c \
+	   fdf_calc_1.c fdf_calc_2.c fdf_lines.c fdf_keys.c fdf_misc.c
 
 SRCDIR = sources/
 

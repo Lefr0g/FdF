@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_v2.h                                           :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/10 16:31:27 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/24 18:10:16 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_V2_H
-# define FDF_V2_H
+#ifndef FDF_H
+# define FDF_H
 
 # include <fcntl.h>
 # include "libft.h"
@@ -72,7 +72,7 @@ typedef struct	s_data
 	int			max_value;
 	int			range;
 	float		alt_factor;
-	int			palette;
+	int			(*palette)(struct s_data*, int);
 	void		*mlx_id;
 	void		*win_id;
 	int			spacing;
@@ -118,71 +118,128 @@ typedef struct	s_tmp
 	char		*buf;
 }				t_tmp;
 
-void			init_t_tmp(t_tmp *t);
-void			init_draw(t_data *d);
-
-void			print_proto(void);
-void			print_man(void);
-void			print_meta(t_data *d);
-void			print_rawmap(t_data *d);
-void			print_filesize_onload(int filesize);
-
-int				my_check_args(int min, int max, int argc, char **argv);
-int				my_print_loadbar(int pos, int end, int prev, char *mode);
-int				my_open(char *filename);
-char			*my_realloc(char **str, int newsize);
-int				my_get_min(int i, int j);
-int				my_min_one(int num, int denom);
-int				my_get_min_max(int nbr, t_data *d, int *flag);
-
-int				check_args(t_data *d, int argc, char **argv);
+/*
+**	fdf_preliminary.c
+*/
 int				check_valid_data(char *filename, t_data *d);
 int				check_filesize(char *filename);
-int				check_proj(t_data *d, char *str);
+int				check_args(t_data *d, int argc, char **argv);
 int				check_palette(t_data *d, char *str);
+int				check_proj(t_data *d, char *str);
+
+/*
+**	fdf_data_processing.c
+*/
+int				my_open(char *filename);
 int				count_lines(char *filename, int filesize);
 int				parse(char *filename, t_data *d);
 int				my_getnbr(t_data *d, t_tmp *t);
+int				my_get_min_max(int nbr, t_data *d, int *flag);
 
-int				pick_color(t_data *d, int alt);
+/*
+**	fdf_verbose_1.c
+*/
+void			print_proto(void);
+void			print_man(void);
+void			print_filesize_onload(int filesize);
+void			print_rawmap(t_data *d);
+void			print_meta(t_data *d);
 
-void			draw_pixel(t_tmp *t, t_data *d, float x, float y);
-void			draw_web(t_tmp *t, t_data *d);
-void			draw_line_horz(t_tmp *t, t_data *d);
-void			draw_line_vert(t_tmp *t, t_data *d);
-void			draw_line_atob(t_tmp *t, t_data *d);
+/*
+**	fdf_verbose_2.c
+*/
+int				my_print_loadbar(int pos, int end, int prev, char *mode);
 
+/*
+**	fdf_init.c
+*/
+void			init_t_tmp(t_tmp *t);
+void			init_draw(t_data *d);
+t_image			image_init(void *mlx_id, int width, int height);
+int				menu_init(t_data *d);
+
+/*
+**	fdf_set.c
+*/
+int				set_proj(t_data *d);
+int				set_palette(t_data *d, int val);
+
+/*
+**	fdf_draw_loop.c
+*/
+int				key_hook(int keycode, t_data *d);
+int				expose_hook(t_data *d);
+int				loop_hook(t_data *d);
 int				draw_loop(t_data *d);
-int				draw_map_raw(t_data *d);
-int				draw_map(t_data *d);
+
+/*
+**	fdf_draw_textframes.c
+*/
 void			draw_menu(t_data *d);
 void			draw_instructions(t_data *d);
-void			draw_string_center(t_data *d, t_image *item, int color, char *str);
-int				expose_hook(t_data *d);
-int				key_hook(int keycode, t_data *d);
-int				loop_hook(t_data *d);
-int				check_keys(int keycode, t_data *d);
-int				check_nav_keys(int keycode, t_data *d);
-int				check_proj_keys(int keycode, t_data *d);
-int				check_palette_keys(int keycode, t_data *d);
-int				refresh(t_data *d);
-void			reinit_pos(t_data *d);
-int				my_clear_window(t_data *d);
+void			draw_string_center(t_data *d, t_image *item,
+				int color, char *str);
+void			draw_string_left(t_data *d, t_image *item,
+				int color, char *str);
 
+/*
+**	fdf_draw_colorpix.c
+*/
+int				palette_1(struct s_data *d, int alt);
+int				palette_2(struct s_data *d, int alt);
+int				palette_3(struct s_data *d, int alt);
+void			draw_pixel(t_tmp *t, t_data *d, float x, float y);
+
+/*
+**	fdf_draw_map.c
+*/
+int				draw_map(t_data *d);
+
+/*
+**	fdf_images.c
+*/
+int				expose_img(t_data *d, int x, int y);
+int				image_pixel_put(t_image *img, int x, int y, int color);
+t_uint32		my_endian_swap(unsigned int input);
+t_uint32		rgb_to_mlx(t_image *img, int color);
+
+/*
+**	fdf_calc_1.c
+*/
 float			calc_x_flat(t_data *d, int i, int j);
 float			calc_y_flat(t_data *d, int i, int j);
-float			calc_x_iso(t_data *d, int i, int j);
-float			calc_y_iso(t_data *d, int i, int j);
 float			calc_x_paral(t_data *d, int i, int j);
 float			calc_y_paral(t_data *d, int i, int j);
 
-t_uint32		my_endian_swap(unsigned int input);
-t_uint32		rgb_to_mlx(t_image *img, int color);
-t_image			image_init(void *mlx_id, int width, int height);
-int				menu_init(t_data *d);
-int				image_pixel_put(t_image *img, int x, int y, int color);
-int				expose_img(t_data *d, int x, int y);
+/*
+**	fdf_calc_2.c
+*/
+float			calc_x_iso(t_data *d, int i, int j);
+float			calc_y_iso(t_data *d, int i, int j);
 
-int				set_proj(t_data *d);
+/*
+**	fdf_lines.c
+*/
+void			draw_web(t_tmp *t, t_data *d);
+int				get_alt(int posseg, int lenseg, int alt1, int alt2);
+void			draw_line_atob(t_tmp *t, t_data *d);
+void			draw_line_horz(t_tmp *t, t_data *d);
+void			draw_line_vert(t_tmp *t, t_data *d);
+
+/*
+**	fdf_keys.c
+*/
+void			reinit_pos(t_data *d);
+int				check_all_keys(int keycode, t_data *d);
+int				check_nav_keys(int keycode, t_data *d);
+int				check_proj_keys(int keycode, t_data *d);
+int				check_palette_keys(int keycode, t_data *d);
+
+/*
+**	fdf_misc.c
+*/
+char			*my_realloc(char **str, int newsize);
+int				my_get_min(int i, int j);
+int				my_min_one(int num, int denom);
 
 #endif

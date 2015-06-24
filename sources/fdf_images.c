@@ -6,11 +6,11 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/08 10:54:08 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/10 16:13:53 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/24 16:37:55 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf_v2.h"
+#include "fdf.h"
 
 int			expose_img(t_data *d, int x, int y)
 {

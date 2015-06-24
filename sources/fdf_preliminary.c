@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   preliminary.c                                      :+:      :+:    :+:   */
+/*   fdf_preliminary.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/07 17:23:22 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/10 14:55:41 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/24 17:44:20 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf_v2.h"
+#include "fdf.h"
 
 int		check_valid_data(char *filename, t_data *d)
 {
@@ -42,36 +42,6 @@ int		check_filesize(char *filename)
 	return (filesize);
 }
 
-int		check_palette(t_data *d, char *str)
-{
-	int	val;
-
-	val = ft_atoi(str);
-	if (val < 1 || val > 3)
-	{
-		ft_putendl("Error: incorrect palette number");
-		ft_putendl("       Try '1' (default), '2', or '3' instead\n");
-		return (-1);
-	}
-	else
-		d->palette = val;
-	return (0);
-}
-
-int		check_proj(t_data *d, char *str)
-{
-	if (!ft_strcmp(str, "iso") || !ft_strcmp(str, "conic")
-			|| !ft_strcmp(str, "parallel"))
-		d->proj = ft_strdup(str);
-	else
-	{
-		ft_putendl("Error: projection type unknown");
-		ft_putendl("       Try 'iso', 'conic' or 'parallel' instead\n");
-		return(-1);
-	}
-	return (0);
-}
-
 int		check_args(t_data *d, int argc, char **argv)
 {
 	d->proj = ft_strdup("iso");
@@ -84,10 +54,40 @@ int		check_args(t_data *d, int argc, char **argv)
 		ft_putendl("Error: unknown file name\n");
 		return (-2);
 	}
-	d->palette = 1;
+	d->palette = &(palette_1);
 	if ((argc == 3 || argc == 4) && check_proj(d, argv[2]) == -1)
 		return (-3);
 	if (argc == 4 && check_palette(d, argv[3]) == -1)
 		return (-4);
+	return (0);
+}
+
+int		check_palette(t_data *d, char *str)
+{
+	int	val;
+
+	val = ft_atoi(str);
+	if (val < 1 || val > 3)
+	{
+		ft_putendl("Error: incorrect palette number");
+		ft_putendl("       Try '1' (default), '2', or '3' instead\n");
+		return (-1);
+	}
+	else
+		set_palette(d, val);
+	return (0);
+}
+
+int		check_proj(t_data *d, char *str)
+{
+	if (!ft_strcmp(str, "iso") || !ft_strcmp(str, "conic")
+			|| !ft_strcmp(str, "parallel"))
+		d->proj = ft_strdup(str);
+	else
+	{
+		ft_putendl("Error: projection type unknown");
+		ft_putendl("       Try 'iso', 'conic' or 'parallel' instead\n");
+		return (-1);
+	}
 	return (0);
 }
