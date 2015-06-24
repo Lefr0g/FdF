@@ -1,22 +1,30 @@
-/*
- *
- *
- *
- *
- *
- *
- *
- *
- *
-*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf_keys.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/06/24 14:50:29 by amulin            #+#    #+#             */
+/*   Updated: 2015/06/24 17:27:51 by amulin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "fdf_v2.h"
+#include "fdf.h"
 
 void	reinit_pos(t_data *d)
 {
 	d->spacing = d->spacing_init;
 	d->top_added = 0;
 	d->left_added = 0;
+}
+
+int		check_all_keys(int keycode, t_data *d)
+{
+	check_nav_keys(keycode, d);
+	check_proj_keys(keycode, d);
+	check_palette_keys(keycode, d);
+	return (0);
 }
 
 int		check_nav_keys(int keycode, t_data *d)
@@ -67,18 +75,10 @@ int		check_proj_keys(int keycode, t_data *d)
 int		check_palette_keys(int keycode, t_data *d)
 {
 	if (keycode == KEY_1)
-		d->palette = 1;
+		d->palette = &(palette_1);
 	else if (keycode == KEY_2)
-		d->palette = 2;
+		d->palette = &(palette_2);
 	else if (keycode == KEY_3)
-		d->palette = 3;
-	return (0);
-}
-
-int		check_keys(int keycode, t_data *d)
-{
-	check_nav_keys(keycode, d);
-	check_proj_keys(keycode, d);
-	check_palette_keys(keycode, d);
+		d->palette = &(palette_3);
 	return (0);
 }

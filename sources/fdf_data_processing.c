@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_processing.c                                  :+:      :+:    :+:   */
+/*   fdf_data_processing.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 16:28:56 by amulin            #+#    #+#             */
-/*   Updated: 2015/05/07 16:03:54 by amulin           ###   ########.fr       */
+/*   Updated: 2015/06/24 17:43:41 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf_v2.h"
+#include "fdf.h"
 
 int		my_open(char *filename)
 {
@@ -81,7 +81,8 @@ int		my_getnbr(t_data *d, t_tmp *t)
 	{
 		while (!ft_isdigit(t->buf[t->j]) && (t->buf[t->j] != '-'))
 			t->j++;
-		d->rawmap[t->i][t->k] = my_get_min_max(ft_atoi(&(t->buf[t->j])), d, &(t->flag));
+		d->rawmap[t->i][t->k] = my_get_min_max(ft_atoi(&(t->buf[t->j])),
+				d, &(t->flag));
 		while (ft_isdigit(t->buf[t->j]) || t->buf[t->j] == '-')
 			t->j++;
 		t->j++;
