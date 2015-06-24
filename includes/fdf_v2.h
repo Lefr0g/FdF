@@ -32,9 +32,12 @@
 # define LEFT_ARROW 123
 # define OPEN_BRACKET 33
 # define CLOSE_BRACKET 30
-# define I_KEY 34
-# define P_KEY 35
-# define F_KEY 3
+# define KEY_I 34
+# define KEY_P 35
+# define KEY_F 3
+# define KEY_1 18
+# define KEY_2 19
+# define KEY_3 20
 # define SPACEBAR 49
 
 typedef unsigned int	t_uint32;
@@ -57,6 +60,7 @@ typedef struct	s_image
 
 typedef struct	s_data
 {
+	int			fd;
 	char		*filename;
 	char		*proj;
 	int			filesize;
@@ -68,6 +72,7 @@ typedef struct	s_data
 	int			max_value;
 	int			range;
 	float		alt_factor;
+	int			palette;
 	void		*mlx_id;
 	void		*win_id;
 	int			spacing;
@@ -133,6 +138,8 @@ int				my_get_min_max(int nbr, t_data *d, int *flag);
 int				check_args(t_data *d, int argc, char **argv);
 int				check_valid_data(char *filename, t_data *d);
 int				check_filesize(char *filename);
+int				check_proj(t_data *d, char *str);
+int				check_palette(t_data *d, char *str);
 int				count_lines(char *filename, int filesize);
 int				parse(char *filename, t_data *d);
 int				my_getnbr(t_data *d, t_tmp *t);
@@ -157,6 +164,7 @@ int				loop_hook(t_data *d);
 int				check_keys(int keycode, t_data *d);
 int				check_nav_keys(int keycode, t_data *d);
 int				check_proj_keys(int keycode, t_data *d);
+int				check_palette_keys(int keycode, t_data *d);
 int				refresh(t_data *d);
 void			reinit_pos(t_data *d);
 int				my_clear_window(t_data *d);

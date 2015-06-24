@@ -48,6 +48,7 @@ void	draw_menu(t_data *d)
 	draw_string_left(d, d->menu_bg, 0xFFFFFF, "   i    : isometric view");
 	draw_string_left(d, d->menu_bg, 0xFFFFFF, "   p    : parallel view");
 	draw_string_left(d, d->menu_bg, 0xFFFFFF, "   f    : flat view");
+	draw_string_left(d, d->menu_bg, 0xFFFFFF, " 1 - 3  : color palette");
 }
 
 void	draw_instructions(t_data *d)
@@ -82,15 +83,29 @@ void	draw_menu(t_data *d)
 
 int		pick_color(t_data *d, int alt)
 {
-	if (alt > d->range / 3)
+	if (d->palette == 1)
+	{
+		if (alt > d->range / 3)
+			return (0xFFFFFF);
+		else if (alt > d->range / 6)
+			return (0xA47C48);
+		else if (alt > d->range / 20)
+			return (0x004D00);
+		else if (alt <= 0)
+			return (0x000099);
+		return (0x008000);
+	}
+	else if (d->palette == 2)
+	{	
+		if (alt > d->range / 2)
+			return (0x00FFFF);
+		else if (alt > d->range / 6)
+			return (0x00FF00);
+		return (0xFF0000);
+	}
+	else if (d->palette == 3)
 		return (0xFFFFFF);
-	else if (alt > d->range / 6)
-		return (0xA47C48);
-	else if (alt > d->range / 20)
-		return (0x004D00);
-	else if (alt <= 0)
-		return (0x000099);
-	return (0x008000);
+	return (0x000000);
 }
 
 void	draw_pixel(t_tmp *t, t_data *d, float x, float y)

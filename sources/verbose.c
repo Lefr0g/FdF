@@ -14,13 +14,13 @@
 
 void	print_proto(void)
 {
-	ft_putendl("Usage: ./fdf filename [projection type]\n");
+	ft_putendl("Usage: ./fdf filename [projection type] [color palette]\n");
 }
 
 void	print_man(void)
 {
 	print_proto();
-	ft_putendl("       Projections available: iso (default), conic, parallel");
+	ft_putendl("       Projections available: iso (default), flat, parallel");
 	ft_putendl("       Use the arrows to move the map");
 	ft_putendl("       Use { to zoom in, and } to zoom out\n");
 }

@@ -42,31 +42,52 @@ int		check_filesize(char *filename)
 	return (filesize);
 }
 
+int		check_palette(t_data *d, char *str)
+{
+	int	val;
+
+	val = ft_atoi(str);
+	if (val < 1 || val > 3)
+	{
+		ft_putendl("Error: incorrect palette number");
+		ft_putendl("       Try '1' (default), '2', or '3' instead\n");
+		return (-1);
+	}
+	else
+		d->palette = val;
+	return (0);
+}
+
+int		check_proj(t_data *d, char *str)
+{
+	if (!ft_strcmp(str, "iso") || !ft_strcmp(str, "conic")
+			|| !ft_strcmp(str, "parallel"))
+		d->proj = ft_strdup(str);
+	else
+	{
+		ft_putendl("Error: projection type unknown");
+		ft_putendl("       Try 'iso', 'conic' or 'parallel' instead\n");
+		return(-1);
+	}
+	return (0);
+}
+
 int		check_args(t_data *d, int argc, char **argv)
 {
-	int	fd;
-
 	d->proj = ft_strdup("iso");
-	if (argc < 2 || argc > 3)
+	if (argc < 2 || argc > 4)
 		return (-1);
-	if ((fd = my_open(argv[1])) >= 0 && !close(fd))
+	if ((d->fd = my_open(argv[1])) >= 0 && !close(d->fd))
 		d->filename = argv[1];
 	else
 	{
 		ft_putendl("Error: unknown file name\n");
 		return (-2);
 	}
-	if (argc == 3)
-	{
-		if (!ft_strcmp(argv[2], "iso") || !ft_strcmp(argv[2], "conic")
-					|| !ft_strcmp(argv[2], "parallel"))
-			d->proj = ft_strdup(argv[2]);
-		else
-		{
-			ft_putendl("Error: projection type unknown");
-			ft_putendl("       Try 'iso', 'conic' or 'parallel' instead\n");
-			return (-3);
-		}
-	}
+	d->palette = 1;
+	if ((argc == 3 || argc == 4) && check_proj(d, argv[2]) == -1)
+		return (-3);
+	if (argc == 4 && check_palette(d, argv[3]) == -1)
+		return (-4);
 	return (0);
 }

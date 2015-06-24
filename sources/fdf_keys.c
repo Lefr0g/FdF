@@ -46,17 +46,17 @@ int		check_nav_keys(int keycode, t_data *d)
 
 int		check_proj_keys(int keycode, t_data *d)
 {
-	if (keycode == I_KEY)
+	if (keycode == KEY_I)
 	{
 		free(d->proj);
 		d->proj = ft_strdup("iso");
 	}
-	else if (keycode == P_KEY)
+	else if (keycode == KEY_P)
 	{
 		free(d->proj);
 		d->proj = ft_strdup("parallel");
 	}
-	else if (keycode == F_KEY)
+	else if (keycode == KEY_F)
 	{
 		free(d->proj);
 		d->proj = ft_strdup("flat");
@@ -64,11 +64,21 @@ int		check_proj_keys(int keycode, t_data *d)
 	return (0);
 }
 
+int		check_palette_keys(int keycode, t_data *d)
+{
+	if (keycode == KEY_1)
+		d->palette = 1;
+	else if (keycode == KEY_2)
+		d->palette = 2;
+	else if (keycode == KEY_3)
+		d->palette = 3;
+	return (0);
+}
+
 int		check_keys(int keycode, t_data *d)
 {
-	if (!check_nav_keys(keycode, d))
-		return (0);
-	else if (!check_proj_keys(keycode, d))
-		return (0);
-	return (1);
+	check_nav_keys(keycode, d);
+	check_proj_keys(keycode, d);
+	check_palette_keys(keycode, d);
+	return (0);
 }

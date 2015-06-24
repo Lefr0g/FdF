@@ -77,7 +77,7 @@ int			menu_init(t_data *d)
 	d->menu_x_anchor = WIN_X / 4;
 	d->menu_y_anchor = WIN_Y / 3;
 	d->menu_bg = (t_image*)malloc(sizeof(t_image));
-	*(d->menu_bg) = image_init(d->mlx_id, WIN_X / 2, WIN_Y / 3);
+	*(d->menu_bg) = image_init(d->mlx_id, WIN_X / 2, WIN_Y / 3 + 20);
 	d->menu_bg->id = mlx_new_image(d->menu_bg->mlx, d->menu_bg->width, d->menu_bg->height);
 	d->menu_bg->str = mlx_get_data_addr(d->menu_bg->id,
 			d->menu_bg->depth, d->menu_bg->size_line,
@@ -87,7 +87,7 @@ int			menu_init(t_data *d)
 	d->menu_bg->text_height = d->menu_bg->y;
 	x = 0;
 	y = 0;
-	while (y < WIN_Y / 3)
+	while (y < (WIN_Y / 3) + 20)
 	{
 		x = 0;
 		while (x < WIN_X / 2)
@@ -95,6 +95,8 @@ int			menu_init(t_data *d)
 			image_pixel_put(d->menu_bg, x, y, 0x60000000);
 			x++;
 		}
+		ft_putnbr(y);
+		ft_putchar('\n');
 		y++;
 	}
 	return (0);
