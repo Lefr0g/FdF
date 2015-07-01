@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 13:10:40 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/24 17:58:44 by amulin           ###   ########.fr       */
+/*   Updated: 2015/07/01 16:19:10 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ int	draw_map(t_data *d)
 		{
 			t.x1 = d->method_calc_x(d, t.i, t.j);
 			t.y1 = d->method_calc_y(d, t.i, t.j);
-			if (t.x1 >= 0 - (2 * d->spacing) &&
-					t.x1 < WIN_X + max_height &&
-					t.y1 >= 0 - max_height && t.y1 < WIN_Y + max_height)
+			if (t.x1 >= 0 - max_height / 2 &&
+					t.x1 < WIN_X + max_height / 2 &&
+					t.y1 >= 0 - max_height / 2 &&
+					t.y1 < WIN_Y + max_height / 2)
 				draw_web(&t, d);
 			t.i++;
 		}

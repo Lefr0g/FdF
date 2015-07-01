@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/06/24 14:50:29 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/24 17:27:51 by amulin           ###   ########.fr       */
+/*   Updated: 2015/07/01 14:06:53 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		check_nav_keys(int keycode, t_data *d)
 	else if (keycode == TOP_ARROW)
 		d->top_added = d->top_added + my_min_one(my_min_one(d->longestline,
 					10), my_min_one(d->spacing, d->spacing_init));
-	else if (keycode == CLOSE_BRACKET && d->spacing < WIN_X)
+	else if (keycode == CLOSE_BRACKET && d->spacing < WIN_X / 10)
 		d->spacing = d->spacing * 2;
 	else if (keycode == OPEN_BRACKET)
 		d->spacing = my_min_one(d->spacing, 2);

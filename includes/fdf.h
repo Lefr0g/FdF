@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/17 11:06:47 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/24 18:10:16 by amulin           ###   ########.fr       */
+/*   Updated: 2015/07/01 16:36:54 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct	s_image
 
 typedef struct	s_data
 {
+	int			i;
 	int			fd;
 	char		*filename;
 	char		*proj;
@@ -87,8 +88,8 @@ typedef struct	s_data
 	int			menuflag;
 	int			startflag;
 	int			starttimer;
-	int			menu_y_anchor;
 	int			menu_x_anchor;
+	int			menu_y_anchor;
 	t_image		*img;
 	t_image		*menu_bg;
 	float		(*method_calc_x)(struct s_data*, int, int);
@@ -234,6 +235,11 @@ int				check_all_keys(int keycode, t_data *d);
 int				check_nav_keys(int keycode, t_data *d);
 int				check_proj_keys(int keycode, t_data *d);
 int				check_palette_keys(int keycode, t_data *d);
+
+/*
+**	fdf_misc.c
+*/
+void			ending_routine(t_data *d);
 
 /*
 **	fdf_misc.c

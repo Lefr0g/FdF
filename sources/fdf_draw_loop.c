@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 17:40:06 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/24 17:54:03 by amulin           ###   ########.fr       */
+/*   Updated: 2015/07/01 16:34:11 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,7 @@
 int	key_hook(int keycode, t_data *d)
 {
 	if (keycode == ESC)
-	{
-		ft_putendl("\nProgram terminated by user");
-		mlx_destroy_window(d->mlx_id, d->win_id);
-		exit(0);
-	}
+		ending_routine(d);
 	if (!d->menuflag)
 		check_all_keys(keycode, d);
 	if (keycode == TAB && !d->menuflag)

@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 16:28:56 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/24 17:43:41 by amulin           ###   ########.fr       */
+/*   Updated: 2015/07/01 18:11:05 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int		count_lines(char *filename, int filesize)
 	init_t_tmp(&t);
 	print_filesize_onload(filesize);
 	t.fd = my_open(filename);
-	t.buf = ft_strnew(BUF_SIZE);
 	if (!t.buf || t.fd < 0)
 		return (-1);
 	while (get_next_line(t.fd, &(t.buf)) == 1)
@@ -42,6 +41,7 @@ int		count_lines(char *filename, int filesize)
 		t.prev = my_print_loadbar(t.pos, filesize, t.prev, LOADBAR_MODE);
 	if (close(t.fd))
 		return (-1);
+	ft_strdel(&(t.buf));
 	return (t.i);
 }
 

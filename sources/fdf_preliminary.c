@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/07 17:23:22 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/24 17:44:20 by amulin           ###   ########.fr       */
+/*   Updated: 2015/07/01 16:18:16 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		check_filesize(char *filename)
 		filesize = filesize + ret;
 	if (close(fd))
 		return (-1);
+	ft_strdel(&buf);
 	return (filesize);
 }
 

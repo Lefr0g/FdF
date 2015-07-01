@@ -6,7 +6,7 @@
 #    By: amulin <amulin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/02/17 11:06:17 by amulin            #+#    #+#              #
-#    Updated: 2015/06/24 17:53:07 by amulin           ###   ########.fr        #
+#    Updated: 2015/07/01 18:32:21 by amulin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ LIBFLAGS = -Llibft/ -lft -Lminilibx_macos/ -lmlx
 SRCS = main.c fdf_preliminary.c fdf_data_processing.c fdf_verbose_1.c \
 	   fdf_verbose_2.c fdf_init.c fdf_set.c fdf_draw_loop.c \
 	   fdf_draw_textframes.c fdf_draw_colorpix.c fdf_draw_map.c fdf_images.c \
-	   fdf_calc_1.c fdf_calc_2.c fdf_lines.c fdf_keys.c fdf_misc.c
+	   fdf_calc_1.c fdf_calc_2.c fdf_lines.c fdf_keys.c fdf_misc.c \
+	   fdf_ending.c
 
 SRCDIR = sources/
 
@@ -39,7 +40,7 @@ LIB = libft/libft.a
 
 .PHONY: all, clean, fclean, re
 
-all: $(NAME)
+all: libs $(NAME)
 	
 $(NAME): $(OBJECTS)
 	$(CC) $(STDFLAGS) $(OBJECTS) -o $(NAME) $(LIBFLAGS) $(VISUFLAGS)
@@ -47,7 +48,9 @@ $(NAME): $(OBJECTS)
 $(OBJECTS): $(LIB) $(SOURCES) $(HEADERS)
 	$(CC) $(STDFLAGS) -c $(SOURCES) $(INCLUDES)
 
-$(LIB):
+$(LIB) : libs
+
+libs:
 	make -C libft/
 	make -C minilibx_macos/
 
