@@ -21,7 +21,7 @@ int		my_get_min(int i, int j)
 
 char	*my_realloc(char **str, int newsize)
 {
-	free(*str);
+	ft_strdel(str);
 	*str = ft_strnew(newsize);
 	return (*str);
 }

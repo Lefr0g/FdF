@@ -26,7 +26,7 @@ int		count_lines(char *filename, int filesize)
 	t.fd = my_open(filename);
 	if (!t.buf || t.fd < 0)
 		return (-1);
-	while (get_next_line(t.fd, &(t.buf)) == 1)
+	while (get_next_line(t.fd, &(t.buf)) > 0)
 	{
 		if (filesize <= LIMIT_PRINT)
 			ft_putendl(t.buf);
@@ -55,7 +55,7 @@ int		parse(char *filename, t_data *d)
 	if ((t.fd = my_open(filename)) < 0)
 		return (-1);
 	ft_putstr("\nParsing file...");
-	while (get_next_line(t.fd, &(t.buf)) == 1)
+	while (get_next_line(t.fd, &(t.buf)) > 0)
 	{
 		if (d->filesize > LIMIT_PRINT)
 		{
@@ -69,6 +69,7 @@ int		parse(char *filename, t_data *d)
 	else
 		t.prev = my_print_loadbar(t.pos, d->filesize, t.prev, LOADBAR_MODE);
 	print_meta(d);
+	ft_strdel(&(t.buf));
 	return (0);
 }
 

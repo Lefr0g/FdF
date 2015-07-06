@@ -45,7 +45,7 @@ $(NAME): $(OBJECTS)
 	ar rcs $(NAME) $(OBJECTS)
 
 $(OBJECTS): $(SRCS) $(INLUDES)
-	gcc $(FLAGS) -c $(SRCS) -I $(INCLUDIR)
+	clang $(FLAGS) -c $(SRCS) -I $(INCLUDIR)
 
 clean:
 	rm -f $(OBJECTS)

@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 11:04:13 by amulin            #+#    #+#             */
-/*   Updated: 2015/07/01 18:48:32 by amulin           ###   ########.fr       */
+/*   Updated: 2015/02/07 15:54:48 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int		gnl_read(ssize_t *ret, int const *fd, char **tmp)
 			return (-1);
 		buff[*ret] = '\0';
 		flash = *tmp;
-//		ft_strdel(tmp);
 		*tmp = ft_strnew(ft_strlen(flash) + BUFF_SIZE);
 		if (tmp == NULL)
 			return (-1);
@@ -60,7 +59,6 @@ int		gnl_write(char **tmp, char **line, char **keep)
 
 	i = gnl_lenline(*tmp);
 	ft_strdel(line);
-//	*line = NULL;
 	if (i != -1)
 	{
 		*line = ft_strsub(*tmp, 0, i);
@@ -88,11 +86,8 @@ int		get_next_line(int const fd, char **line)
 		return (-1);
 	ft_strdel(&keep);
 	gnl_write(&tmp, line, &keep);
-	if (ret != BUFF_SIZE && keep == NULL)
+	if (ret != BUFF_SIZE && !ft_strlen(*line))
 		return (0);
 	else
-	{
-		ft_strdel(&tmp);
 		return (1);
-	}
 }

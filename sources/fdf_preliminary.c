@@ -83,7 +83,10 @@ int		check_proj(t_data *d, char *str)
 {
 	if (!ft_strcmp(str, "iso") || !ft_strcmp(str, "conic")
 			|| !ft_strcmp(str, "parallel"))
+	{
+		ft_strdel(&(d->proj));
 		d->proj = ft_strdup(str);
+	}
 	else
 	{
 		ft_putendl("Error: projection type unknown");

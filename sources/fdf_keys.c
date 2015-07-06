@@ -56,17 +56,17 @@ int		check_proj_keys(int keycode, t_data *d)
 {
 	if (keycode == KEY_I)
 	{
-		free(d->proj);
+		ft_strdel(&(d->proj));
 		d->proj = ft_strdup("iso");
 	}
 	else if (keycode == KEY_P)
 	{
-		free(d->proj);
+		ft_strdel(&(d->proj));
 		d->proj = ft_strdup("parallel");
 	}
 	else if (keycode == KEY_F)
 	{
-		free(d->proj);
+		ft_strdel(&(d->proj));
 		d->proj = ft_strdup("flat");
 	}
 	return (0);

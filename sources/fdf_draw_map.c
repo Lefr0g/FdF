@@ -38,5 +38,6 @@ int	draw_map(t_data *d)
 		t.j++;
 	}
 	expose_img(d, 0, 0);
+	ft_strdel(&(t.buf));
 	return (0);
 }

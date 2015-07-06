@@ -16,6 +16,8 @@ int			expose_img(t_data *d, int x, int y)
 {
 	if (d->img->id)
 		mlx_put_image_to_window(d->mlx_id, d->win_id, d->img->id, x, y);
+	mlx_destroy_image(d->mlx_id, d->img->id);
+	d->img->id = NULL;
 	return (0);
 }
 
