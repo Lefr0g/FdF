@@ -86,7 +86,8 @@ int		my_getnbr(t_data *d, t_tmp *t)
 				d, &(t->flag));
 		while (ft_isdigit(t->buf[t->j]) || t->buf[t->j] == '-')
 			t->j++;
-		t->j++;
+		if (t->buf[t->j] && t->buf[t->j] != '\n')
+			t->j++;
 		t->k++;
 	}
 	d->meta[t->i] = t->k;
