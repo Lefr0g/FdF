@@ -19,6 +19,7 @@
 
 # define BUF_SIZE 100
 # define LIMIT_PRINT 5000
+# define MAX_FILE_SIZE 1000000000
 # define WIN_X 800
 # define WIN_Y 600
 # define WIN_TITLE "FdF"

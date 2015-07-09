@@ -15,6 +15,11 @@
 int		check_valid_data(char *filename, t_data *d)
 {
 	d->filesize = check_filesize(filename);
+	if (d->filesize > MAX_FILE_SIZE)
+	{
+		ft_putendl("Error: file is too big.");
+		return (-1);
+	}
 	d->linecount = count_lines(filename, d->filesize);
 	if (d->filesize < 0 || d->linecount < 0)
 	{
