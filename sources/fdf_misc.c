@@ -12,6 +12,16 @@
 
 #include "fdf.h"
 
+void	is_file_drawable(t_data *d)
+{
+	if (!d->linecount || !d->longestline)
+	{
+		ft_putendl("\nThis file appears empty, nothing will be drawn."); 
+		ft_putendl("Terminating program.");
+		exit(1);
+	}
+}
+
 int		my_get_min(int i, int j)
 {
 	if (i > j)

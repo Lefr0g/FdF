@@ -237,7 +237,7 @@ int				check_proj_keys(int keycode, t_data *d);
 int				check_palette_keys(int keycode, t_data *d);
 
 /*
-**	fdf_misc.c
+**	fdf_ending.c
 */
 void			ending_routine(t_data *d);
 
@@ -247,5 +247,6 @@ void			ending_routine(t_data *d);
 char			*my_realloc(char **str, int newsize);
 int				my_get_min(int i, int j);
 int				my_min_one(int num, int denom);
+void			is_file_drawable(t_data *d);
 
 #endif

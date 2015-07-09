@@ -80,11 +80,13 @@ int		my_getnbr(t_data *d, t_tmp *t)
 	t->k = 0;
 	while (t->buf[t->j] && t->buf[t->j] != '\n')
 	{
-		while (!ft_isdigit(t->buf[t->j]) && (t->buf[t->j] != '-'))
+		while (t->buf[t->j] && t->buf[t->j] != '\n' &&
+				!ft_isdigit(t->buf[t->j]) && (t->buf[t->j] != '-'))
 			t->j++;
 		d->rawmap[t->i][t->k] = my_get_min_max(ft_atoi(&(t->buf[t->j])),
 				d, &(t->flag));
-		while (ft_isdigit(t->buf[t->j]) || t->buf[t->j] == '-')
+		while ((t->buf[t->j] && t->buf[t->j] != '\n') &&
+				(ft_isdigit(t->buf[t->j]) || t->buf[t->j] == '-'))
 			t->j++;
 		if (t->buf[t->j] && t->buf[t->j] != '\n')
 			t->j++;

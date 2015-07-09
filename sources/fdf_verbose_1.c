@@ -77,6 +77,7 @@ void	print_meta(t_data *d)
 			d->longestline = d->meta[i];
 		i++;
 	}
+	is_file_drawable(d);
 	ft_putstr("\nThe map is ");
 	ft_putnbr(d->longestline);
 	ft_putstr(" by ");
