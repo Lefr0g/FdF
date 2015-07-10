@@ -86,7 +86,7 @@ int		check_palette(t_data *d, char *str)
 
 int		check_proj(t_data *d, char *str)
 {
-	if (!ft_strcmp(str, "iso") || !ft_strcmp(str, "conic")
+	if (!ft_strcmp(str, "iso") || !ft_strcmp(str, "flat")
 			|| !ft_strcmp(str, "parallel"))
 	{
 		ft_strdel(&(d->proj));
@@ -95,7 +95,7 @@ int		check_proj(t_data *d, char *str)
 	else
 	{
 		ft_putendl("Error: projection type unknown");
-		ft_putendl("       Try 'iso', 'conic' or 'parallel' instead\n");
+		ft_putendl("       Try 'iso', 'flat' or 'parallel' instead\n");
 		return (-1);
 	}
 	return (0);
