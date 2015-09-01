@@ -36,21 +36,19 @@ INCLUDES = $(addprefix -I, $(HEADERS))
 
 OBJECTS = $(subst .c,.o,$(SRCS))
 
-LIB = libft/libft.a
+LIB = libft/libft.a minilibx_macos/libmlx.a
 
 .PHONY: all, clean, fclean, re
 
-all: libs $(NAME)
+all: $(NAME)
 	
-$(NAME): $(OBJECTS)
+$(NAME): $(LIB) $(OBJECTS)
 	$(CC) $(STDFLAGS) $(OBJECTS) -o $(NAME) $(LIBFLAGS) $(VISUFLAGS)
 
-$(OBJECTS): $(LIB) $(SOURCES) $(HEADERS)
+$(OBJECTS): $(SOURCES) $(HEADERS)
 	$(CC) $(STDFLAGS) -c $(SOURCES) $(INCLUDES)
 
-$(LIB) : libs
-
-libs:
+$(LIB) :
 	make -C libft/
 	make -C minilibx_macos/
 
