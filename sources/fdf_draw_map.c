@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 13:10:40 by amulin            #+#    #+#             */
-/*   Updated: 2015/07/01 16:19:10 by amulin           ###   ########.fr       */
+/*   Updated: 2016/03/26 16:50:22 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	draw_map(t_data *d)
 		d->img->size_line, d->img->endian);
 	while (t.j < d->linecount)
 	{
-		t.i = 0;
-		while (t.i < d->meta[t.j])
+		t.i = -1;
+		while (++t.i < d->meta[t.j])
 		{
 			t.x1 = d->method_calc_x(d, t.i, t.j);
 			t.y1 = d->method_calc_y(d, t.i, t.j);
@@ -33,7 +33,6 @@ int	draw_map(t_data *d)
 					t.y1 >= 0 - max_height / 2 &&
 					t.y1 < WIN_Y + max_height / 2)
 				draw_web(&t, d);
-			t.i++;
 		}
 		t.j++;
 	}

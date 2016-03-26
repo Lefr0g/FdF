@@ -6,7 +6,7 @@
 /*   By: amulin <amulin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/09 16:39:50 by amulin            #+#    #+#             */
-/*   Updated: 2015/06/24 17:50:37 by amulin           ###   ########.fr       */
+/*   Updated: 2016/03/26 16:47:13 by amulin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	is_file_drawable(t_data *d)
 {
 	if (!d->linecount || !d->longestline)
 	{
-		ft_putendl("\nThis file appears empty, nothing will be drawn."); 
+		ft_putendl("\nThis file appears empty, nothing will be drawn.");
 		ft_putendl("Terminating program.");
 		exit(1);
 	}
